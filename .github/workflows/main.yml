@@ -31,6 +31,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5.2.0
         with:   
-          context: ./Frontend
+          context: ./frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/aplhaminicommercefrontend
