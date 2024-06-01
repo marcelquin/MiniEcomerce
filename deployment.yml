@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: databasedeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database-db
+      version: v01
+  template:
+    metadata:
+      labels: 
+        app: database-db
+        version: v01
+  spec:
+    containers:
+    - name: database
+    image: postgres
+    ports:
+    - containerPort: 5432
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-db
+  namespace: default
+spec:
+  selector:
+    app: database-db
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  type: ClusterIP
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backenddeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: miniecomerceapi
+      version: v01
+  template:
+    metadata:
+      labels:
+        app: miniecomerceapi
+        version: v01
+  spec:
+    containers:
+    - name: backend
+    image: mquinteiro464/aplhaMinicommercebackend
+    ports:
+    - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-api
+  namespace: default
+spec:
+  selector:
+    app: backenddeploy
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontenddeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: miniecomercefrontend
+      version: v01
+  template:
+    metadata:
+      labels:
+        app: miniecomercefrontend
+        version: v01
+  spec:
+    containers:
+    - name: backend
+    image: mquinteiro464/aplhaMinicommercefrontend
+    ports:
+    - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-api
+  namespace: default
+spec:
+  selector:
+    app: frontenddeploy
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  type: LoadBalancer
