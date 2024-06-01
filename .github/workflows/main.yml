@@ -26,11 +26,11 @@ jobs:
         with:   
           context: ./Backend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/aplhaMinicommercebackend
+          tags: ${{ secrets.DOCKERHUB_USER }}/aplhaminicommercebackend
 
       - name: Build and push
         uses: docker/build-push-action@v5.2.0
         with:   
           context: ./Frontend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/aplhaMinicommercefrontend
+          tags: ${{ secrets.DOCKERHUB_USER }}/aplhaminicommercefrontend
