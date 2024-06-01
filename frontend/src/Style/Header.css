@@ -1,0 +1,15 @@
+.boxHeader
+{
+    width: 100%;
+    height: auto;
+    background-color: #140f07;
+}
+
+.logo
+{
+    width: 40%;
+    height: 150px;
+    background-image: url(../Imagem/logo.png);
+    margin: 4%;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,124 @@
+.blocoConteudo
+{
+    width: 100%;
+}
+
+.boxForm
+{
+    margin: 10px;
+}
+
+
+input
+{
+    width: 150px;
+    height: 20px;
+}
+
+.btn
+{
+    width: 70px;
+    height: 20px;
+}
+
+
+.boxtabela
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+}
+
+
+tr, td
+{
+    margin: 40px;
+    width: auto;
+}
+.boxNav
+{
+    width: 40%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+a
+{
+    font-size: 14px;
+    text-decoration: none;
+    color: #301400;
+}
+
+a:hover
+{
+    color: #ff7e00;
+}
+
+.blocoOpcao
+{
+    width: 90px;
+    height: 90px;
+    margin: 10px;
+    text-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.iconeCLiente
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/cliente.png);
+    margin: 0 auto;
+}
+
+.iconeProdutos
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/produto.png);
+    margin: 0 auto;
+}
+
+.iconeHome
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/home.png);
+    margin: 0 auto;
+}
+
+.iconePedido
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/pedido.png);
+    margin: 0 auto;
+}
+
+details
+{
+    width: 200px;
+    height: 350px;
+}
+
+.tabelaProduto
+{
+    width: 140%;
+    height: auto;
+}
+
+.tdProduto
+{
+    width: 500px;
+    height: auto;
+}
+
+.retornoPedido
+{ 
+    width: 150% ;
+    height: 170px ;
+    overflow: auto;
+}
