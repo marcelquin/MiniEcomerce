@@ -54,7 +54,7 @@ spec:
   spec:
     containers:
     - name: backend
-    image: mquinteiro464/aplhaMinicommercebackend
+    image: mquinteiro464/aplhaminicommercebackend
     ports:
     - containerPort: 8080
 ---
@@ -92,7 +92,7 @@ spec:
   spec:
     containers:
     - name: backend
-    image: mquinteiro464/aplhaMinicommercefrontend
+    image: mquinteiro464/aplhaminicommercefrontend
     ports:
     - containerPort: 8080
 ---
