@@ -41,47 +41,29 @@ public class ProdutoService {
         return null;
     }
 
-    public ResponseEntity<ProdutoDTO> NovoProduto(Double valorNota,
-                                                  Double valorFrete,
-                                                  Double porcentagemImposto,
-                                                  Double custoOperacional,
-                                                  Double porcentagemLucro,
-                                                  String nome,
+    public ResponseEntity<ProdutoDTO> NovoProduto(String nome,
                                                   String descriacao,
                                                   int quantidade,
                                                   MEDIDA medida,
+                                                  Double valorProduto,
                                                   Double estoque)
     {
         try
         {
-            if(valorNota != null &&
-               valorFrete != null &&
-               porcentagemImposto != null &&
-               custoOperacional != null &&
-               porcentagemLucro != null &&
+            if(
                nome != null && descriacao != null &&
                quantidade > 0 &&
                medida != null &&
+               valorProduto != null &&
                estoque != null)
                 {
-                    if(porcentagemImposto < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                    if(porcentagemLucro < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                    if(custoOperacional < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                    if(valorFrete < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
+                    if(valorProduto < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                     if(estoque < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
 
-                    Double valorporcentagem = porcentagemImposto/100;
-                        Double valorpocentagemLucro = porcentagemLucro/100;
-                        Double valorParcial = valorNota+valorFrete;
-                        Double valorTotal = valorParcial * valorporcentagem + valorParcial;
-                        Double valorTotalProduto = valorTotal+custoOperacional;
-                        Double valorFinalProduto = valorTotalProduto*valorpocentagemLucro+valorTotalProduto;
-                        Double valorUnitario = valorTotalProduto / estoque;
-                        Double valorTotalEstoque = valorUnitario * estoque;
                         int dig = (int) (1111 + Math.random() * 9999);
                         String codigo = "P_"+dig;
                         Locale localBrasil = new Locale("pt", "BR");
-
+                        Double valorTotalEstoque = valorProduto * quantidade;
                         ProdutoEntity entity = new ProdutoEntity();
 
                         entity.setNome(nome+" "+quantidade+medida);
@@ -89,8 +71,8 @@ public class ProdutoService {
                         entity.setMedida(medida);
                         entity.setCodigo(codigo);
                         entity.setQuantidade(quantidade);
-                        entity.setValor(valorUnitario);
-                        entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(valorUnitario));
+                        entity.setValor(valorProduto);
+                        entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(valorProduto));
                         entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(valorTotalEstoque));
                         entity.setValorTotalEstoque(valorTotalEstoque);
                         entity.setEstoque(estoque);
@@ -147,44 +129,27 @@ public class ProdutoService {
     }
 
     public ResponseEntity<ProdutoDTO> AdicionarEstoqueProduto(String codigo,
-                                                              Double valorNota,
-                                                              Double valorFrete,
-                                                              Double porcentagemImposto,
-                                                              Double custoOperacional,
-                                                              Double porcentagemLucro,
-                                                              Double estoque)
+                                                              Double valorProduto,
+                                                               Double estoque)
     {
         try
         {
             if(codigo != null &&
-               valorNota != null &&
-               valorFrete != null &&
-               porcentagemImposto != null &&
-               porcentagemLucro != null &&
+               valorProduto != null &&
                estoque != null)
             {
-                if(porcentagemImposto < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                if(porcentagemLucro < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                if(custoOperacional < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                if(valorFrete < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
+                if(valorProduto < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                 if(estoque < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
 
                 ProdutoEntity entity = produtoRepository.findBycodigo(codigo).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                Double valorporcentagem = porcentagemImposto/100;
-                Double valorpocentagemLucro = porcentagemLucro/100;
-                Double valorParcial = valorNota+valorFrete;
-                Double valorTotal = valorParcial * valorporcentagem + valorParcial;
-                Double valorTotalProduto = valorTotal+custoOperacional;
-                Double valorFinalProduto = valorTotalProduto*valorpocentagemLucro+valorTotalProduto;
-                Double valorUnitario = valorTotalProduto / entity.getEstoque();
 
-                if(entity.getValor() < valorUnitario)
+                if(entity.getValor() < valorProduto)
                 {
                    entity.setEstoque(entity.getEstoque() + estoque);
-                   entity.setValor(valorUnitario);
-                   entity.setValorTotalEstoque(valorUnitario * entity.getEstoque());
+                   entity.setValor(valorProduto);
+                   entity.setValorTotalEstoque(valorProduto * entity.getEstoque());
                 }
                 else
                 {
@@ -222,6 +187,81 @@ public class ProdutoService {
                 }
                 else
                 { throw new EntityNotFoundException();}
+            }
+            else
+            { throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
+
+    public ResponseEntity<ProdutoDTO> ReajustePreco(String codigoProduto,
+                                                    Double porcentagem)
+    {
+        try
+        {
+            if(codigoProduto != null &&
+               porcentagem != null)
+            {
+                if(porcentagem < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
+                ProdutoEntity entity = produtoRepository.findBycodigo(codigoProduto).orElseThrow(
+                        () -> new EntityNotFoundException()
+                );
+                Locale localBrasil = new Locale("pt", "BR");
+                Double porcentagemCalculo = porcentagem/100;
+                Double novoPreco = entity.getValor()*porcentagemCalculo + entity.getValor();
+                System.out.println("valor: "+entity.getValor());
+                System.out.println("novo valor: "+novoPreco);
+                Double novoValorEstoque = novoPreco * entity.getEstoque();
+                entity.setValor(novoPreco);
+                entity.setValorTotalEstoque(novoValorEstoque);
+                entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(novoPreco));
+                entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(novoValorEstoque));
+                produtoRepository.save(entity);
+                ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
+                        entity.getDescricao(), entity.getCodigo(), entity.getEstoque(), df.format(entity.getValor()),entity.getDataEntrada());
+                return  new ResponseEntity<>(response,HttpStatus.OK);
+            }
+            else
+            { throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
+    public ResponseEntity<ProdutoDTO> QueimaEstoque(String codigoProduto,
+                                                    Double porcentagem)
+    {
+        try
+        {
+            if(codigoProduto != null &&
+                    porcentagem != null)
+            {
+                if(porcentagem < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
+                ProdutoEntity entity = produtoRepository.findBycodigo(codigoProduto).orElseThrow(
+                        () -> new EntityNotFoundException()
+                );
+                Locale localBrasil = new Locale("pt", "BR");
+                Double porcentagemCalculo = porcentagem/100;
+                Double novoPreco = entity.getValor()*porcentagemCalculo - entity.getValor();
+                Double novoValorEstoque = novoPreco * entity.getEstoque();
+                entity.setValor(novoPreco);
+                entity.setValorTotalEstoque(novoValorEstoque);
+                entity.setValor(novoPreco);
+                entity.setValorTotalEstoque(novoValorEstoque);
+                entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValor()));
+                entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotalEstoque()));
+                produtoRepository.save(entity);
+                ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
+                        entity.getDescricao(), entity.getCodigo(), entity.getEstoque(), df.format(entity.getValor()),entity.getDataEntrada());
+                return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
             { throw new NullargumentsException();}

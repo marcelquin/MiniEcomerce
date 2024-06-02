@@ -13,11 +13,7 @@ function Produto() {
           });
       }, []);
 
-      const [valorNota, setValorNota] = useState('');
-      const [valorFrete, setValorFrete] = useState('');
-      const [porcentagemImposto, setPorcentagemImposto] = useState('');
-      const [custoOperacional, setCustoOperacional] = useState('');
-      const [porcentagemLucro, setPorcentagemLucro] = useState('');
+      const [valorProduto, setValorProduto] = useState('');
       const [nome, setNome] = useState('');
       const [descriacao, setDescricao] = useState('');
       const [quantidade, setQuantidade] = useState('');
@@ -33,22 +29,14 @@ function Produto() {
               'Content-Type': 'application/x-www-form-urlencoded'
             },    
             body: new URLSearchParams({
-                'valorNota': valorNota,
-                'valorFrete': valorFrete,
-                'porcentagemImposto': porcentagemImposto,
-                'custoOperacional': custoOperacional,
-                'porcentagemLucro':porcentagemLucro,
                 'nome':nome,
                 'descriacao':descriacao,
                 'quantidade':quantidade,
                 'medida':medida,
+                'valorProduto':valorProduto,
                 'estoque':estoque
         })})
-        setValorNota('');
-        setValorFrete('');
-        setPorcentagemImposto('');
-        setCustoOperacional('');
-        setPorcentagemLucro('');
+        setValorProduto('');
         setNome('');
         setDescricao('');
         setMedida('');
@@ -58,7 +46,44 @@ function Produto() {
         }
       }
 
+    const [codigoProduto, setCodigoProduto] = useState('');
+    const [porcentagem, setPorcentagem] = useState('');
 
+    async function ReajusteValor(e){
+        try{
+          fetch('http://localhost:8080/produto/ReajustePreco', {
+            method: 'PUT',
+            headers:{
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },    
+            body: new URLSearchParams({
+                'codigoProduto':codigoProduto,
+                'porcentagem': porcentagem
+        })})
+        setCodigoProduto('');
+        setPorcentagem('');
+        }catch (err){
+          console.log("erro")
+        }
+      }
+
+      async function QueimaEstoque(e){
+        try{
+          fetch('http://localhost:8080/produto/QueimaEstoque', {
+            method: 'PUT',
+            headers:{
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },    
+            body: new URLSearchParams({
+                'codigoProduto':codigoProduto,
+                'porcentagem': porcentagem
+        })})
+        setCodigoProduto('');
+        setPorcentagem('');
+        }catch (err){
+          console.log("erro")
+        }
+      }
 
     return (
         <>
@@ -69,30 +94,14 @@ function Produto() {
 
                     <table>
                         <tr>
-                            <td>Valor Nota:</td>
-                            <td><input type="number" name="valorNota" value={valorNota} onChange={(e)=> setValorNota(e.target.value)}/>  </td>
-                            <td>Valor Frete:</td>
-                            <td><input type="number" name="valorfrete" value={valorFrete} onChange={(e)=> setValorFrete(e.target.value)}/>  </td>
-                        </tr>
-                        <tr>
-                        <td>Porcenagem Imposto:</td>
-                            <td><input type="number" name="porcentagemImposto" value={porcentagemImposto} onChange={(e)=> setPorcentagemImposto(e.target.value)}/>  </td>
-                            <td>Custo operacional:</td>
-                            <td><input type="number" name="custoOperacional" value={custoOperacional} onChange={(e)=> setCustoOperacional(e.target.value)}/>  </td>
-                        </tr>
-                        <tr>
-                            <td>Porcenagem lucro:</td>
-                            <td><input type="number" name="porcentagemLucro" value={porcentagemLucro} onChange={(e)=> setPorcentagemLucro(e.target.value)}/>  </td> 
                             <td>Nome:</td>
                             <td><input type="text" name="nome" value={nome} onChange={(e)=> setNome(e.target.value)}/>  </td>
-                        </tr>
-                        <tr>
-                        <td>Descrião:</td>
+                            <td>Descrião:</td>
                             <td><input type="text" name="descricao" value={descriacao} onChange={(e)=> setDescricao(e.target.value)}/>  </td>
+                        </tr> 
+                        <tr>   
                             <td>Quantidade:</td>
                             <td><input type="number" name="quantidade" value={quantidade} onChange={(e)=> setQuantidade(e.target.value)}/>  </td>
-                        </tr>
-                        <tr>
                         <td><label>Unidade Medida:</label></td>
                             <td>
                             <input list="unidade" name="unidade" value={medida} placeholder="Selecione a unidade de medida"  onChange={(e)=> setMedida(e.target.value)}/>
@@ -105,7 +114,9 @@ function Produto() {
                             </td>
                         </tr>
                         <tr>
-                        <td>Estoque:</td>
+                            <td>Valor Produto:</td>
+                            <td><input type="number" name="valorProduto" value={valorProduto} onChange={(e)=> setValorProduto(e.target.value)}/>  </td>
+                            <td>Estoque:</td>
                             <td><input type="number" name="estoque" value={estoque} onChange={(e)=> setEstoque(e.target.value)}/>  </td>
                         </tr>
                         <tr>
@@ -114,7 +125,20 @@ function Produto() {
                     </table>            
 
                 </form>    
-                
+                <form>
+                    <table>
+                        <tr>
+                            <td>Codigo Produto:</td>
+                            <td><input type="text" name="codigoProduto" onChange={(e)=> setCodigoProduto(e.target.value)}/></td>
+                            <td>Porcentagem:</td>
+                            <td><input type="number" name="codigoProduto" onChange={(e)=> setPorcentagem(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="Reajuste" className="btn" onClick={ReajusteValor}/>  </td> 
+                            <td><input type="submit" value="Desconto" className="btn" onClick={QueimaEstoque}/>  </td> 
+                        </tr>
+                    </table>
+                </form>
             </div>
             <div className="tabelaProduto">
                 <table>

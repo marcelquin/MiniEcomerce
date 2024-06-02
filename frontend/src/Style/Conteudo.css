@@ -119,6 +119,10 @@ details
 .retornoPedido
 { 
     width: 150% ;
-    height: 170px ;
+    height: 190px ;
     overflow: auto;
+}
+form
+{
+    margin-bottom: 20px;
 }

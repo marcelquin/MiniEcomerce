@@ -88,6 +88,7 @@ public class PedidoService {
                 Locale localBrasil = new Locale("pt", "BR");
                 PedidoEntity entity = new PedidoEntity();
                 entity.setTimeStamp(LocalDateTime.now());
+                entity.setNomeCLiente(cliente.getNome());
                 entity.setCliente(cliente);
                 entity.setDataPedido(LocalDateTime.now());
                 entity.setValorTotal(0.0);

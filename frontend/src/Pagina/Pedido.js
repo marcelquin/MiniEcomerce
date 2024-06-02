@@ -40,10 +40,11 @@ function Pedido() {
                             <details className="retornoPedido" open="open">
 
                                 <summary>{data.codigo}</summary>
-		                        <p>Cliente: {data.cliente.nome} </p>
+		                            <p>Cliente: {data.cliente.nome} </p>
                                 <span>Produtos: {data.produtos.map((item)=> {return(<>{item.quantidade}x {item.produto.nome}  </>)})}   </span><br/>
                                 <span>Valor Total: {data.valorTotalFront} </span><br/>
                                 <span>Data do Pedido: {data.dataPedido} </span><br/>
+                                <span>Data Pagamento: {data.dataPagamento}</span><br/>
                                 <span>status pagamento: {data.status}</span><br/>                                </details>
                         </>
                         )})}
