@@ -24,6 +24,8 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nomeCLiente;
+
     @ManyToOne
     private ClienteEntity Cliente;
 

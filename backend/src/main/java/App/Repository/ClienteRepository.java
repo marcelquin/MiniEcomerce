@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface ClienteRepository extends JpaRepository<ClienteEntity,Long> {
 
     Optional<ClienteEntity> findBynome(String nome);
+
+
+    boolean existsBynome(String nome);
 }
