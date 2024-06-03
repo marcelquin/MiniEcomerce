@@ -24,7 +24,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - db_aplhaMinicommerce:/app/database/db_aplhaMinicommerce
+      - /app/database/db_aplhaMinicommerce
 
 
   frontend:
@@ -35,6 +35,3 @@ services:
       - backend
     restart: on-failure          
     
-
-volumes:
-  db_aplhaMinicommerce
