@@ -24,7 +24,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - /app/database/db_aplhaMinicommerce
+      - /app/database/postgre 
 
 
   frontend:
@@ -33,5 +33,7 @@ services:
       - 3000:3000
     depends_on:
       - backend
-    restart: on-failure          
+    restart: on-failure
+  
+    
     

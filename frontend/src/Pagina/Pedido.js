@@ -18,7 +18,7 @@ function Pedido() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://localhost:8080/pedido/FinalizarPedido', {
+          fetch('http://34.27.181.128:8080/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'

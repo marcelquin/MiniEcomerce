@@ -60,7 +60,7 @@ function Home() {
       
       useEffect(() => {
         Axios
-          .get("http://localhost:8080/pedido/ListarPedidosAbertos")
+          .get("http://34.27.181.128:8080/pedido/ListarPedidosAbertos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -69,7 +69,7 @@ function Home() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://localhost:8080/pedido/FinalizarPedido', {
+          fetch('http://34.27.181.128:8080/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -126,6 +126,7 @@ function Home() {
                          <tr>
                             <td>Cliente</td>
                             <td>Código</td>
+                            <td>Valor</td>
                         </tr>            
                     
                 {APIData.map((data, i) => {
@@ -134,6 +135,7 @@ function Home() {
                         <tr key={i}>
                           <td>{data.cliente.nome}</td>
                           <td>{data.codigo}</td>
+                          <td>{data.valorTotalFront}</td>
                         </tr>
                         </>
                         )})}

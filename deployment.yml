@@ -1,111 +1,122 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: databasedeploy
+  name: postgre
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: database-db
-      version: v01
+      app: postgre
   template:
     metadata:
-      labels: 
-        app: database-db
-        version: v01
-  spec:
-    containers:
-    - name: database
-    image: postgres
-    ports:
-    - containerPort: 5432
+      labels:
+        app: postgre
+    spec:
+      containers:
+        - name: postgredb
+          image: postgres
+          ports:
+          - containerPort: 5432
+          env:
+          - name: POSTGRES_DB
+            value: "db_aplhaminicommerce"
+          - name: POSTGRES_USER
+            value: "admin"
+          - name: POSTGRES_PASSWORD
+            value: "mh8q23pr99"  
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-db
-  namespace: default
+  name: postgre
 spec:
-  selector:
-    app: database-db
+  selector: 
+    app: postgre
   ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: 5432
+    - port: 5432
   type: ClusterIP
+
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backenddeploy
+  name: backend
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: miniecomerceapi
-      version: v01
+      app: backend
   template:
     metadata:
       labels:
-        app: miniecomerceapi
-        version: v01
-  spec:
-    containers:
-    - name: backend
-    image: mquinteiro464/aplhaminicommercebackend
-    ports:
-    - containerPort: 8080
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: mquinteiro464/alphaminiecomercebackend:latest
+          ports:
+          - containerPort: 8080
+          env:
+          - name: SPRING_DATASOURCE_URL
+            value: "jdbc:postgresql://postgredb:5432/db_aplhaminicommerce"
+          - name: SPRING_DATASOURCE_USERNAME
+            value: "admin"
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: "mh8q23pr99"  
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: "update"
+          - name: SPRING_DATASOURCE_DATABASE
+            value: "db_aplhaminicommerce"  
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-api
-  namespace: default
+  name: backend-svc
 spec:
-  selector:
-    app: backenddeploy
+  selector: 
+    app: backend
   ports:
     - port: 8080
-      protocol: TCP
       targetPort: 8080
   type: LoadBalancer
 
+
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontenddeploy
+  name: frontend
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: miniecomercefrontend
-      version: v01
+      app: frontend
   template:
     metadata:
       labels:
-        app: miniecomercefrontend
-        version: v01
-  spec:
-    containers:
-    - name: backend
-    image: mquinteiro464/aplhaminicommercefrontend
-    ports:
-    - containerPort: 8080
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: mquinteiro464/alphaminiecomercefrontend
+          ports:
+          - containerPort: 3000
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-api
-  namespace: default
+  name: frontend-svc
 spec:
-  selector:
-    app: frontenddeploy
+  selector: 
+    app: frontend
   ports:
     - port: 3000
-      protocol: TCP
       targetPort: 3000
   type: LoadBalancer
+
+---  
