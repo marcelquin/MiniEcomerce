@@ -35,19 +35,15 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/alphaminiecomercefrontend
 
-      - name: install the gcloud cli
-        uses: google-github-actions/setup-gcloud@v2.1.0
+      - name: definindo o context
+        uses: Azure/k8s-set-context@v3.0
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-          install_components: 'gke-gcloud-auth-plugin'
-          export_default_credentials: true
-         
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG}}
 
-      - name: Deploy
-        run: |
-          ./kustomize edit set image gcr.io/${{GCP_PROJECT_ID}}/IMAGE:TAG=gcr.io/${{GCP_PROJECT_ID}}/${{ secrets.DOCKERHUB_USER }}/alphaminiecomercebackend
-          ./kustomize edit set image gcr.io/${{GCP_PROJECT_ID}}/IMAGE:TAG=gcr.io/${{GCP_PROJECT_ID}}/ ${{ secrets.DOCKERHUB_USER }}/alphaminiecomercefrontend
-          ./kustomize build . | kubectl apply -f deployment.yml
-          kubectl get services -o wide
-        
+       
+      - name: deploy
+        uses: Azure/k8s-deploy@v4.9
+        with:
+          images: ${{ secrets.DOCKERHUB_USER }} / restaurante:latest
+          manifests: ./deployment.yaml
