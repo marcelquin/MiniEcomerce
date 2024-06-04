@@ -35,11 +35,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/alphaminiecomercefrontend
 
-      - name: definindo o context
-        uses: Azure/k8s-set-context@v3.0
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG}}
+      
 
        
       - name: deploy
