@@ -34,12 +34,4 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/alphaminiecomercefrontend
-
-      
-
-       
-      - name: deploy
-        uses: Azure/k8s-deploy@v4.9
-        with:
-          images: ${{ secrets.DOCKERHUB_USER }} / restaurante:latest
-          manifests: ./deployment.yaml
+ 
