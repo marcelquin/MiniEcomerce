@@ -56,7 +56,7 @@ spec:
         - name: backend
           image: mquinteiro464/alphaminiecomercebackend:latest
           ports:
-          - containerPort: 8082
+          - containerPort: 8080
           env:
           - name: SPRING_DATASOURCE_URL
             value: "jdbc:postgresql://postgre:5432/db_aplhaminicommerce"
@@ -79,44 +79,13 @@ spec:
   selector: 
     app: backend
   ports:
-    - port: 8082
-      targetPort: 8082
+    - port: 8080
+      targetPort: 8080
   type: LoadBalancer
 
 
 ---
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend
-spec:
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-        - name: frontend
-          image: mquinteiro464/alphaminiecomercefrontend:latest
-          ports:
-          - containerPort: 3000
 
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-svc
-spec:
-  selector: 
-    app: frontend
-  ports:
-    - port: 3000
-      targetPort: 3000
-  type: LoadBalancer
 
 ---  
