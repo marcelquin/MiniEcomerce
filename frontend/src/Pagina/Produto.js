@@ -6,7 +6,7 @@ function Produto() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://130.211.116.164:8082/produto/ListarProdutos")
+          .get("http://130.211.116.164:8080/produto/ListarProdutos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);

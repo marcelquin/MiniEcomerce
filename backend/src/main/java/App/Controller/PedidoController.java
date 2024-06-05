@@ -17,7 +17,7 @@ import java.util.List;
 @Tag(name = "pedido",
         description = "Manipula informações referentes a entidade"
 )
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class PedidoController {
 
     private final PedidoService service;
