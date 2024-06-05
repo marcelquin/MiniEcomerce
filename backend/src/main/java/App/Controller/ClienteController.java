@@ -17,7 +17,7 @@ import java.util.List;
 @Tag(name = "cliente",
         description = "Manipula informações referentes a entidade"
 )
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public class ClienteController {
 
     private final ClienteService service;

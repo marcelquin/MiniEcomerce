@@ -24,7 +24,7 @@ import java.util.Locale;
 @Tag(name = "produto",
         description = "Manipula informações referentes a entidade"
 )
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public class ProdutoController {
 
     private final ProdutoService service;
