@@ -1,73 +1,118 @@
-apiVersion: apps/v1
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: default
+data:
+  postgres_user: admin
+  postgres_password: mh8q23pr99
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 32Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 32Gi
+---
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: database
+  name: postgres
 spec:
-  selector:
-    matchLabels:
-      app: database
   template:
     metadata:
       labels:
-        app: database
+        app: postgres
     spec:
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
       containers:
-        - name: database
-          image: postgres:15
-          ports:
-          - containerPort: 5432
+        - image: postgres
+          name: postgres
           env:
-          - name: POSTGRES_DB
-            value: "db_aplhaminicommerce"
-          - name: POSTGRES_USER
-            value: "admin"
-          - name: POSTGRES_PASSWORD
-            value: "mh8q23pr99"  
-
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgre-svc
+  name: postgres
 spec:
-  selector: 
-    app: database
+  type: ClusterIP
   ports:
     - port: 5432
-  type: ClusterIP
-
+  selector:
+    app: postgres
 ---
 
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: backend
+  name: spring-boot-postgres-sample
+  namespace: default
 spec:
-  selector:
-    matchLabels:
-      app: backend
+  replicas: 3
   template:
     metadata:
+      name: spring-boot-postgres-sample
       labels:
-        app: backend
+        app: spring-boot-postgres-sample
     spec:
       containers:
-        - name: backend
-          image: mquinteiro464/alphaminiecomercebackend:latest
-          ports:
-          - containerPort: 8082
-          env:
-          - name: SPRING_DATASOURCE_URL
-            value: "jdbc:postgresql://database:5432/db_aplhaminicommerce"
-          - name: SPRING_DATASOURCE_USERNAME
-            value: "admin"
-          - name: SPRING_DATASOURCE_PASSWORD
-            value: "mh8q23pr99"  
-          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-            value: "update"
+      - name: spring-boot-postgres-sample
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_password
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: hostname-config
+                key: postgres_host
+        image: mquinteiro464/alphaminiecomercebackend:latest
 
----
+--- 
 
 apiVersion: v1
 kind: Service
@@ -90,6 +135,7 @@ metadata:
   name: frontend
 spec:
   selector:
+    replicas: 2
     matchLabels:
       app: frontend
   template:
