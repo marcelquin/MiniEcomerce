@@ -1,118 +1,75 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-config
-  namespace: default
-data:
-  postgres_user: admin
-  postgres_password: mh8q23pr99
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pv-claim
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 32Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pv-claim
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 32Gi
----
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgre
 spec:
+  selector:
+    matchLabels:
+      app: postgre
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgre
     spec:
-      volumes:
-        - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: postgres-pv-claim
       containers:
-        - image: postgres
-          name: postgres
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: postgres_user
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: postgres_password
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+        - name: postgre
+          image: postgres
           ports:
-            - containerPort: 5432
-              name: postgres
-          volumeMounts:
-            - name: postgres-storage
-              mountPath: /var/lib/postgresql/data
+          - containerPort: 5432
+          env:
+          - name: POSTGRES_DB
+            value: "db_aplhaminicommerce"
+          - name: POSTGRES_USER
+            value: "admin"
+          - name: POSTGRES_PASSWORD
+            value: "mh8q23pr99"  
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgre
 spec:
-  type: ClusterIP
+  selector: 
+    app: postgre
   ports:
     - port: 5432
-  selector:
-    app: postgres
+  type: ClusterIP
+
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-boot-postgres-sample
-  namespace: default
+  name: backend
 spec:
-  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
   template:
     metadata:
-      name: spring-boot-postgres-sample
       labels:
-        app: spring-boot-postgres-sample
+        app: backend
     spec:
       containers:
-      - name: spring-boot-postgres-sample
-        env:
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: postgres-config
-                key: postgres_user
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: postgres-config
-                key: postgres_password
-          - name: POSTGRES_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: hostname-config
-                key: postgres_host
-        image: mquinteiro464/alphaminiecomercebackend:latest
+        - name: backend
+          image: mquinteiro464/alphaminiecomercebackend:latest
+          ports:
+          - containerPort: 8082
+          env:
+          - name: SPRING_DATASOURCE_URL
+            value: "jdbc:postgresql://postgre:5432/db_aplhaminicommerce"
+          - name: SPRING_DATASOURCE_USERNAME
+            value: "admin"
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: "mh8q23pr99"  
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: "update"
+          - name: SPRING_DATASOURCE_DATABASE
+            value: "db_aplhaminicommerce"  
 
---- 
+---
 
 apiVersion: v1
 kind: Service
@@ -135,7 +92,6 @@ metadata:
   name: frontend
 spec:
   selector:
-    replicas: 2
     matchLabels:
       app: frontend
   template:
@@ -145,7 +101,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: mquinteiro464/alphaminiecomercefrontend
+          image: mquinteiro464/alphaminiecomercefrontend:latest
           ports:
           - containerPort: 3000
 
