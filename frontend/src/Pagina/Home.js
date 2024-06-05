@@ -69,7 +69,7 @@ function Home() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://34.69.39.159:8080/pedido/FinalizarPedido', {
+          fetch('http://130.211.116.164:8080/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
