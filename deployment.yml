@@ -66,8 +66,6 @@ spec:
             value: "mh8q23pr99"  
           - name: SPRING_JPA_HIBERNATE_DDL_AUTO
             value: "update"
-          - name: SPRING_DATASOURCE_DATABASE
-            value: "db_aplhaminicommerce"  
 
 ---
 

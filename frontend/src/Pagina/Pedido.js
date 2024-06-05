@@ -7,7 +7,7 @@ function Pedido() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://localhost:8080/pedido/ListarPedidos")
+          .get("http://34.69.39.159:8080/pedido/ListarPedidos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -16,21 +16,6 @@ function Pedido() {
 
       const[codigoPedido, setcodigoPedido] = useState('');
 
-      async function FinalizarPedido(e){
-        try{
-          fetch('http://localhost:8080/pedido/FinalizarPedido', {
-            method: 'PUT',
-            headers:{
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },    
-            body: new URLSearchParams({
-                'codigoPedido': codigoPedido,
-        })})
-        setcodigoPedido('');
-        }catch (err){
-          console.log("erro")
-        }
-      }
     return (
         <div className="blocoConteudo">
             <div className="boxForm">
