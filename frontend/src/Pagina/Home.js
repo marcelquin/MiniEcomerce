@@ -40,7 +40,7 @@ function Home() {
 
       async function AdicionarProduto(e){
         try{
-          fetch('http://34.69.39.159:8080/pedido/AdicionarProdutoPedido', {
+          fetch('http://34.69.39.159:8082/pedido/AdicionarProdutoPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -60,7 +60,7 @@ function Home() {
       
       useEffect(() => {
         Axios
-          .get("http://34.69.39.159:8080/pedido/ListarPedidosAbertos")
+          .get("http://34.69.39.159:8082/pedido/ListarPedidosAbertos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -69,7 +69,7 @@ function Home() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://34.69.39.159:8080/pedido/FinalizarPedido', {
+          fetch('http://34.69.39.159:8082/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'

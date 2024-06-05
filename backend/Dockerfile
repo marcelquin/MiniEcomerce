@@ -7,4 +7,4 @@ FROM openjdk:17-ea-10-jdk-slim
 WORKDIR /app
 COPY --from=build ./app/target/*.jar ./api.jar
 ENTRYPOINT java -jar api.jar
-EXPOSE 8080
+EXPOSE 8082

@@ -56,10 +56,10 @@ spec:
         - name: backend
           image: mquinteiro464/alphaminiecomercebackend:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 8082
           env:
           - name: SPRING_DATASOURCE_URL
-            value: "jdbc:postgresql://database:5432/db_aplhaminicommerce?createDatabaseIfNotExist=true"
+            value: "jdbc:postgresql://database:5432/db_aplhaminicommerce"
           - name: SPRING_DATASOURCE_USERNAME
             value: "admin"
           - name: SPRING_DATASOURCE_PASSWORD
@@ -77,8 +77,8 @@ spec:
   selector: 
     app: backend
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 8082
+      targetPort: 8082
   type: LoadBalancer
 
 

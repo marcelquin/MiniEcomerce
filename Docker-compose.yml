@@ -4,7 +4,7 @@ services:
   backend:
     build: /backend
     ports:
-      - 8080:8080
+      - 8082:8082
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/db_aplhaMinicommerce
       - SPRING_DATASOURCE_USERNAME=admin

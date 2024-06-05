@@ -42,7 +42,7 @@ function Cliente() {
 
       async function Editardata(e){
         try{
-          fetch('http://34.69.39.159:8080/cliente/EdiarCliente', {
+          fetch('http://34.69.39.159:8082/cliente/EdiarCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,7 +64,7 @@ function Cliente() {
 
       async function Excluidata(e){
         try{
-          fetch('http://34.69.39.159:8080/cliente/DeletarCliente', {
+          fetch('http://34.69.39.159:8082/cliente/DeletarCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
