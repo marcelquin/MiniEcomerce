@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgre
+  name: database
 spec:
   selector:
     matchLabels:
-      app: postgre
+      app: database
   template:
     metadata:
       labels:
-        app: postgre
+        app: database
     spec:
       containers:
-        - name: postgredb
-          image: postgres
+        - name: database
+          image: postgres:15
           ports:
           - containerPort: 5432
           env:
@@ -29,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgre
+  name: postgre-svc
 spec:
   selector: 
-    app: postgre
+    app: database
   ports:
     - port: 5432
   type: ClusterIP
@@ -59,7 +59,7 @@ spec:
           - containerPort: 8080
           env:
           - name: SPRING_DATASOURCE_URL
-            value: "jdbc:postgresql://postgredb:5432/db_aplhaminicommerce"
+            value: "jdbc:postgresql://database:5432/db_aplhaminicommerce?createDatabaseIfNotExist=true"
           - name: SPRING_DATASOURCE_USERNAME
             value: "admin"
           - name: SPRING_DATASOURCE_PASSWORD

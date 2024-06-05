@@ -6,7 +6,7 @@ function Cliente() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://34.27.181.128:8080/cliente/ListarClientes")
+          .get("http://localhost:8080/cliente/ListarClientes")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -20,7 +20,7 @@ function Cliente() {
     
       async function savedata(e){
         try{
-          fetch('http://34.27.181.128:8080/cliente/NovoCliente', {
+          fetch('http://localhost:8080/cliente/NovoCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -42,7 +42,7 @@ function Cliente() {
 
       async function Editardata(e){
         try{
-          fetch('http://34.27.181.128:8080/cliente/EdiarCliente', {
+          fetch('http://localhost:8080/cliente/EdiarCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,7 +64,7 @@ function Cliente() {
 
       async function Excluidata(e){
         try{
-          fetch('http://34.27.181.128:8080/cliente/DeletarCliente', {
+          fetch('http://localhost:8080/cliente/DeletarCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
