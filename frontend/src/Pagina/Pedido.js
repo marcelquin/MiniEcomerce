@@ -12,7 +12,7 @@ function Pedido() {
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
-      }, []);
+      }, [APIData]);
 
       const[codigoPedido, setcodigoPedido] = useState('');
 

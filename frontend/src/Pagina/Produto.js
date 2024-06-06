@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import '../Style/Conteudo.css';
 
-
-
 function Produto() {
-
-      const [APIData, setAPIData] = useState([]);
-  
-      useEffect(() => {
+    const [APIData, setAPIData] = useState([]);
+    useEffect(() => {
         Axios
           .get("http://104.198.154.70:8080/produto/ListarProdutos")
           .then((response) => { setAPIData(response.data)})
@@ -177,6 +173,6 @@ function Produto() {
         </div>        
         </>
     );
-
 }
+
     export default Produto;

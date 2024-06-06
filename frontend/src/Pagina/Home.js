@@ -13,7 +13,7 @@ function Home() {
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
-      }, []);
+      }, [APIData]);
 
       const [nomecliente, setnomecliente] = useState('');
 
