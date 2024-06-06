@@ -2,7 +2,21 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import '../Style/Conteudo.css';
 
+
+
 function Produto() {
+
+    const { createProxyMiddleware } = require('http-proxy-middleware');
+
+    useEffect((App) => {
+      App.use(
+        '/backend1',
+        createProxyMiddleware({
+          target: 'http://104.198.154.70:8080',
+          changeOrigin: true,
+        }));
+    }, [])
+
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
