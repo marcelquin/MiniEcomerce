@@ -1,4 +1,5 @@
 import Header from './Componentes/Header';
+import Nav from './Componentes/Nav';
 import Home from './Pagina/Home';
 import CLiente from './Pagina/Cliente';
 import Pedido from './Pagina/Pedido';
@@ -9,7 +10,8 @@ import {Routes, Route} from 'react-router-dom'
 function App() {
   return (
     <div className="background">
-          <div className="boxGeral">
+
+        <div className="boxGeral">
           <Header></Header>
           <section>
                   <Routes>
@@ -17,9 +19,13 @@ function App() {
                             <Route path='/Cliente' element={<CLiente/>} />
                             <Route path='/pedido' element={<Pedido/>} />
                             <Route path='/Produto' element={<Produto/>} />
-                  </Routes>           
-          </section>      
+                  </Routes>
+              
+                
+          </section>
+        
         </div>
+
 
     </div>
   );
