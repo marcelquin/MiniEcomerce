@@ -10,7 +10,7 @@ function Produto() {
   
       useEffect(() => {
         Axios
-          .get("http://104.198.154.70:8080/produto/ListarProdutos",{timeout:20000})
+          .get("http://104.198.154.70:8080/produto/ListarProdutos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
