@@ -7,7 +7,7 @@ function Pedido() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://130.211.116.164:8080/pedido/ListarPedidos")
+          .get("http://34.29.169.201:8080/pedido/ListarPedidos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);

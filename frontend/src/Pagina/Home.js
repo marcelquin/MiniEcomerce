@@ -20,7 +20,7 @@ function Home() {
 
       async function NovoPedido(e){
         try{
-          fetch('http://130.211.116.164:8080/pedido/NovoPedido', {
+          fetch('http://34.29.169.201:8080/pedido/NovoPedido', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,7 +40,7 @@ function Home() {
 
       async function AdicionarProduto(e){
         try{
-          fetch('http://130.211.116.164:8080/pedido/AdicionarProdutoPedido', {
+          fetch('http://34.29.169.201:8080/pedido/AdicionarProdutoPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -69,7 +69,7 @@ function Home() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://130.211.116.164:8080/pedido/FinalizarPedido', {
+          fetch('http://34.29.169.201:8080/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
