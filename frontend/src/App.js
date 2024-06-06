@@ -1,5 +1,4 @@
 import Header from './Componentes/Header';
-import Nav from './Componentes/Nav';
 import Home from './Pagina/Home';
 import CLiente from './Pagina/Cliente';
 import Pedido from './Pagina/Pedido';
@@ -18,11 +17,8 @@ function App() {
                             <Route path='/Cliente' element={<CLiente/>} />
                             <Route path='/pedido' element={<Pedido/>} />
                             <Route path='/Produto' element={<Produto/>} />
-                  </Routes>
-              
-                
-          </section>
-        
+                  </Routes>           
+          </section>      
         </div>
 
     </div>
