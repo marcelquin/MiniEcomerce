@@ -95,7 +95,7 @@ spec:
     matchLabels:
       app: frontend
   template:
-    metadata:
+    metadata:   
       labels:
         app: frontend
     spec:

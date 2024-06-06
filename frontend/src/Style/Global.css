@@ -1,15 +1,16 @@
 .background
 {
     width: 100%;
-    height: auto;
+    height: auto
 }
 
 .boxGeral
 {
-    width: 80%;
+    width: 100%;
     height: auto;
     margin: 0 auto;
     background-color: #e2e2e2;
+    
 }
 
 section

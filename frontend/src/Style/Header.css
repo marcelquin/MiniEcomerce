@@ -1,8 +1,10 @@
 .boxHeader
 {
     width: 100%;
-    height: auto;
-    background-color: #140f07;
+    height: 250px;
+    background-color: #847770;
+    display: flex;
+    flex-direction: row;
 }
 
 .logo
@@ -12,4 +14,68 @@
     background-image: url(../Imagem/logo.png);
     margin: 4%;
     background-repeat: no-repeat;
+}
+
+.blocoNav
+{
+    width: 40%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10%;
+
+}
+
+.blocoOpcao
+{
+    width: 90px;
+    height: 90px;
+    margin: 10px;
+    text-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.iconeCLiente
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/cliente.png);
+    margin: 0 auto;
+}
+
+.iconeProdutos
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/produto.png);
+    margin: 0 auto;
+}
+
+.iconeHome
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/home.png);
+    margin: 0 auto;
+}
+
+.iconePedido
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/pedido.png);
+    margin: 0 auto;
+}
+
+a
+{
+    font-size: 14px;
+    text-decoration: none;
+    color: #f3eae8;
+}
+
+a:hover
+{
+    color: #ff7e00;
 }
