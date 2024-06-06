@@ -14,18 +14,13 @@ function App() {
         <div className="boxGeral">
           <Header></Header>
           <section>
-                <div className="blocoConteudo">
                   <Routes>
                             <Route path='/' element={<Home />}/>
                             <Route path='/Cliente' element={<CLiente/>} />
                             <Route path='/pedido' element={<Pedido/>} />
                             <Route path='/Produto' element={<Produto/>} />
                   </Routes>
-                </div>
-                <div className="blocoNav">
-                  <Nav></Nav>
-                </div>
-               
+              
                 
           </section>
         

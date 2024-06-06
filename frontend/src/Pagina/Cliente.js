@@ -77,11 +77,11 @@ function Cliente() {
           console.log("erro")
         }
       }
-
+      
 
     return (
         <>
-        <div className="blocoConteudo">
+          <div className="blocoConteudo">
             <div className="boxForm">
 
                 <form>
@@ -129,8 +129,8 @@ function Cliente() {
                             </>
                             )})}
                 </table>
-            </div>    
-        </div>
+            </div>
+          </div>     
         </>      
     );
 }

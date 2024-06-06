@@ -140,7 +140,7 @@ function Produto() {
                     </table>
                 </form>
             </div>
-            <div className="tabelaProduto">
+            <div className="boxtabela">
                 <table>
                     <tr>
                         <td className="tdProduto">Nome</td>

@@ -12,27 +12,36 @@ function Pedido() {
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
-      }, [APIData]);
-
-      const[codigoPedido, setcodigoPedido] = useState('');
+      }, []);
 
     return (
         <div className="blocoConteudo">
             <div className="boxForm">
+                 <table>
+                      <tr>
+                        <td>Cliente</td>
+                        <td>Codigo</td>
+                        <td>Produtos</td>
+                        <td>Valor Total</td>
+                        <td>Data do Pedido</td>
+                        <td>Data Pagamento</td>
+                        <td>status pagamento</td>          
+                      </tr>
                     {APIData.map((data, i) => {
                         return (
                         <>
-                            <details className="retornoPedido" open="open">
-
-                                <summary>{data.codigo}</summary>
-		                            <p>Cliente: {data.cliente.nome} </p>
-                                <span>Produtos: {data.produtos.map((item)=> {return(<>{item.quantidade}x {item.produto.nome}  </>)})}   </span><br/>
-                                <span>Valor Total: {data.valorTotalFront} </span><br/>
-                                <span>Data do Pedido: {data.dataPedido} </span><br/>
-                                <span>Data Pagamento: {data.dataPagamento}</span><br/>
-                                <span>status pagamento: {data.status}</span><br/>                                </details>
+                            <tr>
+                              <td>{data.cliente.nome}</td>
+                              <td>{data.codigo}</td>
+                              <td>{data.produtos.map((item)=> {return(<>{item.quantidade}x {item.produto.nome}  </>)})} </td>
+                              <td>{data.valorTotalFront}</td>
+                              <td>{data.dataPedido}</td>
+                              <td>{data.dataPagamento}</td>
+                              <td>{data.status}</td>
+                            </tr>                             
                         </>
                         )})}
+                        </table>
             </div>
         </div>    
     );

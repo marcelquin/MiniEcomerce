@@ -1,14 +1,10 @@
-import '../Style/Conteudo.css'
+import '../Style/Header.css'
 import { Link } from 'react-router-dom';
 
 function Nav() {
     return (
         <>
-        <div className="boxSection">
-
-        </div>
-
-        <div className="boxNav">
+        <div className="blocoNav">
             
         <Link to={"/"}>
             <div className="blocoOpcao">
@@ -40,6 +36,7 @@ function Nav() {
                 <label>Pedidos</label>
             </div>
             </Link>
+            
         </div>
         </>
     );

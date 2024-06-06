@@ -57,15 +57,6 @@ function Home() {
           console.log("erro")
         }
       }
-      
-      useEffect(() => {
-        Axios
-          .get("http://104.198.154.70:8080/pedido/ListarPedidosAbertos")
-          .then((response) => { setAPIData(response.data)})
-          .catch((err) => {
-            console.error("ops! ocorreu um erro" + err);
-          });
-      }, [APIData]);
 
       async function FinalizarPedido(e){
         try{
@@ -92,9 +83,7 @@ function Home() {
                     <table>
                         <tr>
                             <td><label>Cliente</label></td>
-                            <td><input type="text" name="nomeCliente" value={nomecliente} onChange={(e)=> setnomecliente(e.target.value)}/></td>
-                        </tr>
-                        <tr>    
+                            <td><input type="text" name="nomeCliente" value={nomecliente} onChange={(e)=> setnomecliente(e.target.value)}/></td>   
                             <td><input type="submit" value="Salvar" className="btn" onClick={NovoPedido}/></td>
                         </tr>
                     </table>
