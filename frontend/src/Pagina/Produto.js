@@ -7,15 +7,13 @@ import '../Style/Conteudo.css';
 function Produto() {
 
       const [APIData, setAPIData] = useState([]);
-    
   
       useEffect(() => {
-        fetch('http://104.198.154.70:8080/produto/ListarProdutos')
-          .then((res) => {
-            return res.json();
-          })
-          .then((response) => {
-            setAPIData(response.data);
+        Axios
+          .get("http://104.198.154.70:8080/produto/ListarProdutos")
+          .then((response) => { setAPIData(response.data)})
+          .catch((err) => {
+            console.error("ops! ocorreu um erro" + err);
           });
       }, []);
 
