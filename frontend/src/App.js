@@ -10,8 +10,7 @@ import {Routes, Route} from 'react-router-dom'
 function App() {
   return (
     <div className="background">
-
-        <div className="boxGeral">
+          <div className="boxGeral">
           <Header></Header>
           <section>
                   <Routes>
@@ -25,7 +24,6 @@ function App() {
           </section>
         
         </div>
-
 
     </div>
   );
