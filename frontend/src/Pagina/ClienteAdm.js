@@ -31,7 +31,7 @@ function CLieteadm() {
 
       const handleClick=async (e)=>{
         try{
-          fetch('http://localhost:8080/cliente/NovoCliente', {
+          fetch('http://34.29.221.200:8080/cliente/NovoCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'

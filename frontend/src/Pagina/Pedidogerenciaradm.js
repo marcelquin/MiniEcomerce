@@ -8,7 +8,7 @@ function Pedidogerenciaadm() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://localhost:8080/pedido/ListarPedidos")
+          .get("http://34.29.221.200:8080/pedido/ListarPedidos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
