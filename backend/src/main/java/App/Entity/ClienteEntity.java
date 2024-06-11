@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -25,20 +26,20 @@ public class ClienteEntity {
 
     private String nome;
 
-    private String endereco;
+    private Long cpf;
 
-    private Long prefixo;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
 
-    @JoinColumn(unique = true)
-    private Long telefone;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "enderecoEntity_id", referencedColumnName = "id")
+    private EnderecoEntity endereco;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contatoEntity_id", referencedColumnName = "id")
+    private ContatoEntity contato;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
 
-    public ClienteEntity(ClienteDTO dto) {
-        this.nome = dto.nome();
-        this.endereco = dto.endereco();
-        this.prefixo = dto.prefixo();
-        this.telefone = dto.telefone();
-    }
 }

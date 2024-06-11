@@ -36,6 +36,14 @@ function Nav() {
                 <label>Pedidos</label>
             </div>
             </Link>
+
+            <Link to={"adm"}>
+            <div className="blocoOpcao">
+
+                <div className="iconePedido"></div>
+                <label>Adm</label>
+            </div>
+            </Link>
             
         </div>
         </>

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+import Navadm from "../Componentes/NavAdm";
 import '../Style/Conteudo.css';
+import Axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-function Produto() {
+function Produtogerenciaadm() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
@@ -12,12 +13,14 @@ function Produto() {
             console.error("ops! ocorreu um erro" + err);
           });
       }, []);
+    return(
+    <>
 
-    return (
-        <>
-        <div className="blocoConteudo">
-          
-            <div className="boxtabela">
+                <div className="admBox">
+
+                    <div className="admNav"><Navadm></Navadm></div>
+                    <div className="admConteudo">
+                    <div className="boxtabela">
                 <table>
                     <tr>
                         <td>Nome</td>
@@ -40,16 +43,19 @@ function Produto() {
                                 <td>{data.estoque}</td>
                                 <td>{data.valorTotalFront}</td>  
                                 <td>{data.DataEntrada}</td>
-
+                                <td><input type="hidden"/></td>    
                             </tr>
 
                         </>
                         )})}
                 </table>
                 </div>                    
-        </div>        
-        </>
+                        
+                    </div>
+                </div>
+
+    </>
     );
 }
 
-    export default Produto;
+export default Produtogerenciaadm;

@@ -7,41 +7,59 @@ function Pedido() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://104.198.154.70:8080/pedido/ListarPedidos")
+          .get("http://localhost:8080/pedido/ListarPedidos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
       }, []);
 
+    const [codigoPedido, setCodigoPedido] = useState([]);
+    
+
+
     return (
         <div className="blocoConteudo">
-            <div className="boxForm">
-                 <table>
-                      <tr>
-                        <td>Cliente</td>
-                        <td>Codigo</td>
-                        <td>Produtos</td>
-                        <td>Valor Total</td>
-                        <td>Data do Pedido</td>
-                        <td>Data Pagamento</td>
-                        <td>status pagamento</td>          
-                      </tr>
-                    {APIData.map((data, i) => {
+            <div className="pedidoBox">
+
+
+              <div className="pedidoBloco">
+                <table>
+                  <tr>
+                    <td>CLiente</td>
+                    <td>Código</td>
+                    <td>Valor</td>
+                    <td>Data</td>
+                    <td>Status</td>
+                  </tr>
+                  {APIData.map((data, i) => {
                         return (
                         <>
-                            <tr>
-                              <td>{data.cliente.nome}</td>
-                              <td>{data.codigo}</td>
-                              <td>{data.produtos.map((item)=> {return(<>{item.quantidade}x {item.produto.nome}  </>)})} </td>
-                              <td>{data.valorTotalFront}</td>
-                              <td>{data.dataPedido}</td>
-                              <td>{data.dataPagamento}</td>
-                              <td>{data.status}</td>
-                            </tr>                             
+                            <tr key={i}>
+
+                                <td>{data.nomeCLiente}</td>
+                                <td>{data.codigo}</td>
+                                <td>{data.valorTotalFront}</td>
+                                <td>{data.dataPedido}</td>
+                                <td>{data.status}</td>
+                            </tr>
+
                         </>
                         )})}
-                        </table>
+                </table>
+              </div>
+              <div className="pedidoFrame">
+              <form>
+                    <tr>
+                      <td>Código:</td>
+                      <td><input type="text" name="nomeCliente" value={codigoPedido} onChange={(e)=> setCodigoPedido(e.target.value)}/></td>   
+                      <td><input type="submit" value="Buscar" className="btn"  /></td>
+                    </tr>
+                  </form>
+
+                     
+              </div>
+                
             </div>
         </div>    
     );

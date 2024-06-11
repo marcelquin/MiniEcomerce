@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -45,10 +46,20 @@ public class ClienteController {
     })
     @PostMapping("/NovoCliente")
     public ResponseEntity<ClienteDTO> NovoCliente(@RequestParam String nome,
-                                                  @RequestParam String endereco,
+                                                  @RequestParam String sobrenome,
+                                                  @RequestParam Long cpf,
+                                                  @RequestParam LocalDate dataNascimento,
+                                                  @RequestParam String logradouro,
+                                                  @RequestParam String numero,
+                                                  @RequestParam String bairro,
+                                                  @RequestParam String referencia,
+                                                  @RequestParam Long cep,
+                                                  @RequestParam String cidade,
+                                                  @RequestParam String estado,
                                                   @RequestParam Long prefixo,
-                                                  @RequestParam Long telefone)
-    { return service.NovoCliente(nome, endereco, prefixo, telefone);}
+                                                  @RequestParam Long telefone,
+                                                  @RequestParam String email)
+    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -58,11 +69,22 @@ public class ClienteController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/EdiarCliente")
-    public ResponseEntity<ClienteDTO> EdiarCliente(@RequestParam String nome,
-                                                   @RequestParam String endereco,
+    public ResponseEntity<ClienteDTO> EdiarCliente(@RequestParam Long id,
+                                                   @RequestParam String nome,
+                                                   @RequestParam String sobrenome,
+                                                   @RequestParam Long cpf,
+                                                   @RequestParam LocalDate dataNascimento,
+                                                   @RequestParam String logradouro,
+                                                   @RequestParam String numero,
+                                                   @RequestParam String bairro,
+                                                   @RequestParam String referencia,
+                                                   @RequestParam Long cep,
+                                                   @RequestParam String cidade,
+                                                   @RequestParam String estado,
                                                    @RequestParam Long prefixo,
-                                                   @RequestParam Long telefone)
-    { return service.EdiarCliente(nome, endereco, prefixo, telefone);}
+                                                   @RequestParam Long telefone,
+                                                   @RequestParam String email)
+    { return service.EdiarCliente(id,nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
 
     @Operation(summary = "Deleta Registro na tabela", method = "DELETE")
     @ApiResponses(value = {
@@ -72,8 +94,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @DeleteMapping("/DeletarCliente")
-    public ResponseEntity<ClienteDTO> DeletarCliente(@RequestParam String nome)
-    { return service.DeletarCliente(nome);}
+    public ResponseEntity<ClienteDTO> DeletarCliente(@RequestParam Long id)
+    { return service.DeletarCliente(id);}
 
 
 }

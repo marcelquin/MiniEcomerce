@@ -75,6 +75,29 @@ public class PedidoService {
         return null;
     }
 
+    public ResponseEntity<PedidoDTO> BuscarPedidoPorCodigo(String codigo)
+    {
+        try
+        {
+            PedidoEntity entity = pedidoRepository.findBycodigo(codigo).orElseThrow(
+                    ()-> new EntityNotFoundException()
+            );
+            List<String> itens = new ArrayList<>();
+            for(ItemPedidoEntity item: entity.getProdutos())
+            {
+                itens.add(item.getProduto().getNome()+" "+item.getProduto().getQuantidade()+item.getProduto().getMedida());
+            }
+            PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()));
+            return new ResponseEntity<>(response,HttpStatus.CREATED);
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
+
     public ResponseEntity<PedidoDTO> NovoPedido(String nomeCliente)
     {
         try

@@ -48,6 +48,17 @@ public class PedidoController {
     public ResponseEntity<List<PedidoEntity>> ListarPedidosAbertos()
     { return service.ListarPedidosAbertos();}
 
+    @Operation(summary = "Busca Registros da tabela por codigo", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @GetMapping("/BuscarPorCodigo")
+    public ResponseEntity<PedidoDTO> BuscarPedidoPorCodigo(String codigo)
+    { return service.BuscarPedidoPorCodigo(codigo);}
+
     @Operation(summary = "Salva novo Registro na tabela", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),

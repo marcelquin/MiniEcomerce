@@ -5,22 +5,32 @@ import '../Style/Conteudo.css';
 function Home() {
 
     const [APIData, setAPIData] = useState([]);
+    const [APIDataProduto, setAPIDataProduto] = useState([]);
 
     useEffect(() => {
         Axios
-          .get("http://104.198.154.70:8080/pedido/ListarPedidosAbertos")
+          .get("http://localhost:8080/pedido/ListarPedidosAbertos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
       }, [APIData]);
 
+      useEffect(() => {
+        Axios
+          .get("http://localhost:8080/produto/ListarProdutos")
+          .then((response) => { setAPIDataProduto(response.data)})
+          .catch((err) => {
+            console.error("ops! ocorreu um erro" + err);
+          });
+      }, [APIDataProduto]);
+
       const [nomecliente, setnomecliente] = useState('');
 
 
       async function NovoPedido(e){
         try{
-          fetch('http://104.198.154.70:8080/pedido/NovoPedido', {
+          fetch('http://localhost:8080/pedido/NovoPedido', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,7 +50,7 @@ function Home() {
 
       async function AdicionarProduto(e){
         try{
-          fetch('http://104.198.154.70:8080/pedido/AdicionarProdutoPedido', {
+          fetch('http://localhost:8080/pedido/AdicionarProdutoPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -60,7 +70,7 @@ function Home() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://104.198.154.70:8080/pedido/FinalizarPedido', {
+          fetch('http://localhost:8080/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -78,7 +88,9 @@ function Home() {
         <>
         <div className="blocoConteudo">
 
-                <div className="boxForm">
+                <div className="pedidoBox">
+
+                    <div className="pedidoFrame">
                     <h3>Novo Pedido</h3>
                     <table>
                         <tr>
@@ -87,15 +99,14 @@ function Home() {
                             <td><input type="submit" value="Salvar" className="btn" onClick={NovoPedido}/></td>
                         </tr>
                     </table>
-                </div>
 
-                <div className="boxForm">
                     <h3>Adicionar Produto</h3>
                     <table>
                         <tr>
                             <td><label>Código Pedido</label></td>
                             <td><input type="text" name="codigoPedido" value={codigoPedido} onChange={(e)=> setcodigoPedido(e.target.value)}/></td>
-
+                        </tr>
+                        <tr>
                             <td><label>Código Produto</label></td>
                             <td><input type="text" name="codigoProduto" value={codigoProduto} onChange={(e)=> setcodigoProduto(e.target.value)}/></td>
                         </tr>
@@ -108,30 +119,57 @@ function Home() {
                             <td><input type="submit" value="Finalizar" className="btn" onClick={FinalizarPedido} /></td>
                         </tr>
                     </table>
+                    </div>
+
+
+                    <div className="homeBloco">
+
+                        <div className="homeRetorno">
+                            <table>
+                              <tr>
+                                <td>Produto</td>
+                                <td>Código</td>
+                                <td>valor</td>
+                              </tr>
+                              {APIDataProduto.map((data, i) => {
+                            return (
+                            <>
+                            <tr key={i}>
+                              <td>{data.nome}</td>
+                              <td>{data.codigo}</td>
+                              <td>{data.valorFront}</td>
+                            </tr>
+                            </>
+                            )
+                          }
+                        )}
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div className="boxtabela">
-                <table>
-                         <tr>
-                            <td>Cliente</td>
-                            <td>Código</td>
-                            <td>Valor</td>
-                        </tr>            
-                    
-                {APIData.map((data, i) => {
-                        return (
-                        <>
-                        <tr key={i}>
-                          <td>{data.cliente.nome}</td>
-                          <td>{data.codigo}</td>
-                          <td>{data.valorTotalFront}</td>
-                        </tr>
-                        </>
-                        )})}
-                </table>
+                  <table>
+                    <tr>
+                      <td>Cliente</td>
+                      <td>Código</td>
+                      <td>Valor</td>
+                    </tr>
+                    {APIData.map((data, i) => {
+                            return (
+                            <>
+                            <tr>
+                              <td>{data.nomeCLiente}</td>
+                              <td>{data.codigo}</td>
+                              <td>{data.valorTotalFront}</td>
+                            </tr>
+                            </>
+                            )
+                          }
+                        )}
+                  </table>
                 </div>
-
-
         </div>   
         </>
     );
