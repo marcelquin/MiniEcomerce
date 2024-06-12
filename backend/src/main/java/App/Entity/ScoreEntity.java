@@ -1,6 +1,5 @@
 package App.Entity;
 
-import App.DTO.FornecedorDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,27 +13,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "Score")
 @Builder
-@Table(name = "contato")
-public class ContatoEntity {
+public class ScoreEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long prefixo;
+    private Double salarioBruto;
 
-    private Long telefone;
+    private Double salarioLiquido;
 
-    @JoinColumn(unique = true)
-    private String email;
+    private String salarioBrutoFront;
+
+    private String salarioLiquidoFront;
+
+    private Double score;
+
+    private String scoreFront;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
-
-    public ContatoEntity(FornecedorDTO dto) {
-        this.prefixo = dto.prefixo();
-        this.telefone = dto.telefone();
-        this.email = dto.email();
-    }
 }

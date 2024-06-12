@@ -4,39 +4,63 @@ import React, { useState, useEffect } from 'react';
 
 
 function Produtoadm() {
-    const [valorProduto, setValorProduto] = useState('');
-      const [nome, setNome] = useState('');
-      const [descriacao, setDescricao] = useState('');
-      const [quantidade, setQuantidade] = useState('');
-      const [medida, setMedida] = useState('');
-      const [estoque, setEstoque] = useState('');
+
+  const [produtoData, setprodutoData] = useState({
+    nome: "",
+    descriacao: "",
+    quantidade: "",
+    medida: "",
+    estoque: "",
+    xml: "",
+    valorEmNota: "",
+    impostoAplicado: "",
+    porcentagemLucro: "",
+    valorFrete: "",
+    valorCusto: ""
+});
+ 
+const handleChanage = (e) => {
+  setprodutoData(prev=>({...prev,[e.target.name]:e.target.value}));
+}
 
 
-      async function savedata(e){
-        try{
-          fetch('http://34.29.221.200:8080/produto/NovoProduto', {
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },    
-            body: new URLSearchParams({
-                'nome':nome,
-                'descriacao':descriacao,
-                'quantidade':quantidade,
-                'medida':medida,
-                'valorProduto':valorProduto,
-                'estoque':estoque
-        })})
-        setValorProduto('');
-        setNome('');
-        setDescricao('');
-        setMedida('');
-        setEstoque('');
-        setQuantidade('');
-        }catch (err){
-          console.log("erro")
-        }
-      }
+const handleClick=async (e)=>{
+  try{
+    fetch('http://localhost:8080/produto/NovoProduto', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },    
+      body: new URLSearchParams({
+          'nome': produtoData.nome,
+          'descriacao': produtoData.descriacao,
+          'quantidade': produtoData.quantidade,
+          'medida': produtoData.medida,
+          'estoque': produtoData.estoque,
+          'xml': produtoData.xml,
+          'valorEmNota': produtoData.valorEmNota,
+          'impostoAplicado': produtoData.impostoAplicado,
+          'porcentagemLucro': produtoData.porcentagemLucro,
+          'valorFrete': produtoData.valorFrete,
+          'valorCusto': produtoData.valorCusto
+  })})
+  setprodutoData({
+    nome: "",
+    descriacao: "",
+    quantidade: "",
+    medida: "",
+    estoque: "",
+    xml: "",
+    valorEmNota: "",
+    impostoAplicado: "",
+    porcentagemLucro: "",
+    valorFrete: "",
+    valorCusto: ""
+  })
+  }catch (err){
+    console.log("erro")
+  }
+}
 
     return(
     <>
@@ -51,13 +75,13 @@ function Produtoadm() {
                             <form>
                                 <table>
                                 <tr>
-                                    <td><td>Nome: <input type="text" name="nome" value={nome} onChange={(e)=> setNome(e.target.value)}/></td></td>
-                                    <td>Descriçao: <input type="text" name="descricao" value={descriacao} onChange={(e)=> setDescricao(e.target.value)}/></td>
-                                    <td><td>Quantidade: <input type="number" value={quantidade} name="quantidade" onChange={(e)=> setQuantidade(e.target.value)}/></td></td>
+                                    <td>Nome: <input type="text" name="nome" onChange={handleChanage} /></td>
+                                    <td>Descriçao: <input type="text" name="descriacao" onChange={handleChanage} /></td>
+                                    <td><td>Quantidade: <input type="number" name="quantidade" onChange={handleChanage}/></td></td>
                                 </tr>
                                 <tr>                
                                     <td>Medida:
-                                    <input list="medida" name="medida" value={medida} placeholder="Selecione a unidade de medida" onChange={(e)=> setMedida(e.target.value)}/>
+                                    <input list="medida" name="medida"  placeholder="Selecione a unidade de medida" onChange={handleChanage} />
                                     <datalist id="medida">
                                         <option value="KG">Kg</option>
                                         <option value="G">G</option>
@@ -65,14 +89,31 @@ function Produtoadm() {
                                         <option value="ML">Ml</option>
                                     </datalist>                             
                                     </td>
-                                    <td>Estoque: <input type="number" name="estoque" value={estoque} onChange={(e)=> setEstoque(e.target.value)}/></td>
-                                    <td>Valor: <input type="number" name="valor" value={valorProduto} onChange={(e)=> setValorProduto(e.target.value)}/></td>
+                                    <td>Estoque: <input type="number" name="estoque" onChange={handleChanage}/></td>
                                 </tr>
-                                <tr>                          
-                                    <td><input type="submit" value="Salvar" className="btn" onClick={savedata}/>  </td> 
-                                </tr>
-                                </table>
+                              </table>
                             </form>
+                    </div>
+
+                    <div className="formBloco">
+                          <h3>Dados de Nota Fiscal</h3>
+                          <table>
+
+                            <tr>
+                              <td>XML: <input type="text" name="xml" onChange={handleChanage} /></td>
+                              <td>Valor Em Nota: <input type="number" name="valorEmNota" onChange={handleChanage} /></td>
+                              <td>Porcentagem de Imposto Aplicado: <input type="number" name="impostoAplicado" onChange={handleChanage} /></td>
+                            </tr>
+                            <tr>
+                              <td>Porcentagem de Lucro: <input type="text" name="porcentagemLucro" onChange={handleChanage} /></td>
+                              <td>Valor Frete: <input type="number" name="valorFrete" onChange={handleChanage} /></td>
+                              <td>Custo Operacional: <input type="number" name="valorCusto" onChange={handleChanage} /></td>
+                            </tr>
+                            <tr>                          
+                              <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td> 
+                            </tr>
+                          </table>    
+
                     </div>
 
                     </div>

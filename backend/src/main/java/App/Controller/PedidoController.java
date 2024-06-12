@@ -25,7 +25,7 @@ public class PedidoController {
     public PedidoController(PedidoService service) {
         this.service = service;
     }
-
+    /*
     @Operation(summary = "Lista Registros da tabela", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -117,4 +117,6 @@ public class PedidoController {
     @DeleteMapping("/DeletarPedido")
     public ResponseEntity<PedidoDTO> DeletarPedido(@RequestParam String codigoPedido)
     { return service.DeletarPedido(codigoPedido);}
+
+     */
 }

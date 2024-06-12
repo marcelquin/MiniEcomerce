@@ -1,5 +1,6 @@
 package App.Entity;
 
+import App.DTO.FornecedorDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,9 +15,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "Cliente")
+@Table(name = "Fornecedor")
 @Builder
-public class ClienteEntity {
+public class FornecedorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,26 +25,36 @@ public class ClienteEntity {
 
     private String nome;
 
-    private Long cpf;
+    private String razaoSocial;
+
+    @JoinColumn(unique = true)
+    private String cnpj;
+
+    private String areaAtuacao;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataNascimento;
+    private LocalDate dataInicioContrato;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "enderecoEntity_id", referencedColumnName = "id")
-    private EnderecoEntity endereco;
+    private Long cep;
+
+    private String cidade;
+
+    private String estado;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contatoEntity_id", referencedColumnName = "id")
     private ContatoEntity contato;
 
-    private String profissao;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "scoreEntity_id", referencedColumnName = "id")
-    private ScoreEntity score;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
 
+    public FornecedorEntity(FornecedorDTO dto) {
+        this.nome = dto.nome();
+        this.razaoSocial = dto.razaoSocial();
+        this.cnpj = dto.cnpj();
+        this.cep = dto.cep();
+        this.cidade = dto.cidade();
+        this.estado = dto.estado();
+    }
 }

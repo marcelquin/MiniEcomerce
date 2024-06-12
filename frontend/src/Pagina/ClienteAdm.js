@@ -21,7 +21,10 @@ function CLieteadm() {
         estado: "",
         prefixo: "",
         telefone: "",
-        email: ""
+        email: "",
+        profissao: "",
+        salarioBruto: "",
+        salarioLiquido: ""
       });
 
       const handleChanage = (e) => {
@@ -31,7 +34,7 @@ function CLieteadm() {
 
       const handleClick=async (e)=>{
         try{
-          fetch('http://34.29.221.200:8080/cliente/NovoCliente', {
+          fetch('http://localhost:8080/cliente/NovoCliente', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -50,23 +53,29 @@ function CLieteadm() {
                 'estado': clienteData.estado,
                 'prefixo':clienteData.prefixo,
                 'telefone':clienteData.telefone,
-                'email':clienteData.email
+                'email':clienteData.email,
+                'profissao': clienteData.profissao,
+                'salarioBruto': clienteData.salarioBruto,
+                'salarioLiquido': clienteData.salarioLiquido
         })})
         setclienteData({
             nome: "",
-        sobrenome: "",
-        cpf: "",
-        dataNascimento: "",
-        logradouro: "",
-        numero: "",
-        bairro: "",
-        referencia: "",
-        cep: "",
-        cidade: "",
-        estado: "",
-        prefixo: "",
-        telefone: "",
-        email: ""
+            sobrenome: "",
+            cpf: "",
+            dataNascimento: "",
+            logradouro: "",
+            numero: "",
+            bairro: "",
+            referencia: "",
+            cep: "",
+            cidade: "",
+            estado: "",
+            prefixo: "",
+            telefone: "",
+            email: "",
+            profissao: "",
+            salarioBruto: "",
+            salarioLiquido: ""
         })
         }catch (err){
           console.log("erro")
@@ -75,7 +84,6 @@ function CLieteadm() {
 
     return(
     <>
-
                 <div className="admBox">
 
                     <div className="admNav"><Navadm></Navadm></div>
@@ -112,6 +120,18 @@ function CLieteadm() {
                                 </tr>
                                 <tr>
                                 <td>Estado: <input type="text" name="estado" placeholder="Digite a sigla do estado"  onChange={handleChanage}/></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div className="formBloco">
+                    <h3>Dados Profissionais</h3>
+                        <form>
+                            <table>
+                                <tr>
+                                <td>Profissão: <input type="text" name="profissao" placeholder="Digite a Profissão do cliente"  onChange={handleChanage}/></td>
+                                <td>Salário Bruto: <input type="number" name="salarioBruto" placeholder="Digite o valor do salario bruto"  onChange={handleChanage}/></td>
+                                <td>Salário Líquido: <input type="email" name="salarioLiquido" placeholder="Digite o valor do salario líquido"  onChange={handleChanage}/></td>
                                 </tr>
                             </table>
                         </form>

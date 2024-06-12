@@ -10,8 +10,13 @@ import ClienteAdm from './Pagina/ClienteAdm';
 import CLientegerenciaadm from './Pagina/Clientegerenciaadm';
 import Produtogerenciaadm from './Pagina/Produtogerenciaadm';
 import Pedidogerenciaadm from './Pagina/Pedidogerenciaradm';
+import Notafiscaladm from './Pagina/NotaFiscalAdm';
+import Notafiscalgerenciaadm from './Pagina/NotaFiscalgeremciaAdm';
+import Fonecedoradm from './Pagina/FornecedorAdm';
+import FornecedorgrenciaAdm from './Pagina/FornecedorgeremciaAdm';
 import './Style/Global.css';
 import {Routes, Route} from 'react-router-dom'
+import Fornecedorgerenciaadm from './Pagina/FornecedorgeremciaAdm';
 
 function App() {
   return (
@@ -23,14 +28,18 @@ function App() {
                   <Routes>
                             <Route path='/' element={<Home />}/>
                             <Route path='/Cliente' element={<CLiente/>} />
-                            <Route path='/pedido' element={<Pedido/>} />
-                            <Route path='/Produto' element={<Produto/>} />
+                            <Route path='/caixa' element={<Pedido/>} />
+                            <Route path='/estoque' element={<Produto/>} />
                             <Route path='/adm' element={<HomeAdm/>} />
                             <Route path='/admproduto' element={<ProdutoAdm/>} />
                             <Route path='/admcliente' element={<ClienteAdm/>} />
+                            <Route path='/admnotafiscal' element={<Notafiscaladm/>} />
+                            <Route path='/admfornecedor' element={<Fonecedoradm/>} />
                             <Route path='/admclientegerencia' element={<CLientegerenciaadm/>} />
                             <Route path='/admprodutogerencia' element={<Produtogerenciaadm/>} />
                             <Route path='/admpedidogerencia' element={<Pedidogerenciaadm/>} />
+                            <Route path='/admfornecedorgerencia' element={<Fornecedorgerenciaadm/>} />
+                            <Route path='/admnotagerencia' element={<Notafiscalgerenciaadm/>} />
                   </Routes>        
           </section>
         

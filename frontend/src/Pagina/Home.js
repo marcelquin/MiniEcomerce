@@ -9,7 +9,7 @@ function Home() {
 
     useEffect(() => {
         Axios
-          .get("http://34.29.221.200:8080/pedido/ListarPedidosAbertos")
+          .get("http://localhost:8080/pedido/ListarPedidosAbertos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -18,7 +18,7 @@ function Home() {
 
       useEffect(() => {
         Axios
-          .get("http://34.29.221.200:8080/produto/ListarProdutos")
+          .get("http://localhost:8080/estoque/ListarEstoque")
           .then((response) => { setAPIDataProduto(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -30,7 +30,7 @@ function Home() {
 
       async function NovoPedido(e){
         try{
-          fetch('http://34.29.221.200:8080/pedido/NovoPedido', {
+          fetch('http://localhost:8080/pedido/NovoPedido', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -50,7 +50,7 @@ function Home() {
 
       async function AdicionarProduto(e){
         try{
-          fetch('http://34.29.221.200:8080/pedido/AdicionarProdutoPedido', {
+          fetch('http://localhost:8080/pedido/AdicionarProdutoPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -70,7 +70,7 @@ function Home() {
 
       async function FinalizarPedido(e){
         try{
-          fetch('http://34.29.221.200:8080/pedido/FinalizarPedido', {
+          fetch('http://localhost:8080/pedido/FinalizarPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -131,18 +131,17 @@ function Home() {
                                 <td>Código</td>
                                 <td>valor</td>
                               </tr>
-                              {APIDataProduto.map((data, i) => {
-                            return (
+                              {APIDataProduto.map((data, i) =>{
+                        return(
                             <>
                             <tr key={i}>
-                              <td>{data.nome}</td>
-                              <td>{data.codigo}</td>
-                              <td>{data.valorFront}</td>
+                                <td>{data.nome}</td>
+                                <td>{data.codigo}</td>
+                                <td>{data.valorFront}</td>
                             </tr>
                             </>
-                            )
-                          }
-                        )}
+                        )
+                    })} 
                             </table>
                         </div>
 

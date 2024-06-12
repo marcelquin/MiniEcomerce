@@ -8,7 +8,7 @@ function Clientegerenciaadm() {
 
     useEffect(() => {
       Axios
-        .get("http://34.29.221.200:8080/cliente/ListarClientes")
+        .get("http://localhost:8080/cliente/ListarClientes")
         .then((response) => { setAPIData(response.data)})
         .catch((err) => {
           console.error("ops! ocorreu um erro" + err);
@@ -31,6 +31,10 @@ function Clientegerenciaadm() {
                                     <td>Endereço</td>
                                     <td>Telefone</td>
                                     <td>E-Mail</td>
+                                    <td>Profissão</td>
+                                    <td>Salário Bruto</td>
+                                    <td>Salário Liquido</td>
+                                    <td>Score</td>
                                 </tr>            
                             
                                 {APIData.map((data, i) => {
@@ -43,12 +47,10 @@ function Clientegerenciaadm() {
                                                     <td><label>{data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado} </label></td>
                                                     <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
                                                     <td><label>{data.contato.email}</label></td>
-                                                    <td>
-                                                    <input type="button" className="btnform" value="Editar" />
-                                                    </td>
-                                                    <td>
-                                                    <input type="button" className="btnform" value="Excluir" />
-                                                    </td>
+                                                    <td><label>{data.profissao}</label></td>
+                                                    <td><label>{data.score.salarioBrutoFront}</label></td>
+                                                    <td><label>{data.score.salarioLiquidoFront}</label></td>
+                                                    <td><label>{data.score.scoreFront}</label></td>        
                                                 </tr>
                                             </>
                                             )})}

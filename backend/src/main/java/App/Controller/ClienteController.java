@@ -58,9 +58,13 @@ public class ClienteController {
                                                   @RequestParam String estado,
                                                   @RequestParam Long prefixo,
                                                   @RequestParam Long telefone,
-                                                  @RequestParam String email)
-    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
+                                                  @RequestParam String email,
+                                                  @RequestParam String profissao,
+                                                  @RequestParam Double salarioBruto,
+                                                  @RequestParam Double salarioLiquido)
+    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email,profissao,salarioBruto,salarioLiquido);}
 
+    /*
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -96,6 +100,6 @@ public class ClienteController {
     @DeleteMapping("/DeletarCliente")
     public ResponseEntity<ClienteDTO> DeletarCliente(@RequestParam Long id)
     { return service.DeletarCliente(id);}
-
+    */
 
 }

@@ -48,7 +48,7 @@
 {
     width: 60px;
     height: 60px;
-    background-image: url(../Imagem/produto.png);
+    background-image: url(../Imagem/estoque.png);
     margin: 0 auto;
 }
 
@@ -60,14 +60,20 @@
     margin: 0 auto;
 }
 
-.iconePedido
+.iconecaixa
 {
     width: 60px;
     height: 60px;
-    background-image: url(../Imagem/pedido.png);
+    background-image: url(../Imagem/caixa.png);
     margin: 0 auto;
 }
-
+.iconeadm
+{
+    width: 60px;
+    height: 60px;
+    background-image: url(../Imagem/adm.png);
+    margin: 0 auto;
+}
 a
 {
     font-size: 14px;

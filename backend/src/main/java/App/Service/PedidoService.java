@@ -38,6 +38,7 @@ public class PedidoService {
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
     }
+    /*
     DecimalFormat df= new DecimalFormat("#,####.##");
     public ResponseEntity<List<PedidoEntity>> ListarPedidos()
     {
@@ -51,7 +52,7 @@ public class PedidoService {
         }
         return null;
     }
-
+    /*
     public ResponseEntity<List<PedidoEntity>> ListarPedidosAbertos()
     {
         try
@@ -270,4 +271,6 @@ public class PedidoService {
         }
         return null;
     }
+
+     */
 }

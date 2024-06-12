@@ -6,8 +6,7 @@ public record ProdutoDTO(
         String nome,
         String descricao,
         String codigo,
-        Double estoque,
-        String valor,
+        Double valor,
         LocalDate DataEntrada
 ) {
 }

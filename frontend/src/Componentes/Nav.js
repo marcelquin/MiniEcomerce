@@ -14,33 +14,35 @@ function Nav() {
             </div>
             </Link>
 
-            <Link to={"/Cliente"}>
+            <Link to={"/caixa"}>
+            <div className="blocoOpcao">
+        
+                <div className="iconecaixa"></div>
+                <label>Caixa</label>
+            </div>
+            </Link>
+
+            <Link  to={"/Cliente"}>
             <div className="blocoOpcao">
 
                 <div className="iconeCLiente"></div>
                 <label>CLIENTE</label>
             </div>
             </Link>
-            <Link to={"/Produto"}>
+            <Link to={"/estoque"}>
             <div className="blocoOpcao">
 
                 <div className="iconeProdutos"></div>
-                <label>Produto</label>
+                <label>Estoque</label>
 
             </div>
             </Link>
-            <Link to={"pedido"}>
-            <div className="blocoOpcao">
-
-                <div className="iconePedido"></div>
-                <label>Pedidos</label>
-            </div>
-            </Link>
+            
 
             <Link to={"adm"}>
             <div className="blocoOpcao">
 
-                <div className="iconePedido"></div>
+                <div className="iconeadm"></div>
                 <label>Adm</label>
             </div>
             </Link>

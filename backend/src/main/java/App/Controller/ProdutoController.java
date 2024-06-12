@@ -56,10 +56,15 @@ public class ProdutoController {
                                                   @RequestParam String descriacao,
                                                   @RequestParam int quantidade,
                                                   @RequestParam MEDIDA medida,
-                                                  @RequestParam Double valorProduto,
-                                                  @RequestParam Double estoque)
-    {return service.NovoProduto(nome, descriacao, quantidade, medida,valorProduto, estoque);}
-
+                                                  @RequestParam Double estoque,
+                                                  @RequestParam String xml,
+                                                  @RequestParam Double valorEmNota,
+                                                  @RequestParam Double impostoAplicado,
+                                                  @RequestParam Double porcentagemLucro,
+                                                  @RequestParam Double valorFrete,
+                                                  @RequestParam Double valorCusto)
+    {return service.NovoProduto(nome, descriacao, quantidade, medida, estoque, xml, valorEmNota, impostoAplicado, porcentagemLucro, valorFrete, valorCusto);}
+    /*
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -122,4 +127,6 @@ public class ProdutoController {
     @DeleteMapping("/DeletarProduto")
     public ResponseEntity<ProdutoDTO> DeletarProduto(@RequestParam Long id)
     { return service.DeletarProduto(id);}
+
+     */
 }

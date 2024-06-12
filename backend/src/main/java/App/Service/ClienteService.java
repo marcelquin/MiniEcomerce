@@ -5,19 +5,23 @@ import App.DTO.EnderecoDTO;
 import App.Entity.ClienteEntity;
 import App.Entity.ContatoEntity;
 import App.Entity.EnderecoEntity;
+import App.Entity.ScoreEntity;
 import App.Exceptions.EntityNotFoundException;
 import App.Exceptions.IllegalActionException;
 import App.Exceptions.NullargumentsException;
 import App.Repository.ClienteRepository;
 import App.Repository.ContatoRepository;
 import App.Repository.EnderecoRepository;
+import App.Repository.ScoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ClienteService {
@@ -25,11 +29,15 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
     private final ContatoRepository contatoRepository;
+    private final ScoreRepository scoreRepository;
 
-    public ClienteService(ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, ContatoRepository contatoRepository) {
+    Locale localBrasil = new Locale("pt", "BR");
+
+    public ClienteService(ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, ContatoRepository contatoRepository, ScoreRepository scoreRepository) {
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
         this.contatoRepository = contatoRepository;
+        this.scoreRepository = scoreRepository;
     }
 
     public ResponseEntity<List<ClienteEntity>> ListarClientes()
@@ -58,7 +66,10 @@ public class ClienteService {
                                                   String estado,
                                                   Long prefixo,
                                                   Long telefone,
-                                                  String email)
+                                                  String email,
+                                                  String profissao,
+                                                  Double salarioBruto,
+                                                  Double salarioLiquido)
     {
         try
         {
@@ -75,30 +86,51 @@ public class ClienteService {
                estado != null &&
                prefixo != null &&
                telefone != null &&
-               email != null )
+               email != null &&
+               profissao != null &&
+               salarioBruto != null &&
+               salarioLiquido != null)
             {
                 if(prefixo <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(telefone <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(cep <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(cpf <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
-
+                if(salarioBruto <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
+                if(salarioLiquido <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
+                Locale localBrasil = new Locale("pt", "BR");
                 EnderecoDTO enderecoDTO = new EnderecoDTO(logradouro,numero,bairro,referencia,cep,cidade,estado);
                 EnderecoEntity endereco = new EnderecoEntity(enderecoDTO);
                 endereco.setTimeStamp(LocalDateTime.now());
-                enderecoRepository.save(endereco);
+
                 ContatoEntity contato = new ContatoEntity();
                 contato.setPrefixo(prefixo);
                 contato.setTelefone(telefone);
                 contato.setEmail(email);
                 contato.setTimeStamp(LocalDateTime.now());
-                contatoRepository.save(contato);
+
                 ClienteEntity entity = new ClienteEntity();
                 entity.setCpf(cpf);
                 entity.setDataNascimento(dataNascimento);
                 entity.setNome(nome+" "+ sobrenome);
+                entity.setProfissao(profissao);
+                entity.setTimeStamp(LocalDateTime.now());
+                ScoreEntity score = new ScoreEntity();
+                score.setSalarioBruto(salarioBruto);
+                score.setSalarioLiquido(salarioLiquido);
+                score.setSalarioBrutoFront(NumberFormat.getCurrencyInstance(localBrasil).format(score.getSalarioBruto()));
+                score.setSalarioLiquidoFront(NumberFormat.getCurrencyInstance(localBrasil).format(score.getSalarioLiquido()));
+                Double porcentagem = (double) 30 /100;
+                Double scorevalor = salarioLiquido * porcentagem;
+                score.setScore(scorevalor);
+                score.setScoreFront(NumberFormat.getCurrencyInstance(localBrasil).format(score.getScore()));
+                System.out.println("Score valor:" +scorevalor );
+                System.out.println("Score valor editado:" +score.getScoreFront());
+                contatoRepository.save(contato);
+                enderecoRepository.save(endereco);
+                scoreRepository.save(score);
+                entity.setScore(score);
                 entity.setEndereco(endereco);
                 entity.setContato(contato);
-                entity.setTimeStamp(LocalDateTime.now());
                 clienteRepository.save(entity);
                 String enderecoResponse = (entity.getEndereco().getLogradouro() +" "+
                                            entity.getEndereco().getNumero() +" "+
@@ -108,7 +140,7 @@ public class ClienteService {
                                            entity.getEndereco().getCidade()  +" "+
                                            entity.getEndereco().getEstado()+".");
                 String telefoneResponse = ("("+entity.getContato().getPrefixo()+") "+entity.getContato().getTelefone());
-                ClienteDTO response = new ClienteDTO(entity.getNome(),entity.getDataNascimento(),entity.getCpf(),enderecoResponse,telefoneResponse,entity.getContato().getEmail());
+                ClienteDTO response = new ClienteDTO(entity.getNome(),entity.getDataNascimento(),entity.getCpf(),enderecoResponse,telefoneResponse,entity.getContato().getEmail(), entity.getProfissao(), entity.getScore().getSalarioBruto(), entity.getScore().getSalarioLiquido());
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
             else
@@ -120,7 +152,7 @@ public class ClienteService {
         }
         return null;
     }
-
+    /*
     public ResponseEntity<ClienteDTO> EdiarCliente(Long id,
                                                    String nome,
                                                    String sobrenome,
@@ -237,5 +269,5 @@ public class ClienteService {
         }
         return null;
     }
-
+    */
 }

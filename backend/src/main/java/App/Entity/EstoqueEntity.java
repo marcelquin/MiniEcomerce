@@ -1,6 +1,5 @@
 package App.Entity;
 
-import App.DTO.FornecedorDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,26 +14,25 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Builder
-@Table(name = "contato")
-public class ContatoEntity {
+@Table(name = "Estoque")
+public class EstoqueEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long prefixo;
+    private String nome;
 
-    private Long telefone;
+    private String descricao;
 
-    @JoinColumn(unique = true)
-    private String email;
+    private String codigo;
+
+    private Double valor;
+
+    private String valorFront;
+
+    private Double quantidade;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
-
-    public ContatoEntity(FornecedorDTO dto) {
-        this.prefixo = dto.prefixo();
-        this.telefone = dto.telefone();
-        this.email = dto.email();
-    }
 }

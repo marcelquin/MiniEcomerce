@@ -6,7 +6,7 @@ function Produto() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://34.29.221.200:8080/produto/ListarProdutos")
+          .get("http://localhost:8080/estoque/ListarEstoque")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -24,27 +24,21 @@ function Produto() {
                         <td>Descrição</td>
                         <td>Código</td>
                         <td>Valor</td>
-                        <td>Estoque</td>
-                        <td>Total Estoque</td> 
-                        <td>Data Entrada</td>                  
+                        <td>Quantidade</td>
                     </tr>
-                    {APIData.map((data, i) => {
-                        return (
-                        <>
+                    {APIData.map((data, i) =>{
+                        return(
+                            <>
                             <tr key={i}>
-
                                 <td>{data.nome}</td>
                                 <td>{data.descricao}</td>
                                 <td>{data.codigo}</td>
                                 <td>{data.valorFront}</td>
-                                <td>{data.estoque}</td>
-                                <td>{data.valorTotalFront}</td>  
-                                <td>{data.DataEntrada}</td>
-
+                                <td>{data.quantidade}</td>
                             </tr>
-
-                        </>
-                        )})}
+                            </>
+                        )
+                    })}            
                 </table>
                 </div>                    
         </div>        

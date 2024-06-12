@@ -9,7 +9,7 @@ function Cliente() {
 
     useEffect(() => {
       Axios
-        .get("http://34.29.221.200:8080/cliente/ListarClientes")
+        .get("http://localhost:8080/cliente/ListarClientes")
         .then((response) => { setAPIData(response.data)})
         .catch((err) => {
           console.error("ops! ocorreu um erro" + err);
@@ -28,6 +28,7 @@ function Cliente() {
                             <td>Endereço</td>
                             <td>Telefone</td>
                             <td>E-Mail</td>
+                            <td>Scores</td>
                         </tr>            
                     
                 {APIData.map((data, i) => {
@@ -39,6 +40,7 @@ function Cliente() {
                                     <td><label>{data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado} </label></td>
                                     <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
                                     <td><label>{data.contato.email}</label></td>
+                                    <td><label>{data.score.scoreFront}</label></td> 
                                 </tr>
                             </>
                             )})}
