@@ -20,7 +20,7 @@ function Notafiscaladm() {
 
       const handleClick=async (e)=>{
         try{
-          fetch('http://localhost:8080/notafiscal/NovaNotaFiscal', {
+          fetch('http://34.171.157.122:8080/notafiscal/NovaNotaFiscal', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'

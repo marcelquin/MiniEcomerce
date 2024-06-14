@@ -7,7 +7,7 @@ function Pedido() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://localhost:8080/pedido/ListarPedidosAbertos")
+          .get("http://34.171.157.122:8080/pedido/ListarPedidosAbertos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -28,7 +28,7 @@ function Pedido() {
 
     async function FinalizarPedido(e){
       try{
-        fetch('http://localhost:8080/pedido/FinalizarPedido', {
+        fetch('http://34.171.157.122:8080/pedido/FinalizarPedido', {
           method: 'PUT',
           headers:{
             'Content-Type': 'application/x-www-form-urlencoded'

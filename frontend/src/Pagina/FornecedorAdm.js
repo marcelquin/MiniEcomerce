@@ -27,7 +27,7 @@ function Fornecedoradm() {
 
   const handleClick=async (e)=>{
     try{
-      fetch('http://localhost:8080/fornecedor/NovoFornecedor', {
+      fetch('http://34.171.157.122:8080/fornecedor/NovoFornecedor', {
         method: 'POST',
         headers:{
           'Content-Type': 'application/x-www-form-urlencoded'

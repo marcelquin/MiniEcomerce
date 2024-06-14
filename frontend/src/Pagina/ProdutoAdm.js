@@ -26,7 +26,7 @@ const handleChanage = (e) => {
 
 const handleClick=async (e)=>{
   try{
-    fetch('http://localhost:8080/produto/NovoProduto', {
+    fetch('http://34.171.157.122:8080/produto/NovoProduto', {
       method: 'POST',
       headers:{
         'Content-Type': 'application/x-www-form-urlencoded'

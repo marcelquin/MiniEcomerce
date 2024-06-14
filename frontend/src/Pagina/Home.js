@@ -30,7 +30,7 @@ function Home() {
 
       async function NovoPedido(e){
         try{
-          fetch('http://localhost:8080/pedido/NovoPedido', {
+          fetch('http://34.171.157.122:8080/pedido/NovoPedido', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -50,7 +50,7 @@ function Home() {
 
       async function AdicionarProduto(e){
         try{
-          fetch('http://localhost:8080/pedido/AdicionarProdutoPedido', {
+          fetch('http://34.171.157.122:8080/pedido/AdicionarProdutoPedido', {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'

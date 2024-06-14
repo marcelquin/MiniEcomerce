@@ -8,7 +8,7 @@ function Clientegerenciaadm() {
 
     useEffect(() => {
       Axios
-        .get("http://localhost:8080/cliente/ListarClientes")
+        .get("http://34.171.157.122:8080/cliente/ListarClientes")
         .then((response) => { setAPIData(response.data)})
         .catch((err) => {
           console.error("ops! ocorreu um erro" + err);
