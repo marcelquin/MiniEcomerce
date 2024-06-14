@@ -77,7 +77,7 @@ const handleClick=async (e)=>{
                                 <tr>
                                     <td>Nome: <input type="text" name="nome" onChange={handleChanage} /></td>
                                     <td>Descriçao: <input type="text" name="descriacao" onChange={handleChanage} /></td>
-                                    <td><td>Quantidade: <input type="number" name="quantidade" onChange={handleChanage}/></td></td>
+                                    <td>Quantidade: <input type="number" name="quantidade" onChange={handleChanage}/></td>
                                 </tr>
                                 <tr>                
                                     <td>Medida:

@@ -78,9 +78,9 @@ function Fornecedoradm() {
                             <td>Nome: <input type="text" name="nome" id="" onChange={handleChanage}/></td>
                             <td>Razão Social: <input type="text" name="razaoSocial"  onChange={handleChanage}/></td>                                    
                             <td>CNPJ: <input type="text" name="cnpj" placeholder="Digite o CNPJ da empresa"  onChange={handleChanage}/></td>
+                         </tr>
+                         <tr>
                             <td>Inicio de Contrato: <input type="date" name="dataContrato" placeholder="Selecione a data"  onChange={handleChanage}/></td>                         
-                        </tr>
-                        <tr>
                             <td>Área de Atuação<input type="text" name="areaAtuacao" id="" onChange={handleChanage}/> </td>
                         </tr>
                          

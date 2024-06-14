@@ -14,16 +14,16 @@ function Home() {
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
-      }, [APIData]);
+      }, []);
 
-      useEffect(() => {
+      useEffect((APIData) => {
         Axios
           .get("http://localhost:8080/estoque/ListarEstoque")
           .then((response) => { setAPIDataProduto(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
-      }, [APIDataProduto]);
+      }, []);
 
       const [nomecliente, setnomecliente] = useState('');
 
@@ -68,21 +68,7 @@ function Home() {
         }
       }
 
-      async function FinalizarPedido(e){
-        try{
-          fetch('http://localhost:8080/pedido/FinalizarPedido', {
-            method: 'PUT',
-            headers:{
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },    
-            body: new URLSearchParams({
-                'codigoPedido': codigoPedido
-        })})
-          setcodigoPedido('');
-        }catch (err){
-          console.log("erro")
-        }
-      }
+      
 
     return (
         <>
@@ -116,7 +102,6 @@ function Home() {
                         </tr>
                         <tr>
                             <td><input type="submit" value="Adicionar" className="btn" onClick={AdicionarProduto} /></td>
-                            <td><input type="submit" value="Finalizar" className="btn" onClick={FinalizarPedido} /></td>
                         </tr>
                     </table>
                     </div>
@@ -129,7 +114,8 @@ function Home() {
                               <tr>
                                 <td>Produto</td>
                                 <td>Código</td>
-                                <td>valor</td>
+                                <td>Valor</td>
+                                <td>Estoque</td>
                               </tr>
                               {APIDataProduto.map((data, i) =>{
                         return(
@@ -138,6 +124,7 @@ function Home() {
                                 <td>{data.nome}</td>
                                 <td>{data.codigo}</td>
                                 <td>{data.valorFront}</td>
+                                <td>{data.quantidade} unidades</td>
                             </tr>
                             </>
                         )

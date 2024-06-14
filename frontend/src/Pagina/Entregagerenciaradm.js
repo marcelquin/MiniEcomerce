@@ -3,12 +3,12 @@ import '../Style/Conteudo.css';
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-function Pedidogerenciaadm() {
+function Entregagerenciaadm() {
 
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://localhost:8080/pedido/ListarPedidos")
+          .get("http://localhost:8080/entrega/ListarEntregas")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -28,29 +28,23 @@ function Pedidogerenciaadm() {
                             <table>
                                 <tr>
                                 <td>CLiente</td>
-                                <td>Código</td>
-                                <td>Valor</td>
-                                <td>Data do pedido</td>
-                                <td>Status</td>
-                                <td>Forma de Pagamento</td>
-                                <td>Parcelas</td>
-                                <td>Data de Pagamento</td>
-                                <td>Itens</td>
+                                <td>Endereço</td>
+                                <td>Telefone para Contato</td>
+                                <td>Status da entrega</td>
+                                <td>Data entrega</td>
+                                <td>Itens do pedido</td>
                                 </tr>
                                 {APIData.map((data, i) => {
                                     return (
                                     <>
                                         <tr key={i}>
                                         
-                                            <td>{data.cliente.nome}</td>
-                                            <td>{data.codigo}</td>
-                                            <td>{data.valorTotalFront}</td>
-                                            <td>{data.dataPedido}</td>
-                                            <td>{data.status}</td>
-                                            <td>{data.pagamento.formaPagamento}</td>
-                                            <td>{data.pagamento.parcelas}</td>
-                                            <td>{data.pagamento.dataPagamento}</td>
-                                            <td>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome} </>)})}</td>
+                                            <td>{data.nomeCliente}</td>
+                                            <td>{data.enderecoEntrega}</td>
+                                            <td>{data.telefoneContato}</td>
+                                            <td>{data.statusEntrega}</td>
+                                            <td>{data.dataEntrega}</td>
+                                            <td>{data.produtos}</td>
 
                                         </tr>
 
@@ -65,4 +59,4 @@ function Pedidogerenciaadm() {
     );
 }
 
-export default Pedidogerenciaadm;
+export default Entregagerenciaadm;

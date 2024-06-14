@@ -2,6 +2,8 @@ package App.Controller;
 
 import App.DTO.PedidoDTO;
 import App.Entity.PedidoEntity;
+import App.Enum.FORMAPAGAMENTO;
+import App.Enum.TIPOCOMPRA;
 import App.Service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +27,7 @@ public class PedidoController {
     public PedidoController(PedidoService service) {
         this.service = service;
     }
-    /*
+
     @Operation(summary = "Lista Registros da tabela", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -83,7 +85,21 @@ public class PedidoController {
                                                             @RequestParam Double quantidade)
     { return service.AdicionarProdutoPedido(codigoPedido, codigoProduto, quantidade);}
 
+    @Operation(summary = "Edita Registro na tabela", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @PutMapping("/FinalizarPedido")
+    public ResponseEntity<PedidoDTO> FinalizarPedido(@RequestParam String codigoPedido,
+                                                     @RequestParam FORMAPAGAMENTO formaPagamento,
+                                                     @RequestParam Double parcelas,
+                                                     @RequestParam TIPOCOMPRA tipocompra)
+    { return service.FinalizarPedido(codigoPedido, formaPagamento,parcelas,tipocompra);}
 
+    /*
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -96,16 +112,7 @@ public class PedidoController {
                                                           @RequestParam String nomeCliente)
     { return service.AlterarClientePedido(codigoPedido, nomeCliente);}
 
-    @Operation(summary = "Edita Registro na tabela", method = "PUT")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
-    })
-    @PutMapping("/FinalizarPedido")
-    public ResponseEntity<PedidoDTO> FinalizarPedido(String codigoPedido)
-    { return service.FinalizarPedido(codigoPedido);}
+
 
     @Operation(summary = "Deleta Registro na tabela", method = "DELETE")
     @ApiResponses(value = {

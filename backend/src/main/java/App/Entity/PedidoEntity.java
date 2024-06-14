@@ -1,6 +1,7 @@
 package App.Entity;
 
 import App.Enum.STATUS;
+import App.Enum.TIPOCOMPRA;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class PedidoEntity {
     private String nomeCLiente;
 
     @ManyToOne
+    @JoinColumn(name = "pedidoEntity_clienteEntity_id")
     private ClienteEntity Cliente;
 
     @JoinColumn(unique = true)
@@ -35,8 +37,13 @@ public class PedidoEntity {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataPedido;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime dataPagamento;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamentoEntity_id", referencedColumnName = "id")
+    private PagamentoEntity pagamento;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "entregaoEntity_id", referencedColumnName = "id")
+    private EntregaEntity entrega;
 
     @OneToMany
     private List<ItemPedidoEntity> produtos;
@@ -47,6 +54,9 @@ public class PedidoEntity {
 
     @Enumerated(EnumType.STRING)
     private STATUS status;
+
+    @Enumerated(EnumType.STRING)
+    private TIPOCOMPRA tipocompra;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;

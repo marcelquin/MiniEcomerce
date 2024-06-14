@@ -7,30 +7,88 @@ function Pedido() {
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
         Axios
-          .get("http://localhost:8080/pedido/ListarPedidos")
+          .get("http://localhost:8080/pedido/ListarPedidosAbertos")
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
       }, []);
 
-    const [codigoPedido, setCodigoPedido] = useState([]);
-    
+    const [caixa, setCaixa] = useState({
+        codigo: "",
+        formaPagamento: "",
+        parcelas: "",
+        tipocompra: ""
+  });
 
+      
+    const handleChanage = (e) => {
+      setCaixa(prev=>({...prev,[e.target.name]:e.target.value}));
+    }  
+
+    async function FinalizarPedido(e){
+      try{
+        fetch('http://localhost:8080/pedido/FinalizarPedido', {
+          method: 'PUT',
+          headers:{
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },    
+          body: new URLSearchParams({
+              'codigoPedido': caixa.codigo,
+              'formaPagamento': caixa.formaPagamento,
+              'parcelas': caixa.parcelas,
+              'tipocompra': caixa.tipocompra
+      })})
+      setCaixa({
+        codigo: "",
+        formaPagamento: "",
+        parcelas: "",
+        tipocompra: ""
+    })
+      }catch (err){
+        console.log("erro")
+      }
+    }
 
     return (
-        <div className="blocoConteudo">
-            <div className="pedidoBox">
+          <>
 
-
-              <div className="pedidoBloco">
-                <table>
+              <div className="caixaRorm">
+                  <form>
+                    <tr>
+                      <td>Código:<input type="text" name="codigo" onChange={handleChanage}/></td>   
+                      <td>Forma de pagamento:
+                      <input list="formaPagamento" name="formaPagamento"  placeholder="Selecione a Forma de pagameto" onChange={handleChanage} />
+                                    <datalist id="formaPagamento">
+                                        <option value="DINHEIRO">DINHEIRO</option>
+                                        <option value="PIX">PIX</option>
+                                        <option value="CREDITO">CREDITO</option>
+                                        <option value="DEBITO">DEBITO</option>
+                                    </datalist>
+                      </td> 
+                      <td>Parcelas:<input type="number" name="parcelas" onChange={handleChanage}/></td>   
+                      <td>Tipo Compra<input list="tipocompra" name="tipocompra"  placeholder="Selecione uma opção" onChange={handleChanage} />
+                                    <datalist id="tipocompra">
+                                        <option value="PADRAO">PADRAO</option>
+                                        <option value="ENTREGA">ENTREGA</option>
+                                    </datalist>
+                      </td> 
+                      
+                    </tr>
+                    <tr>
+                    <td><input type="submit" value="Finalizar" className="btn" onClick={FinalizarPedido} /></td>
+                    </tr>
+                  </form>
+              </div>
+              <div className="caixaRetorno">
+              <table>
                   <tr>
                     <td>CLiente</td>
                     <td>Código</td>
                     <td>Valor</td>
-                    <td>Data</td>
+                    <td>Data do pedido</td>
                     <td>Status</td>
+                    <td>Itens</td>
                   </tr>
                   {APIData.map((data, i) => {
                         return (
@@ -42,26 +100,15 @@ function Pedido() {
                                 <td>{data.valorTotalFront}</td>
                                 <td>{data.dataPedido}</td>
                                 <td>{data.status}</td>
+                                <td>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome}</>)})}</td>
                             </tr>
 
                         </>
                         )})}
                 </table>
               </div>
-              <div className="pedidoFrame">
-              <form>
-                    <tr>
-                      <td>Código:</td>
-                      <td><input type="text" name="nomeCliente" value={codigoPedido} onChange={(e)=> setCodigoPedido(e.target.value)}/></td>   
-                      <td><input type="submit" value="Buscar" className="btn"  /></td>
-                    </tr>
-                  </form>
-
-                     
-              </div>
-                
-            </div>
-        </div>    
+   
+              </>
     );
 }
 

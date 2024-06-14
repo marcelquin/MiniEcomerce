@@ -122,6 +122,7 @@ public class ClienteService {
                 Double porcentagem = (double) 30 /100;
                 Double scorevalor = salarioLiquido * porcentagem;
                 score.setScore(scorevalor);
+                score.setTimeStamp(LocalDateTime.now());
                 score.setScoreFront(NumberFormat.getCurrencyInstance(localBrasil).format(score.getScore()));
                 System.out.println("Score valor:" +scorevalor );
                 System.out.println("Score valor editado:" +score.getScoreFront());

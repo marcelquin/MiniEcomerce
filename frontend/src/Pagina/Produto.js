@@ -34,7 +34,7 @@ function Produto() {
                                 <td>{data.descricao}</td>
                                 <td>{data.codigo}</td>
                                 <td>{data.valorFront}</td>
-                                <td>{data.quantidade}</td>
+                                <td>{data.quantidade} Unidades</td>
                             </tr>
                             </>
                         )

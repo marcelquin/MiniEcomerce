@@ -122,7 +122,7 @@ form
 
 .homeRetorno
 {
-    width: 70%;
+    width: 80%;
     height: auto;
     margin: 20px;
 }
@@ -168,4 +168,17 @@ form
 a
 {
     color: black;
+}
+
+.caixaRorm
+{
+    height: 100px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.caixaRetorno
+{
+    width: 100%;
+    height: auto; 
 }

@@ -24,7 +24,8 @@ function Navadm() {
             <Link to={"/admprodutogerencia"}><p>Gerenciar Informações</p></Link>   
         </div>
         <div className="navAdmBlock">
-            <Link to={"/admpedidogerencia"}><p>Gerenciar Informações</p></Link>  
+            <Link to={"/admpedidogerencia"}><p>Gerenciar Compras</p></Link>
+            <Link to={"/admentregagerencia"}><p>Gerenciar Entregas</p></Link> 
         </div>
         </>
     )

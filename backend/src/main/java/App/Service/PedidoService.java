@@ -1,18 +1,15 @@
 package App.Service;
 
 import App.DTO.PedidoDTO;
-import App.Entity.ClienteEntity;
-import App.Entity.ItemPedidoEntity;
-import App.Entity.PedidoEntity;
-import App.Entity.ProdutoEntity;
+import App.Entity.*;
+import App.Enum.FORMAPAGAMENTO;
 import App.Enum.STATUS;
+import App.Enum.STATUSENTREGA;
+import App.Enum.TIPOCOMPRA;
 import App.Exceptions.EntityNotFoundException;
 import App.Exceptions.IllegalActionException;
 import App.Exceptions.NullargumentsException;
-import App.Repository.ClienteRepository;
-import App.Repository.ItemPedidoRepository;
-import App.Repository.PedidoRepository;
-import App.Repository.ProdutoRepository;
+import App.Repository.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,14 +28,20 @@ public class PedidoService {
     private final ProdutoRepository produtoRepository;
     private final PedidoRepository pedidoRepository;
     private final ItemPedidoRepository itemPedidoRepository;
-
-    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository) {
+    private final PagamentoRepository pagamentoRepository;
+    private final EstoqueRepository estoqueRepository;
+    private final EntregaRepository entregaRepository;
+    Locale localBrasil = new Locale("pt", "BR");
+    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository, EstoqueRepository estoqueRepository, EntregaRepository entregaRepository) {
         this.clienteRepository = clienteRepository;
         this.produtoRepository = produtoRepository;
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
+        this.pagamentoRepository = pagamentoRepository;
+        this.estoqueRepository = estoqueRepository;
+        this.entregaRepository = entregaRepository;
     }
-    /*
+
     DecimalFormat df= new DecimalFormat("#,####.##");
     public ResponseEntity<List<PedidoEntity>> ListarPedidos()
     {
@@ -52,7 +55,7 @@ public class PedidoService {
         }
         return null;
     }
-    /*
+
     public ResponseEntity<List<PedidoEntity>> ListarPedidosAbertos()
     {
         try
@@ -86,10 +89,9 @@ public class PedidoService {
             List<String> itens = new ArrayList<>();
             for(ItemPedidoEntity item: entity.getProdutos())
             {
-                itens.add(item.getProduto().getNome()+" "+item.getProduto().getQuantidade()+item.getProduto().getMedida());
+                itens.add(item.getProduto().getNome());
             }
-            PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()));
-            return new ResponseEntity<>(response,HttpStatus.CREATED);
+            PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());            return new ResponseEntity<>(response,HttpStatus.CREATED);
         }
         catch (Exception e)
         {
@@ -105,12 +107,11 @@ public class PedidoService {
         {
             if(nomeCliente != null)
             {
+                PedidoEntity entity = new PedidoEntity();
                 ClienteEntity cliente = clienteRepository.findBynome(nomeCliente).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 int dig = (int) (1111 + Math.random() * 9999);
-                Locale localBrasil = new Locale("pt", "BR");
-                PedidoEntity entity = new PedidoEntity();
                 entity.setTimeStamp(LocalDateTime.now());
                 entity.setNomeCLiente(cliente.getNome());
                 entity.setCliente(cliente);
@@ -123,10 +124,9 @@ public class PedidoService {
                 List<String> itens = new ArrayList<>();
                 for(ItemPedidoEntity item: entity.getProdutos())
                 {
-                    itens.add(item.getProduto().getNome()+" "+item.getProduto().getQuantidade()+item.getProduto().getMedida());
+                    itens.add(item.getProduto().getNome());
                 }
-                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()));
-                return new ResponseEntity<>(response,HttpStatus.CREATED);
+                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());                return new ResponseEntity<>(response,HttpStatus.CREATED);
             }
             else
             {throw new NullargumentsException();}
@@ -152,7 +152,7 @@ public class PedidoService {
                 PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                ProdutoEntity produto = produtoRepository.findBycodigo(codigoProduto).orElseThrow(
+                EstoqueEntity produto = estoqueRepository.findBycodigo(codigoProduto).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 Locale localBrasil = new Locale("pt", "BR");
@@ -160,7 +160,6 @@ public class PedidoService {
                 itemPedido.setProduto(produto);
                 itemPedido.setQuantidade(quantidade);
                 itemPedido.setValorItem(produto.getValor() * quantidade);
-                itemPedido.getProduto().setEstoque(itemPedido.getProduto().getEstoque() - quantidade);
                 itemPedido.setTimeStamp(LocalDateTime.now());
                 itemPedidoRepository.save(itemPedido);
                 Double valorItem = itemPedido.getValorItem();
@@ -169,12 +168,15 @@ public class PedidoService {
                 entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()));
                 entity.setTimeStamp(LocalDateTime.now());
                 pedidoRepository.save(entity);
+                produto.setQuantidade(produto.getQuantidade() - quantidade);
+                estoqueRepository.save(produto);
+                System.out.println("adicionou");
                 List<String> itens = new ArrayList<>();
                 for(ItemPedidoEntity item: entity.getProdutos())
                 {
                     itens.add(item.getProduto().getNome());
                 }
-                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()));
+                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
                 return new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
@@ -187,7 +189,69 @@ public class PedidoService {
         return null;
     }
 
+    public ResponseEntity<PedidoDTO> FinalizarPedido(String codigoPedido,
+                                                     FORMAPAGAMENTO formaPagamento,
+                                                     Double parcelas,
+                                                     TIPOCOMPRA tipocompra)
+    {
+        try
+        {
+            if(codigoPedido != null &&
+               formaPagamento != null &&
+               parcelas != null &&
+               tipocompra != null )
+            {
+                if(parcelas < 0){throw new IllegalActionException("O campo não pode ser negativo");}
+                PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                PagamentoEntity pagamento = new PagamentoEntity();
+                pagamento.setFormaPagamento(formaPagamento);
+                pagamento.setParcelas(parcelas);
+                pagamento.setValor(entity.getValorTotal());
+                pagamento.setDataPagamento(LocalDateTime.now());
+                pagamento.setTimeStamp(LocalDateTime.now());
+                pagamentoRepository.save(pagamento);
+                entity.setStatus(STATUS.PAGO);
+                entity.setPagamento(pagamento);
+                entity.setTipocompra(tipocompra);
+                if(tipocompra == TIPOCOMPRA.ENTREGA)
+                {
+                    EntregaEntity entrega = new EntregaEntity();
+                    entrega.setStatusEntrega(STATUSENTREGA.AGUARDANDO);
+                    entrega.setNomeCliente(entity.getNomeCLiente());
+                    entrega.setEnderecoEntrega(entity.getCliente().getEndereco().getLogradouro()+", "+
+                            entity.getCliente().getEndereco().getNumero()+", "+
+                            entity.getCliente().getEndereco().getBairro()+", "+
+                            entity.getCliente().getEndereco().getReferencia()+", "+
+                            entity.getCliente().getEndereco().getCep()+", "+
+                            entity.getCliente().getEndereco().getCidade()+", "+
+                            entity.getCliente().getEndereco().getEstado());
+                    entrega.setTelefoneContato("("+entity.getCliente().getContato().getPrefixo()+") "+entity.getCliente().getContato().getTelefone());
+                    List<String> produtosList = new ArrayList<>();
+                    for(ItemPedidoEntity item : entity.getProdutos())
+                    {
+                        produtosList.add(item.getQuantidade()+"x "+item.getProduto().getNome());
+                    }
+                    entrega.setProdutos(produtosList);
+                    entrega.setTimeStamp(LocalDateTime.now());
+                    entregaRepository.save(entrega);
+                    entity.setEntrega(entrega);
+                }
+                pedidoRepository.save(entity);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
 
+     /*
     public ResponseEntity<PedidoDTO> AlterarClientePedido(String codigoPedido,
                                                           String nomeCliente)
     {
@@ -248,29 +312,7 @@ public class PedidoService {
         return null;
     }
 
-    public ResponseEntity<PedidoDTO> FinalizarPedido(String codigoPedido)
-    {
-        try
-        {
-            if(codigoPedido != null)
-            {
-                PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                entity.setStatus(STATUS.PAGO);
-                entity.setDataPagamento(LocalDateTime.now());
-                pedidoRepository.save(entity);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            else
-            {throw new NullargumentsException();}
-        }
-        catch (Exception e)
-        {
-            e.getMessage();
-        }
-        return null;
-    }
+
 
      */
 }
