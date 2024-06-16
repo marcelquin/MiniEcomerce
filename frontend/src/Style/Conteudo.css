@@ -82,6 +82,7 @@ form
     font-size: 14;
     font-style: italic;
     box-sizing: border-box;
+    text-transform: uppercase;
 }
 
 .formBloco input
@@ -181,4 +182,12 @@ a
 {
     width: 100%;
     height: auto; 
+}
+
+.AdmBlocoTabela
+{
+
+    width: auto;
+    height: auto;
+    scrollbar-width: auto;
 }

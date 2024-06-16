@@ -1,4 +1,4 @@
-import '../Style/Conteudo.css';
+import '../Style/Adm.css';
 import Navadm from '../Componentes/NavAdm';
 
 function HomeAdm() {

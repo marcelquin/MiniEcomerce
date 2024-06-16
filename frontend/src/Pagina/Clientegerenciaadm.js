@@ -22,7 +22,7 @@ function Clientegerenciaadm() {
 
                     <div className="admNav"><Navadm></Navadm></div>
                         <div className="admConteudo">
-                            <div className="boxtabela">
+                            <div className="AdmBlocoTabela">
                             <table>
                                 <tr>
                                     <td>Nome</td>

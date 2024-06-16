@@ -18,6 +18,7 @@ import Entregagerenciaadm from './Pagina/Entregagerenciaradm';
 import './Style/Global.css';
 import {Routes, Route} from 'react-router-dom'
 import Fornecedorgerenciaadm from './Pagina/FornecedorgeremciaAdm';
+import Relaroriogerenciaadm from './Pagina/Relatoriogerenciaradm';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                             <Route path='/admfornecedorgerencia' element={<Fornecedorgerenciaadm/>} />
                             <Route path='/admnotagerencia' element={<Notafiscalgerenciaadm/>} />
                             <Route path='/admentregagerencia' element={<Entregagerenciaadm/>} />
+                            <Route path='/admrelatoriogerencia' element={<Relaroriogerenciaadm/>} />
                   </Routes>        
           </section>
         

@@ -1,0 +1,13 @@
+.retornoTabelaCliente
+{
+    width: 100%;
+    height: auto;
+}
+
+.tabela
+{
+    width: 95%;
+    height: auto;
+    scrollbar-width: auto;
+    margin: 15px;
+}

@@ -1,0 +1,38 @@
+.homeBloco
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.homeForm
+{
+    width: 40%;
+    height: auto;
+    margin: 2.5%;
+}
+
+.homeTabela
+{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+
+.homeRetornoCompras
+{
+
+    width: 45%;
+    height: auto;
+}
+
+.homeRetornoEstoque
+{
+
+    width: 45%;
+    height: auto;
+    margin-left: 2.5%;
+}
+
+

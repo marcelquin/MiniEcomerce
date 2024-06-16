@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import '../Style/Conteudo.css';
+import '../Style/Home.css';
 
 function Home() {
 
@@ -72,12 +72,11 @@ function Home() {
 
     return (
         <>
-        <div className="blocoConteudo">
+              <div className="homeBloco">
 
-                <div className="pedidoBox">
+                  <div className="homeForm">
 
-                    <div className="pedidoFrame">
-                    <h3>Novo Pedido</h3>
+                  <h3>Novo Pedido</h3>
                     <table>
                         <tr>
                             <td><label>Cliente</label></td>
@@ -104,13 +103,38 @@ function Home() {
                             <td><input type="submit" value="Adicionar" className="btn" onClick={AdicionarProduto} /></td>
                         </tr>
                     </table>
+
+                  </div>
+
+                  <div className="homeTabela">
+
+                    <div className="homeRetornoCompras">
+
+                    <table>
+                    <tr>
+                      <td>Cliente</td>
+                      <td>Código</td>
+                      <td>Valor</td>
+                    </tr>
+                    {APIData.map((data, i) => {
+                            return (
+                            <>
+                            <tr>
+                              <td>{data.nomeCLiente}</td>
+                              <td>{data.codigo}</td>
+                              <td>{data.valorTotalFront}</td>
+                            </tr>
+                            </>
+                            )
+                          }
+                        )}
+                  </table>
+
                     </div>
 
+                    <div className="homeRetornoEstoque">
 
-                    <div className="homeBloco">
-
-                        <div className="homeRetorno">
-                            <table>
+                    <table>
                               <tr>
                                 <td>Produto</td>
                                 <td>Código</td>
@@ -130,33 +154,11 @@ function Home() {
                         )
                     })} 
                             </table>
-                        </div>
-
                     </div>
-                </div>
+                  </div>
 
-                <div className="boxtabela">
-                  <table>
-                    <tr>
-                      <td>Cliente</td>
-                      <td>Código</td>
-                      <td>Valor</td>
-                    </tr>
-                    {APIData.map((data, i) => {
-                            return (
-                            <>
-                            <tr>
-                              <td>{data.nomeCLiente}</td>
-                              <td>{data.codigo}</td>
-                              <td>{data.valorTotalFront}</td>
-                            </tr>
-                            </>
-                            )
-                          }
-                        )}
-                  </table>
-                </div>
-        </div>   
+              </div>
+          
         </>
     );
 }

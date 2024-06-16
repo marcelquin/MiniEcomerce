@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import '../Style/Conteudo.css';
+import '../Style/CLiente.css';
 
 function Cliente() {
     //---------------ListGet----------------------
@@ -18,10 +18,12 @@ function Cliente() {
   
     return (
         <>
-          <div className="blocoConteudo">
             
-            <div className="boxtabela">
-                    <table>
+            <div className="retornoTabelaCliente">
+
+                  <div className="tabela">
+
+                  <table>
                          <tr>
                             <td>Nome</td>
                             <td>Data de Nascimento</td>
@@ -45,8 +47,10 @@ function Cliente() {
                             </>
                             )})}
                 </table>
-            </div>
-          </div>     
+
+                  </div>
+                    
+            </div>  
         </>      
     );
 }
