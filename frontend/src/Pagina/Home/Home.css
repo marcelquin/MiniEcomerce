@@ -1,0 +1,56 @@
+.homeCad
+{
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.homeCad input
+{
+    height: 20px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.homeCad .btn
+{
+    height: 20px;
+    width: 65px;
+    font-style: oblique;
+    font-weight: 500;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 900px)
+{
+.homeCad
+{
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.homeCad label
+{
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.homeCad input
+{
+    height: 20px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.homeCad .btn
+{
+    height: 20px;
+    width: 65px;
+    font-style: oblique;
+    font-weight: 500;
+}
+
+.inputretorno
+{
+    width: 60px;
+    height: 20px;
+}
+}

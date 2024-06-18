@@ -1,32 +1,31 @@
-import Header from './Componentes/Header';
-import Nav from './Componentes/Nav';
-import Home from './Pagina/Home';
-import CLiente from './Pagina/Cliente';
-import Pedido from './Pagina/Pedido';
-import Produto from './Pagina/Produto';
-import HomeAdm from './Pagina/HomeAdm';
-import ProdutoAdm from './Pagina/ProdutoAdm';
-import ClienteAdm from './Pagina/ClienteAdm';
-import CLientegerenciaadm from './Pagina/Clientegerenciaadm';
-import Produtogerenciaadm from './Pagina/Produtogerenciaadm';
-import Pedidogerenciaadm from './Pagina/Pedidogerenciaradm';
-import Notafiscaladm from './Pagina/NotaFiscalAdm';
-import Notafiscalgerenciaadm from './Pagina/NotaFiscalgeremciaAdm';
-import Fonecedoradm from './Pagina/FornecedorAdm';
-import FornecedorgrenciaAdm from './Pagina/FornecedorgeremciaAdm';
-import Entregagerenciaadm from './Pagina/Entregagerenciaradm';
+import Header from './Componentes/Header/Header';
+import Nav from './Componentes/Nav/Nav';
+import Home from './Pagina/Home/Home';
+import CLiente from './Pagina/Cliente/Cliente';
+import Pedido from './Pagina/Caixa/Pedido';
+import Produto from './Pagina/Estoque/Produto';
+import HomeAdm from './Pagina/Admin/Home/HomeAdm';
+import ProdutoAdm from './Pagina/Admin/Produto/ProdutoAdm';
+import ClienteAdm from './Pagina/Admin/Cliente/ClienteAdm';
+import CLientegerenciaadm from './Pagina/Admin/Cliente/Clientegerenciaadm';
+import Produtogerenciaadm from './Pagina/Admin/Produto/Produtogerenciaadm';
+import Pedidogerenciaadm from './Pagina/Admin/Compras/Pedidogerenciaradm';
+import Notafiscaladm from './Pagina/Admin/Nota/NotaFiscalAdm';
+import Notafiscalgerenciaadm from './Pagina/Admin/Nota/NotaFiscalgeremciaAdm';
+import Fonecedoradm from './Pagina/Admin/Fornecedor/FornecedorAdm';
+import FornecedorgrenciaAdm from './Pagina/Admin/Fornecedor/FornecedorgeremciaAdm';
+import Entregagerenciaadm from './Pagina/Admin/Entrega/Entregagerenciaradm';
 import './Style/Global.css';
 import {Routes, Route} from 'react-router-dom'
-import Fornecedorgerenciaadm from './Pagina/FornecedorgeremciaAdm';
-import Relaroriogerenciaadm from './Pagina/Relatoriogerenciaradm';
+import Fornecedorgerenciaadm from './Pagina/Admin/Fornecedor/FornecedorgeremciaAdm';
+import Relaroriogerenciaadm from './Pagina/Admin/Relatorio/Relatoriogerenciaradm';
 
 function App() {
   return (
-    <div className="background">
 
         <div className="boxGeral">
           <Header></Header>
-          <section>
+
                   <Routes>
                             <Route path='/' element={<Home />}/>
                             <Route path='/Cliente' element={<CLiente/>} />
@@ -44,13 +43,10 @@ function App() {
                             <Route path='/admnotagerencia' element={<Notafiscalgerenciaadm/>} />
                             <Route path='/admentregagerencia' element={<Entregagerenciaadm/>} />
                             <Route path='/admrelatoriogerencia' element={<Relaroriogerenciaadm/>} />
+                          
                   </Routes>        
-          </section>
-        
+
         </div>
-
-
-    </div>
   );
 }
 

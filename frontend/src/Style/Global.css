@@ -1,14 +1,7 @@
-.background
-{
-    width: 100%;
-    height: auto
-}
-
 .boxGeral
 {
     width: 100%;
     height: auto;
-    margin: 0 auto;
     background-color: #f4f4f2;
     
 }
@@ -17,19 +10,23 @@ section
 {
     width: 100%;
     height: auto;
-
 }
 
-.blocoConteudo
-{
 
-    width: 70%;
-    height: auto;
-}
+@media only screen and (min-width: 320px) and (max-width: 768px)
+{   
+    .boxGeral
+    {
+        width: 100%;
+        height: auto;
+        background-color: #f4f4f2;
+        
+    }
+    
+    section
+    {
+        width: 100%;
+        height: auto;
+    }
 
-.blocoNav
-{
-
-    width: 30%;
-    height: auto;
 }
