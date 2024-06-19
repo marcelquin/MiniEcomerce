@@ -6,7 +6,7 @@ import './Nota.css';
 
 function Notafiscaladm() {
 
-  const baseUrl = "http://34.42.43.30:8080"
+  const baseUrl = "http://34.136.115.180:8080"
   //const baseUrl = "http://localhost:8080"
 
     const navigate = useNavigate();

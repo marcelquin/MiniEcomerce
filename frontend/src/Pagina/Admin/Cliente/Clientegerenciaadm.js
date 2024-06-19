@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 function Clientegerenciaadm() {
     const[APIData, setAPIData]= useState([]);
-    const baseUrl = "http://34.42.43.30:8080"
+    const baseUrl = "http://34.136.115.180:8080"
     //const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
