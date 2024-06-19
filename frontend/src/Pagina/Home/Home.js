@@ -5,16 +5,8 @@ import './Home.css';
 import { Navigate } from 'react-router-dom';
 
 function Home() {
-    /*
-                              <td><input className='inputretorno' type="text" name="codigoProduto" placeholder="Código"  onChange={(e)=> setcodigoProduto(e.target.value)}/></td>
-                              <td><input className="inputretorno"  type="number" name="quantidade"  placeholder="quantidade"  onChange={(e)=> setquantidade(e.target.value)} /> </td>
-                              {quantidade === null ?<td><input type="submit" value="Adicionar" className="btn" onClick={AdicionarProduto(data.id)} disabled /></td>
- :                               <td><input type="submit" value="Adicionar" className="btn" onClick={AdicionarProduto(data.id)} disabled/></td> }
-    */
-    //{ APIData ?  <span>ok</span> : <span>não ok</span> }
-
-    //const baseUrl = "http://34.171.157.122:8080"
-    const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.42.43.30:8080"
+  //const baseUrl = "http://localhost:8080"
 
     const [APIData, setAPIData] = useState([]);
     const [APICliente, setAPICliente] = useState([]);

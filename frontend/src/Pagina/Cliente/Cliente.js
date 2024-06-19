@@ -4,8 +4,8 @@ import Axios from 'axios';
 import './CLiente.css';
 
 function Cliente() {
-    //const baseUrl = "http://34.171.157.122:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.42.43.30:8080"
+    //const baseUrl = "http://localhost:8080"
     //---------------ListGet----------------------
     const[APIData, setAPIData]= useState([]);
 

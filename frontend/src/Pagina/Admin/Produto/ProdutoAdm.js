@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 
 
 function Produtoadm() {
-  //const baseUrl = "http://34.171.157.122:8080"
-    const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.42.43.30:8080"
+  //const baseUrl = "http://localhost:8080"
   const [produtoData, setprodutoData] = useState({
     nome: "",
     descriacao: "",

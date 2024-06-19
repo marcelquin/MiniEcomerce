@@ -5,8 +5,8 @@ import './Fornecedor.css';
 import Axios from 'axios';
 
 function Fornecedorgerenciaadm() {
-    //const baseUrl = "http://34.171.157.122:8080"
-    const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.42.43.30:8080"
+  //const baseUrl = "http://localhost:8080"
     const[APIData, setAPIData]= useState([]);
     const Navigate = useNavigate
     useEffect(() => {

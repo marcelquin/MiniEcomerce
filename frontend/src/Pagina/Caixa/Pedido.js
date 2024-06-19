@@ -3,8 +3,8 @@ import Axios from 'axios';
 import './Caixa.css';
 
 function Pedido() {
-    //const baseUrl = "http://34.171.157.122:8080"
-    const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.42.43.30:8080"
+  //const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const[idput,setidput] = useState('');
     useEffect(() => {
