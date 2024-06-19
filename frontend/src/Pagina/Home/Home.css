@@ -1,7 +1,17 @@
+.blocoHomeCad
+{
+    width: 95%;
+    height: 150px;
+
+    display: flex;
+    margin: 2%;
+}
+
 .homeCad
 {
     margin-bottom: 20px;
     margin-left: 20px;
+
 }
 
 .homeCad input
@@ -19,12 +29,35 @@
     font-weight: 500;
 }
 
+a
+{
+    font-style: italic;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 300px) and (max-width: 900px)
 {
+
+    .blocoHomeCad
+{
+    width: 95%;
+    height: auto;
+    display: flex;
+    margin: 2%;
+}
 .homeCad
 {
     margin-bottom: 20px;
     margin-left: 20px;
+}
+
+.homeCadput
+{
+    margin-bottom: 20px;
+    margin-left: 20px;
+    width: 50%;
+    height: auto;
 }
 
 .homeCad label

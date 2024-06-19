@@ -57,9 +57,9 @@ public class PedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
-    @GetMapping("/BuscarPorCodigo")
-    public ResponseEntity<PedidoDTO> BuscarPedidoPorCodigo(String codigo)
-    { return service.BuscarPedidoPorCodigo(codigo);}
+    @GetMapping("/BuscarPedidoPorId")
+    public ResponseEntity<PedidoDTO> BuscarPedidoPorId(@RequestParam Long id)
+    { return service.BuscarPedidoPorId(id);}
 
     @Operation(summary = "Salva novo Registro na tabela", method = "POST")
     @ApiResponses(value = {
@@ -80,10 +80,10 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/AdicionarProdutoPedido")
-    public ResponseEntity<PedidoDTO> AdicionarProdutoPedido(@RequestParam String codigoPedido,
+    public void AdicionarProdutoPedido(@RequestParam Long id,
                                                             @RequestParam String codigoProduto,
                                                             @RequestParam Double quantidade)
-    { return service.AdicionarProdutoPedido(codigoPedido, codigoProduto, quantidade);}
+    {service.AdicionarProdutoPedido(id, codigoProduto, quantidade);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -93,37 +93,9 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/FinalizarPedido")
-    public ResponseEntity<PedidoDTO> FinalizarPedido(@RequestParam String codigoPedido,
-                                                     @RequestParam FORMAPAGAMENTO formaPagamento,
-                                                     @RequestParam Double parcelas,
-                                                     @RequestParam TIPOCOMPRA tipocompra)
-    { return service.FinalizarPedido(codigoPedido, formaPagamento,parcelas,tipocompra);}
-
-    /*
-    @Operation(summary = "Edita Registro na tabela", method = "PUT")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
-    })
-    @PutMapping("/AlterarClientePedido")
-    public ResponseEntity<PedidoDTO> AlterarClientePedido(@RequestParam String codigoPedido,
-                                                          @RequestParam String nomeCliente)
-    { return service.AlterarClientePedido(codigoPedido, nomeCliente);}
-
-
-
-    @Operation(summary = "Deleta Registro na tabela", method = "DELETE")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
-    })
-    @DeleteMapping("/DeletarPedido")
-    public ResponseEntity<PedidoDTO> DeletarPedido(@RequestParam String codigoPedido)
-    { return service.DeletarPedido(codigoPedido);}
-
-     */
+    public void FinalizarPedido(@RequestParam Long id,
+                                @RequestParam FORMAPAGAMENTO formaPagamento,
+                                @RequestParam Double parcelas,
+                                @RequestParam TIPOCOMPRA tipocompra)
+    { service.FinalizarPedido(id, formaPagamento,parcelas,tipocompra);}
 }

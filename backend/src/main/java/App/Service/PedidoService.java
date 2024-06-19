@@ -79,11 +79,11 @@ public class PedidoService {
         return null;
     }
 
-    public ResponseEntity<PedidoDTO> BuscarPedidoPorCodigo(String codigo)
+    public ResponseEntity<PedidoDTO> BuscarPedidoPorId(Long id)
     {
         try
         {
-            PedidoEntity entity = pedidoRepository.findBycodigo(codigo).orElseThrow(
+            PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                     ()-> new EntityNotFoundException()
             );
             List<String> itens = new ArrayList<>();
@@ -138,18 +138,18 @@ public class PedidoService {
         return null;
     }
 
-    public ResponseEntity<PedidoDTO> AdicionarProdutoPedido(String codigoPedido,
-                                                            String codigoProduto,
-                                                            Double quantidade)
+    public void AdicionarProdutoPedido(Long id,
+                                       String codigoProduto,
+                                       Double quantidade)
     {
         try
         {
-            if(codigoPedido != null &&
+            if(id != null &&
                codigoProduto != null &&
                quantidade != null)
             {
                 if(quantidade < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
+                PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 EstoqueEntity produto = estoqueRepository.findBycodigo(codigoProduto).orElseThrow(
@@ -177,7 +177,6 @@ public class PedidoService {
                     itens.add(item.getProduto().getNome());
                 }
                 PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
-                return new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
             {throw new NullargumentsException();}
@@ -186,23 +185,24 @@ public class PedidoService {
         {
             e.getMessage();
         }
-        return null;
     }
 
-    public ResponseEntity<PedidoDTO> FinalizarPedido(String codigoPedido,
-                                                     FORMAPAGAMENTO formaPagamento,
-                                                     Double parcelas,
-                                                     TIPOCOMPRA tipocompra)
+    public void FinalizarPedido(Long id,
+                                FORMAPAGAMENTO formaPagamento,
+                                Double parcelas,
+                                TIPOCOMPRA tipocompra)
     {
         try
         {
-            if(codigoPedido != null &&
+            if(id != null &&
                formaPagamento != null &&
                parcelas != null &&
                tipocompra != null )
             {
                 if(parcelas < 0){throw new IllegalActionException("O campo não pode ser negativo");}
-                PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
+                if(formaPagamento != FORMAPAGAMENTO.CREDITO && parcelas > 1)
+                {throw new IllegalActionException("Somente compras no crédito podem ser parceladas");}
+                PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 PagamentoEntity pagamento = new PagamentoEntity();
@@ -239,7 +239,7 @@ public class PedidoService {
                     entity.setEntrega(entrega);
                 }
                 pedidoRepository.save(entity);
-                return new ResponseEntity<>(HttpStatus.OK);
+
             }
             else
             {throw new NullargumentsException();}
@@ -248,71 +248,6 @@ public class PedidoService {
         {
             e.getMessage();
         }
-        return null;
     }
 
-     /*
-    public ResponseEntity<PedidoDTO> AlterarClientePedido(String codigoPedido,
-                                                          String nomeCliente)
-    {
-        try
-        {
-            if(codigoPedido != null && nomeCliente != null)
-            {
-                PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                ClienteEntity cliente = clienteRepository.findBynome(nomeCliente).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                entity.setCliente(cliente);
-                entity.setTimeStamp(LocalDateTime.now());
-                pedidoRepository.save(entity);
-                List<String> itens = new ArrayList<>();
-                for(ItemPedidoEntity item: entity.getProdutos())
-                {
-                    itens.add(item.getProduto().getNome());
-                }
-                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()));
-                return new ResponseEntity<>(response,HttpStatus.OK);
-            }
-            else
-            {throw new NullargumentsException();}
-        }
-        catch (Exception e)
-        {
-            e.getMessage();
-        }
-        return null;
-    }
-
-    public ResponseEntity<PedidoDTO> DeletarPedido(String codigoPedido)
-    {
-        try
-        {
-            if(codigoPedido != null)
-            {
-                PedidoEntity entity = pedidoRepository.findBycodigo(codigoPedido).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                for(ItemPedidoEntity item : entity.getProdutos())
-                {
-                    itemPedidoRepository.deleteById(item.getId());
-                }
-                pedidoRepository.deleteById(entity.getId());
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            else
-            {throw new NullargumentsException();}
-        }
-        catch (Exception e)
-        {
-            e.getMessage();
-        }
-        return null;
-    }
-
-
-
-     */
 }

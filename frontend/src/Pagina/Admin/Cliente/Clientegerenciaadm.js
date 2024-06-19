@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react';
 
 function Clientegerenciaadm() {
     const[APIData, setAPIData]= useState([]);
-    const baseUrl = "http://34.171.157.122:8080"
+    //const baseUrl = "http://34.171.157.122:8080"
+    const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
         .get(`${baseUrl}/cliente/ListarClientes`)

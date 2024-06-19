@@ -3,11 +3,13 @@ import Axios from 'axios';
 import './Caixa.css';
 
 function Pedido() {
-    const baseUrl = "http://34.171.157.122:8080"
+    //const baseUrl = "http://34.171.157.122:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
+    const[idput,setidput] = useState('');
     useEffect(() => {
         Axios
-          .get("http://34.171.157.122:8080/pedido/ListarPedidosAbertos")
+          .get(`${baseUrl}/pedido/ListarPedidosAbertos`)
           .then((response) => { setAPIData(response.data)})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
@@ -15,7 +17,6 @@ function Pedido() {
       }, []);
 
     const [caixa, setCaixa] = useState({
-        codigo: "",
         formaPagamento: "",
         parcelas: "",
         tipocompra: ""
@@ -34,17 +35,17 @@ function Pedido() {
             'Content-Type': 'application/x-www-form-urlencoded'
           },    
           body: new URLSearchParams({
-              'codigoPedido': caixa.codigo,
+              'id': idput,
               'formaPagamento': caixa.formaPagamento,
               'parcelas': caixa.parcelas,
               'tipocompra': caixa.tipocompra
       })})
       setCaixa({
-        codigo: "",
         formaPagamento: "",
         parcelas: "",
         tipocompra: ""
     })
+    setidput('');
       }catch (err){
         console.log("erro")
       }
@@ -55,7 +56,6 @@ function Pedido() {
             <div className="caixaform">
               <table>
                 <tr>
-                  <td><label>Código: <br/><input type="text" name="codigo" onChange={handleChanage}/></label></td>   
                   <td><label>Forma de pagamento: <br/>
                       <input list="formaPagamento" name="formaPagamento"  placeholder="Selecione a Forma de pagameto" onChange={handleChanage} /></label>
                                     <datalist id="formaPagamento">
@@ -65,8 +65,6 @@ function Pedido() {
                                         <option value="DEBITO">DEBITO</option>
                                     </datalist>
                   </td>
-                </tr>
-                <tr>
                   <td><label>Parcelas: <br/><input type="number" name="parcelas" onChange={handleChanage}/></label></td>   
                   <td><label>Tipo Compra:<br/><input list="tipocompra" name="tipocompra"  placeholder="Selecione uma opção" onChange={handleChanage} /></label>
                                     <datalist id="tipocompra">
@@ -85,25 +83,24 @@ function Pedido() {
             <div className="caixaretornotabela">
               <table>
                   <tr>
+                    <td>Selecionar</td>
                     <td>CLiente</td>
                     <td>Código</td>
                     <td>Valor</td>
                     <td>Data do pedido</td>
                     <td>Status</td>
-                    <td>Itens</td>
                   </tr>
                   {APIData.map((data, i) => {
                         return (
                         <>
                             <tr key={i}>
+                                <td><input type="checkbox" value={data.id} onClick={(e) => {setidput(data.id)}}/></td>
                                 <td>{data.nomeCLiente}</td>
                                 <td>{data.codigo}</td>
                                 <td>{data.valorTotalFront}</td>
                                 <td>{data.dataPedido}</td>
                                 <td>{data.status}</td>
-                                <td>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome}</>)})}</td>
                             </tr>
-
                         </>
                         )})}
               </table>

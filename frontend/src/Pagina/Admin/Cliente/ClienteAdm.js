@@ -5,7 +5,8 @@ import './Cliente.css';
 
 
 function CLieteadm() {
-    const baseUrl = "http://34.171.157.122:8080"
+    //const baseUrl = "http://34.171.157.122:8080"
+    const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const [clienteData, setclienteData] = useState({
         nome: "",

@@ -4,7 +4,8 @@ import Axios from 'axios';
 import './CLiente.css';
 
 function Cliente() {
-    const baseUrl = "http://34.171.157.122:8080"
+    //const baseUrl = "http://34.171.157.122:8080"
+    const baseUrl = "http://localhost:8080"
     //---------------ListGet----------------------
     const[APIData, setAPIData]= useState([]);
 
@@ -24,7 +25,6 @@ function Cliente() {
                   <table>
                          <tr>
                             <td>Nome</td>
-                            <td>Data de Nascimento</td>
                             <td>Endereço</td>
                             <td>Telefone</td>
                             <td>E-Mail</td>
@@ -36,7 +36,6 @@ function Cliente() {
                             <>
                                 <tr>
                                     <td><label>{data.nome} {data.sobrenome}</label> </td>
-                                    <td><label>{data.dataNascimento}</label></td>
                                     <td><label>{data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado} </label></td>
                                     <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
                                     <td><label>{data.contato.email}</label></td>
