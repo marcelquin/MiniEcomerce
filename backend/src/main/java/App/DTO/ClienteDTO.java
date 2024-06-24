@@ -8,11 +8,7 @@ public record ClienteDTO(
         Long cpf,
         String endereco,
         String telefone,
-        String email,
-        String profissao,
-        Double salarioBruto,
-        Double salarioLiquido
-
+        String email
 ) {
 
 }

@@ -2,14 +2,14 @@ package App.Service;
 
 import App.DTO.ProdutoDTO;
 import App.Entity.EstoqueEntity;
-import App.Entity.NotaFiscalEntity;
+import App.Entity.FornecedorEntity;
 import App.Entity.ProdutoEntity;
 import App.Enum.MEDIDA;
 import App.Exceptions.EntityNotFoundException;
 import App.Exceptions.IllegalActionException;
 import App.Exceptions.NullargumentsException;
 import App.Repository.EstoqueRepository;
-import App.Repository.NotaFiscalRepository;
+import App.Repository.FornecedorRepository;
 import App.Repository.ProdutoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +26,11 @@ import java.util.Locale;
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final EstoqueRepository estoqueRepository;
-    private final NotaFiscalRepository notaFiscalRepository;
-    public ProdutoService(ProdutoRepository produtoRepository, EstoqueRepository estoqueRepository, NotaFiscalRepository notaFiscalRepository) {
+    private final FornecedorRepository fornecedorRepository;
+    public ProdutoService(ProdutoRepository produtoRepository, EstoqueRepository estoqueRepository, FornecedorRepository fornecedorRepository) {
         this.produtoRepository = produtoRepository;
         this.estoqueRepository = estoqueRepository;
-        this.notaFiscalRepository = notaFiscalRepository;
+        this.fornecedorRepository = fornecedorRepository;
     }
 
 
@@ -50,17 +50,37 @@ public class ProdutoService {
         return null;
     }
 
+    public ResponseEntity<ProdutoDTO> BuscarProdutoPorId(Long id)
+    {
+        try
+        {
+            if(id != null)
+            {
+                ProdutoEntity entity = produtoRepository.findById(id).orElseThrow(
+                        () -> new EntityNotFoundException()
+                );
+                ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
+                        entity.getDescricao(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada());
+                return  new ResponseEntity<>(response,HttpStatus.OK);
+            }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
     public ResponseEntity<ProdutoDTO> NovoProduto(String nome,
                                                   String descriacao,
                                                   int quantidade,
                                                   MEDIDA medida,
                                                   Double estoque,
-                                                  String xml,
-                                                  Double valorEmNota,
-                                                  Double impostoAplicado,
-                                                  Double porcentagemLucro,
-                                                  Double valorFrete,
-                                                  Double valorCusto)
+                                                  Long fornecedorId,
+                                                  Double valor,
+                                                  Double porcentagemLucro)
     {
         try
         {
@@ -69,33 +89,19 @@ public class ProdutoService {
                quantidade > 0 &&
                medida != null &&
                estoque != null &&
-               valorEmNota != null &&
-               impostoAplicado != null &&
-               porcentagemLucro != null &&
-               valorFrete != null &&
-               valorCusto != null &&
-               xml != null)
+               valor != null &&
+               fornecedorId != null &&
+               porcentagemLucro != null )
                 {
                     if(estoque < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                    if(valorCusto < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                    if(valorFrete < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
-                    if(valorEmNota < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
+                    if(valor < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
+                    if(porcentagemLucro < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
 
                     int dig = (int) (1111 + Math.random() * 9999);
                     int digestoque1 = (int) (1111 + Math.random() * 9999);
                     int digestoque2 = (int) (111 + Math.random() * 999);
                         String codigo = "P_"+dig;
-                        Double valorParcial = 0.0;
-                        Double valorTotal = 0.0;
-                        Double valorUnitario = 0.0;
-                        Double imposto = impostoAplicado /100;
-                        Double lucro = porcentagemLucro /100;
-
-                        valorParcial = (valorEmNota * imposto) + valorEmNota;
-                        valorTotal = valorParcial + valorCusto + valorFrete;
-                        valorTotal = (valorTotal * lucro) + valorTotal;
-                        valorUnitario = valorTotal / estoque;
-
+                        Double porcentagem = porcentagemLucro /100;
                         ProdutoEntity entity = new ProdutoEntity();
 
                         entity.setNome(nome+" "+quantidade+medida);
@@ -103,10 +109,8 @@ public class ProdutoService {
                         entity.setMedida(medida);
                         entity.setCodigo(codigo);
                         entity.setQuantidade(quantidade);
-                        entity.setValor(valorUnitario);
-                        entity.setValorTotalEstoque(entity.getValor()*estoque);
+                        entity.setValor((valor * porcentagem)+ valor);
                         entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValor()));
-                        entity.setValorTotalEstoqueFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotalEstoque()));
                         entity.setDataEntrada(LocalDate.now());
                         entity.setTimeStamp(LocalDateTime.now());
                         EstoqueEntity estoqueEntity = new EstoqueEntity();
@@ -116,15 +120,16 @@ public class ProdutoService {
                         estoqueEntity.setQuantidade(estoque);
                         estoqueEntity.setValor(entity.getValor());
                         estoqueEntity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(estoqueEntity.getValor()));
+                        estoqueEntity.setValorTotalEstoque(entity.getValor()*estoque);
+                        estoqueEntity.setValorTotalEstoqueFront(NumberFormat.getCurrencyInstance(localBrasil).format(estoqueEntity.getValorTotalEstoque()));
                         estoqueEntity.setTimeStamp(LocalDateTime.now());
                         estoqueRepository.save(estoqueEntity);
                         entity.setEstoque(estoqueEntity);
                         produtoRepository.save(entity);
-                        NotaFiscalEntity notaFiscal = notaFiscalRepository.findByxml(xml).orElseThrow(
+                         FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId).orElseThrow(
                                 () -> new EntityNotFoundException()
                         );
-                        notaFiscal.getProdutos().add(entity);
-                        notaFiscalRepository.save(notaFiscal);
+                        entity.setFornecedor(fornecedor);
                         ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
                                 entity.getDescricao(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada());
                         return  new ResponseEntity<>(response,HttpStatus.CREATED);
@@ -138,30 +143,59 @@ public class ProdutoService {
         }
         return null;
     }
-    /*
-    public ResponseEntity<ProdutoDTO> EditarInformacoesProduto(String nome,
-                                                               String descriacao,
-                                                               int quantidade,
-                                                               MEDIDA medida)
+
+    public ResponseEntity<ProdutoDTO> EditarProduto(Long id,
+                                                    String nome,
+                                                    String descriacao,
+                                                    int quantidade,
+                                                    MEDIDA medida,
+                                                    Double estoque,
+                                                    Long fornecedorId,
+                                                    Double valor,
+                                                    Double porcentagemLucro)
     {
         try
         {
-            if(nome != null &&
-               descriacao != null &&
+            if(id != null &&
+               nome != null && descriacao != null &&
                quantidade > 0 &&
-                medida != null)
+               medida != null &&
+               estoque != null &&
+               valor != null &&
+               fornecedorId != null &&
+               porcentagemLucro != null )
             {
                 ProdutoEntity entity = produtoRepository.findBynome(nome).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-
+                Double porcentagem = porcentagemLucro /100;
                 entity.setDescricao(descriacao);
                 entity.setQuantidade(quantidade);
                 entity.setMedida(medida);
                 entity.setNome(nome+" "+entity.getQuantidade()+entity.getMedida());
+                FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                entity.setFornecedor(fornecedor);
+                entity.setValor((valor * porcentagem)+ valor);
+                entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValor()));
                 entity.setTimeStamp(LocalDateTime.now());
+                produtoRepository.save(entity);
+                EstoqueEntity estoqueEntity = estoqueRepository.findById(entity.getEstoque().getId()).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                estoqueEntity.setNome(entity.getNome());
+                estoqueEntity.setDescricao(entity.getDescricao());
+                estoqueEntity.setQuantidade(estoque);
+                estoqueEntity.setValor(entity.getValor());
+                estoqueEntity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(estoqueEntity.getValor()));
+                estoqueEntity.setValorTotalEstoque(entity.getValor()*estoque);
+                estoqueEntity.setValorTotalEstoqueFront(NumberFormat.getCurrencyInstance(localBrasil).format(estoqueEntity.getValorTotalEstoque()));
+                estoqueEntity.setTimeStamp(LocalDateTime.now());
+                estoqueRepository.save(estoqueEntity);
+
                 ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                        entity.getDescricao(), entity.getCodigo(), entity.getEstoque(), df.format(entity.getValor()),entity.getDataEntrada());
+                        entity.getDescricao(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada());
                 return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
@@ -173,7 +207,7 @@ public class ProdutoService {
         }
         return null;
     }
-
+    /*
     public ResponseEntity<ProdutoDTO> AdicionarEstoqueProduto(String codigo,
                                                               Double valorProduto,
                                                                Double estoque)

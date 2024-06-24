@@ -37,6 +37,9 @@ public class ClienteController {
     public ResponseEntity<List<ClienteEntity>> ListarClientes()
     { return service.ListarClientes();}
 
+    public ResponseEntity<ClienteDTO> BuscarClienteporid(@RequestParam Long id)
+    { return service.BuscarClienteporid(id);}
+
     @Operation(summary = "Salva novo Registro na tabela", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -58,13 +61,10 @@ public class ClienteController {
                                                   @RequestParam String estado,
                                                   @RequestParam Long prefixo,
                                                   @RequestParam Long telefone,
-                                                  @RequestParam String email,
-                                                  @RequestParam String profissao,
-                                                  @RequestParam Double salarioBruto,
-                                                  @RequestParam Double salarioLiquido)
-    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email,profissao,salarioBruto,salarioLiquido);}
+                                                  @RequestParam String email)
+    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
 
-    /*
+
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -100,6 +100,6 @@ public class ClienteController {
     @DeleteMapping("/DeletarCliente")
     public ResponseEntity<ClienteDTO> DeletarCliente(@RequestParam Long id)
     { return service.DeletarCliente(id);}
-    */
+
 
 }

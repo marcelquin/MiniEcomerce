@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Cliente.css';
 import Axios from 'axios';
@@ -5,8 +6,10 @@ import React, { useState, useEffect } from 'react';
 
 function Clientegerenciaadm() {
     const[APIData, setAPIData]= useState([]);
-    const baseUrl = "http://34.136.115.180:8080"
-    //const baseUrl = "http://localhost:8080"
+    const[dadoPesquisa, setdadoPesquisa] = useState('')
+    
+    //const baseUrl = "http://34.136.115.180:8080"
+    const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
         .get(`${baseUrl}/cliente/ListarClientes`)
@@ -16,47 +19,77 @@ function Clientegerenciaadm() {
         });
     }, []);
 
+    const pesquisa = dadoPesquisa.length > 0 ?
+    APIData.filter(dados => dados.nome.includes(dadoPesquisa)) :
+    [];
+
     return(
     <>
 
              <div className="admBox">
 
-                    <div className="admNav"><Navadm></Navadm></div>
-                        <div className="admConteudo">
-                            <div className="AdmBlocoTabela">
-                            <table>
-                                <tr>
-                                    <td>Nome</td>
-                                    <td>CPF</td>
-                                    <td>Data de Nascimento</td>
-                                    <td>Endereço</td>
-                                    <td>Telefone</td>
-                                    <td>E-Mail</td>
-                                    <td>Profissão</td>
-                                    <td>Salário Bruto</td>
-                                    <td>Salário Liquido</td>
-                                    <td>Score</td>
-                                </tr>            
-                            
-                                {APIData.map((data, i) => {
-                                            return (
-                                            <>
-                                                <tr>
-                                                    <td><label>{data.nome} {data.sobrenome}</label> </td>
-                                                    <td><label>{data.cpf}</label></td>
-                                                    <td><label>{data.dataNascimento}</label></td>
-                                                    <td><label>{data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado} </label></td>
-                                                    <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
-                                                    <td><label>{data.contato.email}</label></td>
-                                                    <td><label>{data.profissao}</label></td>
-                                                    <td><label>{data.score.salarioBrutoFront}</label></td>
-                                                    <td><label>{data.score.salarioLiquidoFront}</label></td>
-                                                    <td><label>{data.score.scoreFront}</label></td>        
-                                                </tr>
-                                            </>
-                                            )})}
-                            </table>
+                <div className="admNav"><Navadm></Navadm></div>
+                    <div className="admConteudo">
+                    <div className="campoPesquisa">
+                        <label>Nome:<br/>
+                        <input type="text" onChange={e=> setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
+                        </label>
+                    </div>
+
+                    {dadoPesquisa.length >0 ?(<>
+                      {pesquisa.map((data, i) => {
+                        return (
+                          <>
+                          <div className="blocoinfo" key={i}>
+                            <details>
+                                <summary>{data.nome}</summary>
+                                <p>Dados pessoais:</p>
+                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
+                                <span>Data de nascimento: {data.dataNascimento}</span><br/>
+                                <span>CPF: {data.cpf}</span><br/>
+                                <p>Endereço e contato</p>
+                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                <span>Email: {data.contato.email}</span><br/>
+                                
+                                <table>
+                                  <tr>
+                                    <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
+                                    <td><a>Excluir</a></td>
+                                  </tr>
+                                </table>
+                            </details>
                         </div>
+                        </>
+                        )})}
+                    </>) : (<>
+                      {APIData.map((data, i) => {
+                        return (
+                          <>
+                          <div className="blocoinfo" key={i}>
+                            <details>
+                                <summary>{data.nome}</summary>
+                                <p>Dados pessoais:</p>
+                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
+                                <span>Data de nascimento: {data.dataNascimento}</span><br/>
+                                <span>CPF: {data.cpf}</span><br/>
+                                <p>Endereço e contato</p>
+                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                <span>Email: {data.contato.email}</span><br/>
+                                <table>
+                                  <tr>
+                                    <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
+                                    <td><a>Excluir</a></td>
+                                  </tr>
+                                </table>
+                            </details>
+                        </div>
+                        </>
+                        )})}
+                    </>)}
+
+                    
                     </div>
                 </div> 
     </>

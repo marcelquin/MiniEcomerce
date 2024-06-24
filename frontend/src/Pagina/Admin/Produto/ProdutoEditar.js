@@ -1,15 +1,17 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Produto.css';
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { useNavigate } from "react-router-dom";
 
+function ProdutoEditar() {
 
-function Produtoadm() {
+  const {id} = useParams()
   //const baseUrl = "http://34.136.115.180:8080"
   const baseUrl = "http://localhost:8080"
+  const[fornecedorData, setfornecedorData] = useState([])
   const navigate = useNavigate();
-  const [fornecedorData, setfornecedorData] = useState([])
   const [produtoData, setprodutoData] = useState({
     nome: "",
     descriacao: "",
@@ -19,16 +21,22 @@ function Produtoadm() {
     valor: "",
     porcentagemLucro: ""
 });
-const [idFornecedor, setidFornecedor] = useState('')
- 
-useEffect(() => {
-  Axios
-    .get(`${baseUrl}/fornecedor/ListarFornecedor`)
-    .then((response) => { setfornecedorData(response.data)})
-    .catch((err) => {
-      console.error("ops! ocorreu um erro" + err);
-    });
-}, []);
+const[idFornecedor,setidFornecedor] = useState('')
+
+useEffect(()=>{
+  fetch(`${baseUrl}/cliente/BuscarProdutoporid?id=${id}`,
+      {
+          method:'GET',
+          headers:{
+              'content-type': 'application/json',
+          },
+      })
+      .then((resp)=> resp.json())
+      .then((data)=> {
+          setprodutoData(data)
+      })
+      .catch(err => console.log(err))
+}, [id])
 
 const handleChanage = (e) => {
   setprodutoData(prev=>({...prev,[e.target.name]:e.target.value}));
@@ -37,12 +45,13 @@ const handleChanage = (e) => {
 
 const handleClick=async (e)=>{
   try{
-    fetch(`${baseUrl}/produto/NovoProduto`, {
-      method: 'POST',
+    fetch(`${baseUrl}/produto/EditarProduto`, {
+      method: 'PUT',
       headers:{
         'Content-Type': 'application/x-www-form-urlencoded'
       },    
       body: new URLSearchParams({
+          'id': id,
           'nome': produtoData.nome,
           'descriacao': produtoData.descriacao,
           'quantidade': produtoData.quantidade,
@@ -50,9 +59,9 @@ const handleClick=async (e)=>{
           'estoque': produtoData.estoque,
           'fornecedorId': idFornecedor,
           'valor': produtoData.valor,
-          'porcentagemLucro': produtoData.porcentagemLucro,
+          'porcentagemLucro': produtoData.porcentagemLucro
   })})
-  .then(navigate("/adm"))  
+  .then(navigate("/admprodutogerencia"))  
   setprodutoData({
     nome: "",
     descriacao: "",
@@ -66,7 +75,14 @@ const handleClick=async (e)=>{
     console.log("erro")
   }
 }
-
+useEffect(() => {
+  Axios
+    .get(`${baseUrl}/fornecedor/ListarFornecedor`)
+    .then((response) => { setfornecedorData(response.data)})
+    .catch((err) => {
+      console.error("ops! ocorreu um erro" + err);
+    });
+}, []);
     return(
     <>
 
@@ -75,7 +91,7 @@ const handleClick=async (e)=>{
                     <div className="admNav"><Navadm></Navadm></div>
                     <div className="admConteudo">
 
-                        <div className="formBloco">
+                    <div className="formBloco">
                             <h3>Dados do Produto</h3>
                             <form>
                                 <table>
@@ -128,7 +144,6 @@ const handleClick=async (e)=>{
                             </form>
                     </div>
 
-
                     </div>
                 </div>
 
@@ -136,4 +151,4 @@ const handleClick=async (e)=>{
     );
 }
 
-export default Produtoadm;
+export default ProdutoEditar;

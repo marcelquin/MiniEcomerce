@@ -69,8 +69,8 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PostMapping("/NovoPedido")
-    public ResponseEntity<PedidoDTO> NovoPedido(@RequestParam String nomeCliente)
-    { return service.NovoPedido(nomeCliente);}
+    public ResponseEntity<PedidoDTO> NovoPedido(@RequestParam Long idCliente)
+    { return service.NovoPedido(idCliente);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -81,9 +81,9 @@ public class PedidoController {
     })
     @PutMapping("/AdicionarProdutoPedido")
     public void AdicionarProdutoPedido(@RequestParam Long id,
-                                                            @RequestParam String codigoProduto,
-                                                            @RequestParam Double quantidade)
-    {service.AdicionarProdutoPedido(id, codigoProduto, quantidade);}
+                                       @RequestParam Long idProduto,
+                                       @RequestParam Double quantidade)
+    {service.AdicionarProdutoPedido(id, idProduto, quantidade);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {

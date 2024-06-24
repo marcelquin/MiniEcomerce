@@ -5,10 +5,14 @@ import './Fornecedor.css';
 import Axios from 'axios';
 
 function Fornecedorgerenciaadm() {
-  const baseUrl = "http://34.136.115.180:8080"
-  //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.136.115.180:8080"
+  const baseUrl = "http://localhost:8080"
     const[APIData, setAPIData]= useState([]);
-    const Navigate = useNavigate
+    const[dadoPesquisa, setdadoPesquisa] = useState('')
+    const pesquisa = dadoPesquisa.length > 0 ?
+    APIData.filter(dados => dados.razaoSocial.includes(dadoPesquisa)) :
+    []
+
     useEffect(() => {
       Axios
         .get(`${baseUrl}/fornecedor/ListarFornecedor`)
@@ -19,48 +23,78 @@ function Fornecedorgerenciaadm() {
     }, []);
 
 
+    
     return(
         <>
         <div className="admBox">
 
             <div className="admNav"><Navadm></Navadm></div>
             <div className="admConteudo">
-
-               <table>
-
-                 <tr>
-                       
-                    <td>Nome</td>
-                    <td>Razão Social</td>
-                    <td>CNPJ</td>
-                    <td>Área de atuação</td>
-                    <td>Inicio de Contrato</td>
-                    <td>CEP</td>
-                    <td>Cidade</td>
-                    <td>Estado</td>
-                    <td>Telefone</td>
-                    <td>E-mail</td>
-
-                 </tr>
-                    {APIData.map((data, i) => {
-                     return (
-                         <>
-                           <tr key={i}>
-                           <td><label>{data.nome}</label> </td>
-                           <td><label>{data.razaoSocial}</label></td>
-                           <td><label>{data.cnpj}</label></td>
-                           <td><label>{data.areaAtuacao}</label></td>
-                           <td><label>{data.dataInicioContrato}</label></td>
-                           <td><label>{data.cep}</label></td>
-                           <td><label>{data.cidade}</label></td>
-                           <td><label>{data.estado}</label></td>
-                           <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
-                           <td><label>{data.contato.email}</label></td>
-                          
-                    </tr>
-                         </>
-                        )})}
-                </table>
+                    <div className="campoPesquisa">
+                        <label>Razão Social:<br/>
+                        <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
+                        </label>
+                    </div>
+                    {dadoPesquisa.length > 0 ? (<>
+                      {pesquisa.map((data, i) => {
+                        return (
+                            <>
+   
+                            <div className="blocoinfo" key={i}>
+                               <details>
+                                   <summary>{data.razaoSocial}</summary>
+                                   <p>Dados Da Empresa:</p>
+                                   <span>Nome: {data.nome}</span><br/>
+                                   <span>Razão Social: {data.razaoSocial}</span><br/>
+                                   <span>CNPJ: {data.cnpj}</span><br/>
+                                   <span>Área de Atuação: {data.areaAtuacao}</span><br/>
+                                   <span>Início de contrato: {data.dataInicioContrato}</span><br/>
+                                   <p>Localização e contato</p>
+                                   <span>CEP: {data.cep}</span><br/>
+                                   <span>Cidade: {data.cidade} -{data.estado}</span><br/>
+                                   <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                   <span>Email: {data.contato.email}</span><br/>
+                                   <table>
+                                     <tr>
+                                       <td><Link to={`/fornecedoreditar/${data.id}`}>Editar</Link></td>
+                                       <td><a>Excluir</a></td>
+                                     </tr>
+                                   </table>
+                               </details>
+                           </div> 
+                            </>
+                           )})}</>
+                    ) : (<>
+                      {APIData.map((data, i) => {
+                        return (
+                            <>
+   
+                            <div className="blocoinfo" key={i}>
+                               <details>
+                                   <summary>{data.razaoSocial}</summary>
+                                   <p>Dados Da Empresa:</p>
+                                   <span>Nome: {data.nome}</span><br/>
+                                   <span>Razão Social: {data.razaoSocial}</span><br/>
+                                   <span>CNPJ: {data.cnpj}</span><br/>
+                                   <span>Área de Atuação: {data.areaAtuacao}</span><br/>
+                                   <span>Início de contrato: {data.dataInicioContrato}</span><br/>
+                                   <p>Localização e contato</p>
+                                   <span>CEP: {data.cep}</span><br/>
+                                   <span>Cidade: {data.cidade} -{data.estado}</span><br/>
+                                   <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                   <span>Email: {data.contato.email}</span><br/>
+                                   <table>
+                                     <tr>
+                                       <td><Link to={`/fornecedoreditar/${data.id}`}>Editar</Link></td>
+                                       <td><a>Excluir</a></td>
+                                     </tr>
+                                   </table>
+                               </details>
+                           </div> 
+                            </>
+                           )})}
+                   </> )}
+                   
 
             </div>
         </div>

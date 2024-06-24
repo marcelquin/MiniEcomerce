@@ -29,6 +29,10 @@ public class EstoqueEntity {
 
     private Double valor;
 
+    private Double valorTotalEstoque;
+
+    private String valorTotalEstoqueFront;
+
     private String valorFront;
 
     private Double quantidade;

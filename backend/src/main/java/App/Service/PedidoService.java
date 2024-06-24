@@ -101,14 +101,14 @@ public class PedidoService {
     }
 
 
-    public ResponseEntity<PedidoDTO> NovoPedido(String nomeCliente)
+    public ResponseEntity<PedidoDTO> NovoPedido(Long idCliente)
     {
         try
         {
-            if(nomeCliente != null)
+            if(idCliente != null)
             {
                 PedidoEntity entity = new PedidoEntity();
-                ClienteEntity cliente = clienteRepository.findBynome(nomeCliente).orElseThrow(
+                ClienteEntity cliente = clienteRepository.findById(idCliente).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 int dig = (int) (1111 + Math.random() * 9999);
@@ -139,20 +139,20 @@ public class PedidoService {
     }
 
     public void AdicionarProdutoPedido(Long id,
-                                       String codigoProduto,
+                                       Long idProduto,
                                        Double quantidade)
     {
         try
         {
             if(id != null &&
-               codigoProduto != null &&
+               idProduto != null &&
                quantidade != null)
             {
                 if(quantidade < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                 PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                EstoqueEntity produto = estoqueRepository.findBycodigo(codigoProduto).orElseThrow(
+                EstoqueEntity produto = estoqueRepository.findById(idProduto).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 Locale localBrasil = new Locale("pt", "BR");

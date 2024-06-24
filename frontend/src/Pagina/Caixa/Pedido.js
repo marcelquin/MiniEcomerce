@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import './Caixa.css';
+import { useNavigate } from "react-router-dom";
+
 
 function Pedido() {
-  const baseUrl = "http://34.136.115.180:8080"
-  //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.136.115.180:8080"
+  const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const[idput,setidput] = useState('');
+    const navigate = useNavigate();
     useEffect(() => {
         Axios
           .get(`${baseUrl}/pedido/ListarPedidosAbertos`)
@@ -40,6 +43,7 @@ function Pedido() {
               'parcelas': caixa.parcelas,
               'tipocompra': caixa.tipocompra
       })})
+      .then(window.location.reload())
       setCaixa({
         formaPagamento: "",
         parcelas: "",
@@ -50,6 +54,7 @@ function Pedido() {
         console.log("erro")
       }
     }
+
 
     return (
           <>

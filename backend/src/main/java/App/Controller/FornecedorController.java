@@ -38,8 +38,18 @@ public class FornecedorController {
     public ResponseEntity<List<FornecedorEntity>> ListarFornecedor()
     { return fornecedorService.ListarFornecedor();}
 
+    @Operation(summary = "Busca Registros da tabela", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @GetMapping("/BuscarFornecedorPorId")
+    public ResponseEntity<FornecedorDTO> BuscarFornecedorPorId( @RequestParam Long id)
+    { return fornecedorService.BuscarFornecedorPorId(id);}
 
-    @Operation(summary = "Salva novo Registro na tabela", method = "POST")
+    @Operation(summary = "Edit Registro na tabela", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
@@ -60,5 +70,25 @@ public class FornecedorController {
                                                         @RequestParam String email)
     { return fornecedorService.NovoFornecedor(nome, razaoSocial, cnpj,areaAtuacao, dataInicioContrato, cep, cidade, estado, prefixo, telefone, email);}
 
-
+    @Operation(summary = "Salva novo Registro na tabela", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @PutMapping("/EditarFornecedor")
+    public ResponseEntity<FornecedorDTO> EditarFornecedor(@RequestParam Long id,
+                                                          @RequestParam String nome,
+                                                          @RequestParam String razaoSocial,
+                                                          @RequestParam String cnpj,
+                                                          @RequestParam String areaAtuacao,
+                                                          @RequestParam LocalDate dataInicioContrato,
+                                                          @RequestParam Long cep,
+                                                          @RequestParam String cidade,
+                                                          @RequestParam String estado,
+                                                          @RequestParam Long prefixo,
+                                                          @RequestParam Long telefone,
+                                                          @RequestParam String email)
+    { return fornecedorService.EditarFornecedor(id, nome, razaoSocial, cnpj, areaAtuacao, dataInicioContrato, cep, cidade, estado, prefixo, telefone, email);}
 }

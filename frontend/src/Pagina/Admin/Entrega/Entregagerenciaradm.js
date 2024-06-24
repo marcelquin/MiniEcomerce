@@ -4,9 +4,13 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 function Entregagerenciaadm() {
-    const baseUrl = "http://34.136.115.180:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.136.115.180:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
+    const[dadoPesquisa, setdadoPesquisa] = useState('')
+    const pesquisa = dadoPesquisa.length > 0 ?
+      APIData.filter(dados => dados.nomeCliente.includes(dadoPesquisa)) :
+      []
     useEffect(() => {
         Axios
           .get(`${baseUrl}/entrega/ListarEntregas`)
@@ -16,46 +20,62 @@ function Entregagerenciaadm() {
           });
       }, []);
 
+      
+
     return(
     <>
             <div className="admBox">
 
                 <div className="admNav"><Navadm></Navadm></div>
                     <div className="admConteudo">
-                    <div className="pedidoBox">
-
-
-                        <div className="pedidoBloco">
-                            <table>
-                                <tr>
-                                <td>CLiente</td>
-                                <td>Endereço</td>
-                                <td>Telefone para Contato</td>
-                                <td>Status da entrega</td>
-                                <td>Data entrega</td>
-                                <td>Itens do pedido</td>
-                                </tr>
-                                {APIData.map((data, i) => {
-                                    return (
-                                    <>
-                                        <tr key={i}>
-                                        
-                                            <td>{data.nomeCliente}</td>
-                                            <td>{data.enderecoEntrega}</td>
-                                            <td>{data.telefoneContato}</td>
-                                            <td>{data.statusEntrega}</td>
-                                            <td>{data.dataEntrega}</td>
-                                            <td>{data.produtos}</td>
-
-                                        </tr>
-
-                                    </>
-                                    )})}
-                            </table>
+                        <div className="campoPesquisa">
+                            <label>Razão Social:<br/>
+                            <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
+                            </label>
                         </div>
+                        {dadoPesquisa.length > 0?(<>
+                            {pesquisa.map((data, i) => {
+                            return (
+                            <>
+                                <div className="blocoinfo" key={i}>
+                                    <details>
+                                        <summary>{data.nomeCliente}</summary>
+                                        <p>Dados do Cliente:</p>
+                                        <span>Nome: {data.nomeCliente}</span><br/>
+                                        <span>Endereço: {data.enderecoEntrega}</span><br/>
+                                        <span>Telefone: {data.telefoneContato}</span><br/>
+                                        <p>Dados da Entrega</p>
+                                        <span>Itens: {data.produtos}</span><br/>
+                                        <span>Status da Entrega: {data.statusEntrega}</span><br/>
+                                        <span>Data de Entrega: {data.dataEntrega}</span><br/>
+                                 </details>
+                                </div>
+                            </>
+                                    )})}
+                        </>) :(<>
+                            {APIData.map((data, i) => {
+                            return (
+                            <>
+                                <div className="blocoinfo" key={i}>
+                                    <details>
+                                        <summary>{data.nomeCliente}</summary>
+                                        <p>Dados do Cliente:</p>
+                                        <span>Nome: {data.nomeCliente}</span><br/>
+                                        <span>Endereço: {data.enderecoEntrega}</span><br/>
+                                        <span>Telefone: {data.telefoneContato}</span><br/>
+                                        <p>Dados da Entrega</p>
+                                        <span>Itens: {data.produtos}</span><br/>
+                                        <span>Status da Entrega: {data.statusEntrega}</span><br/>
+                                        <span>Data de Entrega: {data.dataEntrega}</span><br/>
+                                 </details>
+                                </div>
+                            </>
+                                    )})}
+                        </>)}
+                       
+        
+                    </div>
                 </div>
-            </div>
-            </div>
     </>
     );
 }

@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
 import Axios from 'axios';
 import './Home.css';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const baseUrl = "http://34.136.115.180:8080"
-  //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.136.115.180:8080"
+  const baseUrl = "http://localhost:8080"
 
     const [APIData, setAPIData] = useState([]);
     const [APICliente, setAPICliente] = useState([]);
     const [APIDataProduto, setAPIDataProduto] = useState([]);
-    const [Search, setSearch] = useState('') 
-    const [nomecliente, setnomecliente] = useState('');
-    //const pedidos = Search.length > 0 ?
-    //APICliente.filter(dado => setSearch(dado.nome)): [];
+    const [idcliente, setidcliente] = useState('');
+    const [idproduto, setidproduto] = useState('');
+    const [idput, setidput] = useState('');
+    const[quantidade, setquantidade] = useState('');
+    const[dadoPesquisa, setdadoPesquisa] = useState('')
+    const[dadoPesquisaProduto, setdadoPesquisaProduto]=useState('')
+    //pesquisa automática
+    
+    const pesquisa = dadoPesquisa.length > 0 ?
+    APICliente.filter(dados => dados.nome.includes(dadoPesquisa)) :
+    []
+    
+    const pesquisaproduto = dadoPesquisaProduto.length > 0 ?
+    APIDataProduto.filter(dados => dados.nome.includes(dadoPesquisaProduto)) :
+    []
 
+    const navigate = useNavigate();
 
   async function AtualizarPedidos(){
     Axios
@@ -51,31 +62,18 @@ function Home() {
               'Content-Type': 'application/x-www-form-urlencoded'
             },    
             body: new URLSearchParams({
-                'nomeCliente': nomecliente,
+                'idCliente': idcliente,
         })})
-        setnomecliente('');
+        .then(window.location.reload())
+        setidcliente('');
+        setdadoPesquisa('')   
         }catch (err){
           console.log("erro")
         }
       }
-      const [idput, setidput] = useState('');
-      const[codigoProduto, setcodigoProduto] = useState('');
-      const[quantidade, setquantidade] = useState('');
-
-      const [corpo, setcorpo] = useState([])
-
-      const BuscaPorId = async id =>{
-        
-          await Axios.get(`${baseUrl}/pedido/BuscarPedidoPorId:${id}`)
-          .then((response)=>{setcorpo(response.data)})
-          console.log(corpo.data)
-      }  
-
-
-      const AdicionarProduto = async () =>{
-        console.log("id: "+idput)
-        console.log("codigo: "+codigoProduto)
-        console.log("quantidade: "+quantidade)      
+      
+      
+      const AdicionarProduto = async () =>{    
         try{
           await fetch(`${baseUrl}/pedido/AdicionarProdutoPedido`, {
             method: 'PUT',
@@ -84,12 +82,16 @@ function Home() {
             },    
             body: new URLSearchParams({
                 'id': idput,
-                'codigoProduto': codigoProduto,
+                'idProduto': idproduto,
                 'quantidade': quantidade
         })})
-        .then(setcodigoProduto(''))
-        .then( setquantidade(''))       
-        .then(setidput(''))
+        .then(window.location.reload())
+        setquantidade('')       
+        setidput('')
+        setidproduto('')
+        setdadoPesquisaProduto('')
+        setdadoPesquisaProduto('')
+        
         }catch (err){
           console.log("erro")
         }
@@ -110,38 +112,68 @@ function Home() {
               <h3>Novo Pedido</h3>
                   <table>
                     <tr>
-                      <td><input className='inputretorno' type='text' 
-                      name='nomeCLiente' 
-                      value={nomecliente} 
-                      onChange={(e)=> {setnomecliente(e.target.value)}}
-                      placeholder='nome do cliente' /></td>
+                      <td><input 
+                        className='inputretorno' 
+                        name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} 
+                        type='text' 
+                        placeholder='digite o nome do cliente' />
+                        <input type='submit' value="Salvar" onClick={NovoPedido} className='btn' /> </td>
+
                     </tr>
                     <tr>
-                        <td><input type='submit' value="Salvar" onClick={NovoPedido} className='btn' /> </td>
+                        <div className="resultadoPesquisa">
+                        {dadoPesquisa.length >0?(<>
+                        {pesquisa.map((data, i) => {
+                        return(<>
+                        <span key={i}><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/>
+                        {data.nome} {data.sobrenome}</span>
+                    </>
+                  )})}
+                  </>) : (<></>)}
+                    </div> 
                     </tr>
+                 
                     
-                  </table> 
+                  </table>
+                  
           </div>
           <div className='homeCadput'>  
               <h3>Adicionar Item </h3>
                   <table>
                     <tr>
-                      <td><input className='inputretorno' type='text' 
+                      <td>
+                      <input className='inputretorno' type='text' 
                       name='quantidade' 
                       value={quantidade} 
                       onChange={(e)=> {setquantidade(e.target.value)}}
-                      placeholder='Quantidade' /></td>
+                      placeholder='Quantidade' />
+                      </td>
+                      <td>
+                      <input 
+                        className='inputretorno' 
+                        name="dadoPesquisaProduto" onChange={e=> setdadoPesquisaProduto(e.target.value)} 
+                        type='text' 
+                        placeholder='digite o nome do Produto' />
+                      </td>
+                     </tr>
+                    <tr>
+                      <td><input type='submit' value="Adicionar"className='btn' onClick={AdicionarProduto} /></td>
                     </tr>
                     <tr>
-                        <td><input type='submit' value="Adicionar"className='btn' onClick={AdicionarProduto} /> </td>
+                    <div className="resultadoPesquisa">
+                        {dadoPesquisaProduto.length >0?(<>
+                        {pesquisaproduto.map((data, i) => {
+                        return(<>
+                        <span key={i}><input type="checkbox" value={data.id} onClick={(e) => {setidproduto(data.id)}}/>
+                        {data.nome} {data.valorTotalFront}</span>
+                    </>
+                  )})}
+                  </>) : (<></>)}
+                    </div> 
                     </tr>
                     
                   </table> 
           </div>
-
-
-          </div>
-          
 
           <div className='homeCad'>
           <table>
@@ -165,31 +197,8 @@ function Home() {
                           }
                         )}
                     </table>         
-          </div>  
-          <div className='homeCad'>
-          <table>
-                              <tr>
-                                <td>Produto</td>
-                                <td>Código</td>
-                                <td>Valor</td>
-                                <td>Estoque</td>
-                              </tr>
-                              {APIDataProduto.map((data, i) =>{
-                        return(
-                            <>
-                            <tr key={i}>
-                                <td><input type="checkbox" value={data.id} onClick={(e) => {setcodigoProduto(data.codigo)}}/></td>
-                                <td>{data.nome}</td>
-                                <td>{data.codigo}</td>
-                                <td>{data.valorFront}</td>
-                                <td>{data.quantidade} unidades</td>
-                            </tr>
-                            </>
-                        )
-                    })} 
-                            </table>
-          </div>
-          
+          </div>         
+          </div> 
                     
         </>
     );

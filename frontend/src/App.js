@@ -10,8 +10,6 @@ import ClienteAdm from './Pagina/Admin/Cliente/ClienteAdm';
 import CLientegerenciaadm from './Pagina/Admin/Cliente/Clientegerenciaadm';
 import Produtogerenciaadm from './Pagina/Admin/Produto/Produtogerenciaadm';
 import Pedidogerenciaadm from './Pagina/Admin/Compras/Pedidogerenciaradm';
-import Notafiscaladm from './Pagina/Admin/Nota/NotaFiscalAdm';
-import Notafiscalgerenciaadm from './Pagina/Admin/Nota/NotaFiscalgeremciaAdm';
 import Fonecedoradm from './Pagina/Admin/Fornecedor/FornecedorAdm';
 import FornecedorgrenciaAdm from './Pagina/Admin/Fornecedor/FornecedorgeremciaAdm';
 import Entregagerenciaadm from './Pagina/Admin/Entrega/Entregagerenciaradm';
@@ -19,7 +17,10 @@ import './Style/Global.css';
 import {Routes, Route} from 'react-router-dom'
 import Fornecedorgerenciaadm from './Pagina/Admin/Fornecedor/FornecedorgeremciaAdm';
 import Relaroriogerenciaadm from './Pagina/Admin/Relatorio/Relatoriogerenciaradm';
+import ClienteEditar from './Pagina/Admin/Cliente/ClienteEditar'
+import FornecedorEditar from './Pagina/Admin/Fornecedor/FornecedorEditar';
 
+import ProdutoEditar from './Pagina/Admin/Produto/ProdutoEditar';
 function App() {
   return (
 
@@ -34,16 +35,18 @@ function App() {
                             <Route path='/adm' element={<HomeAdm/>} />
                             <Route path='/admproduto' element={<ProdutoAdm/>} />
                             <Route path='/admcliente' element={<ClienteAdm/>} />
-                            <Route path='/admnotafiscal' element={<Notafiscaladm/>} />
+                       
                             <Route path='/admfornecedor' element={<Fonecedoradm/>} />
                             <Route path='/admclientegerencia' element={<CLientegerenciaadm/>} />
                             <Route path='/admprodutogerencia' element={<Produtogerenciaadm/>} />
                             <Route path='/admpedidogerencia' element={<Pedidogerenciaadm/>} />
                             <Route path='/admfornecedorgerencia' element={<Fornecedorgerenciaadm/>} />
-                            <Route path='/admnotagerencia' element={<Notafiscalgerenciaadm/>} />
                             <Route path='/admentregagerencia' element={<Entregagerenciaadm/>} />
                             <Route path='/admrelatoriogerencia' element={<Relaroriogerenciaadm/>} />
-                          
+                            <Route path='/clienteeditar/:id' element={<ClienteEditar/>} />
+                            <Route path='/fornecedoreditar/:id' element={<FornecedorEditar/>} />
+
+                            <Route path='/produtoeditar/:id' element={<ProdutoEditar/>} />
                   </Routes>        
 
         </div>

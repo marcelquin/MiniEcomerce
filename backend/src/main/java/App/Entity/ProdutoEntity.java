@@ -40,13 +40,13 @@ public class ProdutoEntity  {
 
     private String valorFront;
 
-    private Double valorTotalEstoque;
-
-    private String valorTotalEstoqueFront;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "estoqueEntity_id", referencedColumnName = "id")
     private EstoqueEntity estoque;
+
+    @ManyToOne
+    @JoinColumn(name = "produtoEntity_fornecedorEntity_id")
+    private FornecedorEntity fornecedor;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate DataEntrada;
