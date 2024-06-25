@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 
 function Pedido() {
-  //const baseUrl = "http://34.136.115.180:8080"
-  const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.133.121.3:8080"
+  //const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const[idput,setidput] = useState('');
     const navigate = useNavigate();

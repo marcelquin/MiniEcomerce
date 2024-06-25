@@ -5,8 +5,8 @@ import './Fornecedor.css';
 import Axios from 'axios';
 
 function Fornecedorgerenciaadm() {
-  //const baseUrl = "http://34.136.115.180:8080"
-  const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.133.121.3:8080"
+  //const baseUrl = "http://localhost:8080"
     const[APIData, setAPIData]= useState([]);
     const[dadoPesquisa, setdadoPesquisa] = useState('')
     const pesquisa = dadoPesquisa.length > 0 ?

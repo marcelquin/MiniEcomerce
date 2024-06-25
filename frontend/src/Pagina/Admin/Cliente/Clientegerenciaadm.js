@@ -8,8 +8,8 @@ function Clientegerenciaadm() {
     const[APIData, setAPIData]= useState([]);
     const[dadoPesquisa, setdadoPesquisa] = useState('')
     
-    //const baseUrl = "http://34.136.115.180:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.133.121.3:8080"
+  //const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
         .get(`${baseUrl}/cliente/ListarClientes`)

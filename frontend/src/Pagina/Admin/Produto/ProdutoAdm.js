@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 
 function Produtoadm() {
-  //const baseUrl = "http://34.136.115.180:8080"
-  const baseUrl = "http://localhost:8080"
+  const baseUrl = "http://34.133.121.3:8080"
+  //const baseUrl = "http://localhost:8080"
   const navigate = useNavigate();
   const [fornecedorData, setfornecedorData] = useState([])
   const [produtoData, setprodutoData] = useState({
