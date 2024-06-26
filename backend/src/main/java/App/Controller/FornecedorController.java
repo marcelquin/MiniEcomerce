@@ -38,7 +38,7 @@ public class FornecedorController {
     public ResponseEntity<List<FornecedorEntity>> ListarFornecedor()
     { return fornecedorService.ListarFornecedor();}
 
-    @Operation(summary = "Busca Registros da tabela", method = "GET")
+    @Operation(summary = "Lista Registros da tabela", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
@@ -46,10 +46,10 @@ public class FornecedorController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @GetMapping("/BuscarFornecedorPorId")
-    public ResponseEntity<FornecedorDTO> BuscarFornecedorPorId( @RequestParam Long id)
+    public ResponseEntity<FornecedorDTO> BuscarFornecedorPorId(@RequestParam Long id)
     { return fornecedorService.BuscarFornecedorPorId(id);}
 
-    @Operation(summary = "Edit Registro na tabela", method = "POST")
+    @Operation(summary = "Salva novo Registro na tabela", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
@@ -90,5 +90,6 @@ public class FornecedorController {
                                                           @RequestParam Long prefixo,
                                                           @RequestParam Long telefone,
                                                           @RequestParam String email)
-    { return fornecedorService.EditarFornecedor(id, nome, razaoSocial, cnpj, areaAtuacao, dataInicioContrato, cep, cidade, estado, prefixo, telefone, email);}
+    {return fornecedorService.EditarFornecedor(id, nome, razaoSocial, cnpj, areaAtuacao, dataInicioContrato, cep, cidade, estado, prefixo, telefone, email);}
+
 }

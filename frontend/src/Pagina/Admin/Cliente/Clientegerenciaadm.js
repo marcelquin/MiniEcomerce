@@ -7,9 +7,11 @@ import React, { useState, useEffect } from 'react';
 function Clientegerenciaadm() {
     const[APIData, setAPIData]= useState([]);
     const[dadoPesquisa, setdadoPesquisa] = useState('')
-    
-    const baseUrl = "http://34.133.121.3:8080"
-  //const baseUrl = "http://localhost:8080"
+    const pesquisa = dadoPesquisa.length > 0 ?
+    APIData.filter(dados => dados.nome.includes(dadoPesquisa)) :
+    [];
+    const baseUrl = "http://34.136.115.180:8080"
+    //const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
         .get(`${baseUrl}/cliente/ListarClientes`)
@@ -18,11 +20,7 @@ function Clientegerenciaadm() {
           console.error("ops! ocorreu um erro" + err);
         });
     }, []);
-
-    const pesquisa = dadoPesquisa.length > 0 ?
-    APIData.filter(dados => dados.nome.includes(dadoPesquisa)) :
-    [];
-
+    
     return(
     <>
 
@@ -30,13 +28,12 @@ function Clientegerenciaadm() {
 
                 <div className="admNav"><Navadm></Navadm></div>
                     <div className="admConteudo">
-                    <div className="campoPesquisa">
-                        <label>Nome:<br/>
-                        <input type="text" onChange={e=> setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
-                        </label>
-                    </div>
-
-                    {dadoPesquisa.length >0 ?(<>
+                      <div className="campoPesquisa">
+                          <label>Nome:<br/>
+                          <input type="text" onChange={e=> setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
+                          </label>
+                      </div>
+                    {dadoPesquisa.length >0 ? (<>
                       {pesquisa.map((data, i) => {
                         return (
                           <>
@@ -44,14 +41,18 @@ function Clientegerenciaadm() {
                             <details>
                                 <summary>{data.nome}</summary>
                                 <p>Dados pessoais:</p>
-                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
+                                <span>Nome: {data.nome}</span><br/>
                                 <span>Data de nascimento: {data.dataNascimento}</span><br/>
                                 <span>CPF: {data.cpf}</span><br/>
                                 <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
                                 <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
                                 <span>Email: {data.contato.email}</span><br/>
-                                
+                                <p>Dados Financeiros:</p>
+                                <span>Profissão: {data.profissao}</span><br/>
+                                <span>Salario Bruto: {data.score.salarioBrutoFront}</span><br/>
+                                <span>Salario Liquido: {data.score.salarioLiquidoFront}</span><br/>
+                                <span>Score: {data.score.scoreFront}</span><br/>
                                 <table>
                                   <tr>
                                     <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
@@ -62,7 +63,7 @@ function Clientegerenciaadm() {
                         </div>
                         </>
                         )})}
-                    </>) : (<>
+                    </>): (<>
                       {APIData.map((data, i) => {
                         return (
                           <>
@@ -70,13 +71,18 @@ function Clientegerenciaadm() {
                             <details>
                                 <summary>{data.nome}</summary>
                                 <p>Dados pessoais:</p>
-                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
+                                <span>Nome: {data.nome}</span><br/>
                                 <span>Data de nascimento: {data.dataNascimento}</span><br/>
                                 <span>CPF: {data.cpf}</span><br/>
                                 <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
                                 <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
                                 <span>Email: {data.contato.email}</span><br/>
+                                <p>Dados Financeiros:</p>
+                                <span>Profissão: {data.profissao}</span><br/>
+                                <span>Salario Bruto: {data.score.salarioBrutoFront}</span><br/>
+                                <span>Salario Liquido: {data.score.salarioLiquidoFront}</span><br/>
+                                <span>Score: {data.score.scoreFront}</span><br/>
                                 <table>
                                   <tr>
                                     <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
@@ -86,9 +92,7 @@ function Clientegerenciaadm() {
                             </details>
                         </div>
                         </>
-                        )})}
-                    </>)}
-
+                        )})}</>)}
                     
                     </div>
                 </div> 

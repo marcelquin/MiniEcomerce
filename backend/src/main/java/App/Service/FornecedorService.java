@@ -39,6 +39,7 @@ public class FornecedorService {
         return null;
     }
 
+
     public ResponseEntity<FornecedorDTO> BuscarFornecedorPorId(Long id)
     {
         try
@@ -48,7 +49,7 @@ public class FornecedorService {
                 FornecedorEntity entity = fornecedorRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                FornecedorDTO response = new FornecedorDTO(entity.getNome(), entity.getRazaoSocial(), entity.getCnpj(),
+                FornecedorDTO response = new FornecedorDTO(entity.getNome(), entity.getRazaoSocial(), entity.getCnpj(),entity.getAreaAtuacao(),entity.getDataInicioContrato(),
                         entity.getCep(), entity.getCidade(), entity.getEstado(), entity.getContato().getPrefixo(), entity.getContato().getTelefone(),entity.getContato().getEmail());
                 return  new ResponseEntity<>(response, HttpStatus.OK);
             }
@@ -63,16 +64,16 @@ public class FornecedorService {
     }
 
     public ResponseEntity<FornecedorDTO> NovoFornecedor(String nome,
-                                           String razaoSocial,
-                                           String cnpj,
-                                           String areaAtuacao,
-                                           LocalDate dataInicioContrato,
-                                           Long cep,
-                                           String cidade,
-                                           String estado,
-                                           Long prefixo,
-                                           Long telefone,
-                                           String email)
+                                                       String razaoSocial,
+                                                       String cnpj,
+                                                       String areaAtuacao,
+                                                       LocalDate dataInicioContrato,
+                                                       Long cep,
+                                                       String cidade,
+                                                       String estado,
+                                                       Long prefixo,
+                                                       Long telefone,
+                                                       String email)
     {
         try
         {
@@ -88,7 +89,7 @@ public class FornecedorService {
                telefone != null &&
                email!= null)
             {
-                FornecedorDTO fornecedorDTO = new FornecedorDTO(nome,razaoSocial,cnpj,cep,cidade,estado,prefixo,telefone,email);
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(nome,razaoSocial,cnpj,areaAtuacao,dataInicioContrato,cep,cidade,estado,prefixo,telefone,email);
                 ContatoEntity contato = new ContatoEntity(fornecedorDTO);
                 contato.setTimeStamp(LocalDateTime.now());
                 FornecedorEntity fornecedor = new FornecedorEntity(fornecedorDTO);
@@ -112,17 +113,17 @@ public class FornecedorService {
     }
 
     public ResponseEntity<FornecedorDTO> EditarFornecedor(Long id,
-                                                          String nome,
-                                                          String razaoSocial,
-                                                          String cnpj,
-                                                          String areaAtuacao,
-                                                          LocalDate dataInicioContrato,
-                                                          Long cep,
-                                                          String cidade,
-                                                          String estado,
-                                                          Long prefixo,
-                                                          Long telefone,
-                                                          String email)
+                                                        String nome,
+                                                        String razaoSocial,
+                                                        String cnpj,
+                                                        String areaAtuacao,
+                                                        LocalDate dataInicioContrato,
+                                                        Long cep,
+                                                        String cidade,
+                                                        String estado,
+                                                        Long prefixo,
+                                                        Long telefone,
+                                                        String email)
     {
         try
         {
@@ -160,8 +161,8 @@ public class FornecedorService {
                 entity.setEstado(estado);
                 entity.setTimeStamp(LocalDateTime.now());;
                 fornecedorRepository.save(entity);
-                FornecedorDTO response = new FornecedorDTO(entity.getNome(), entity.getRazaoSocial(), entity.getCnpj(), entity.getCep(), entity.getCidade(), entity.getEstado(), entity.getContato().getPrefixo(), entity.getContato().getTelefone(), entity.getContato().getEmail());
-                return new ResponseEntity<>(response, HttpStatus.OK);
+                FornecedorDTO response = new FornecedorDTO(entity.getNome(), entity.getRazaoSocial(), entity.getCnpj(),entity.getAreaAtuacao(),entity.getDataInicioContrato(),
+                        entity.getCep(), entity.getCidade(), entity.getEstado(), entity.getContato().getPrefixo(), entity.getContato().getTelefone(),entity.getContato().getEmail());                return new ResponseEntity<>(response, HttpStatus.OK);
             }
             else
             {throw new NullargumentsException();}

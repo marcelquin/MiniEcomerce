@@ -23,6 +23,14 @@ function Navadm() {
                 <td> <Link to={"/admfornecedorgerencia"}><span>Gerenciar</span></Link>  </td>
             </tr>
             <br/>
+            <span className="title">Nota Fiscal</span> 
+            <tr>
+                <td><Link to={"/admnotafiscal"}><span>Cadastrar</span></Link></td>
+            </tr>
+            <tr>
+                <td> <Link to={"/admnotagerencia"}><span>Gerenciar</span></Link>  </td>
+            </tr>
+            <br/>
             <span className="title">Produtos</span> 
             <tr>
                 <td><Link to={"/admproduto"}><span>Cadastrar</span></Link></td>

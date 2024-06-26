@@ -37,6 +37,14 @@ public class ClienteController {
     public ResponseEntity<List<ClienteEntity>> ListarClientes()
     { return service.ListarClientes();}
 
+    @Operation(summary = "Lista Registros da tabela", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @GetMapping("/BuscarClienteporid")
     public ResponseEntity<ClienteDTO> BuscarClienteporid(@RequestParam Long id)
     { return service.BuscarClienteporid(id);}
 
@@ -55,14 +63,17 @@ public class ClienteController {
                                                   @RequestParam String logradouro,
                                                   @RequestParam String numero,
                                                   @RequestParam String bairro,
-                                                  @RequestParam String referencia,
+                                                  String referencia,
                                                   @RequestParam Long cep,
                                                   @RequestParam String cidade,
                                                   @RequestParam String estado,
                                                   @RequestParam Long prefixo,
                                                   @RequestParam Long telefone,
-                                                  @RequestParam String email)
-    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
+                                                  @RequestParam String email,
+                                                  @RequestParam String profissao,
+                                                  @RequestParam Double salarioBruto,
+                                                  @RequestParam Double salarioLiquido)
+    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email,profissao,salarioBruto,salarioLiquido);}
 
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
@@ -81,7 +92,7 @@ public class ClienteController {
                                                    @RequestParam String logradouro,
                                                    @RequestParam String numero,
                                                    @RequestParam String bairro,
-                                                   @RequestParam String referencia,
+                                                   String referencia,
                                                    @RequestParam Long cep,
                                                    @RequestParam String cidade,
                                                    @RequestParam String estado,
@@ -98,8 +109,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @DeleteMapping("/DeletarCliente")
-    public ResponseEntity<ClienteDTO> DeletarCliente(@RequestParam Long id)
-    { return service.DeletarCliente(id);}
+    public void DeletarCliente(@RequestParam Long id)
+    { service.DeletarCliente(id);}
 
 
 }

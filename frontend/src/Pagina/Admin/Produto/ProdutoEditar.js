@@ -1,30 +1,32 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Produto.css';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 
 function ProdutoEditar() {
 
   const {id} = useParams()
-  const baseUrl = "http://34.133.121.3:8080"
+  const baseUrl = "http://34.136.115.180:8080"
   //const baseUrl = "http://localhost:8080"
-  const[fornecedorData, setfornecedorData] = useState([])
   const navigate = useNavigate();
+  const[idNota, setidNota] = useState('')
+  const [APIData,setAPIData] = useState([])
   const [produtoData, setprodutoData] = useState({
     nome: "",
     descriacao: "",
     quantidade: "",
     medida: "",
     estoque: "",
-    valor: "",
-    porcentagemLucro: ""
+    valorEmNota: "",
+    impostoAplicado: "",
+    porcentagemLucro: "",
+    valorFrete: "",
+    valorCusto: ""
 });
-const[idFornecedor,setidFornecedor] = useState('')
 
 useEffect(()=>{
-  fetch(`${baseUrl}/cliente/BuscarProdutoporid?id=${id}`,
+  fetch(`${baseUrl}/produto/BuscarProdutoPorId?id=${id}`,
       {
           method:'GET',
           headers:{
@@ -35,6 +37,7 @@ useEffect(()=>{
       .then((data)=> {
           setprodutoData(data)
       })
+      .then(console.log(produtoData))
       .catch(err => console.log(err))
 }, [id])
 
@@ -57,28 +60,35 @@ const handleClick=async (e)=>{
           'quantidade': produtoData.quantidade,
           'medida': produtoData.medida,
           'estoque': produtoData.estoque,
-          'fornecedorId': idFornecedor,
-          'valor': produtoData.valor,
-          'porcentagemLucro': produtoData.porcentagemLucro
+          'idNotaFiscal': idNota,
+          'valorEmNota': produtoData.valorEmNota,
+          'impostoAplicado': produtoData.impostoAplicado,
+          'porcentagemLucro': produtoData.porcentagemLucro,
+          'valorFrete': produtoData.valorFrete,
+          'valorCusto': produtoData.valorCusto
   })})
-  .then(navigate("/admprodutogerencia"))  
+  .then(navigate("/adm")) 
   setprodutoData({
     nome: "",
     descriacao: "",
     quantidade: "",
     medida: "",
     estoque: "",
-    valor: "",
-    porcentagemLucro: ""
+    valorEmNota: "",
+    impostoAplicado: "",
+    porcentagemLucro: "",
+    valorFrete: "",
+    valorCusto: ""
   })
   }catch (err){
     console.log("erro")
   }
 }
+
 useEffect(() => {
   Axios
-    .get(`${baseUrl}/fornecedor/ListarFornecedor`)
-    .then((response) => { setfornecedorData(response.data)})
+    .get(`${baseUrl}/notafiscal/ListarNotasFiscais`)
+    .then((response) => { setAPIData(response.data)})
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
     });
@@ -91,57 +101,61 @@ useEffect(() => {
                     <div className="admNav"><Navadm></Navadm></div>
                     <div className="admConteudo">
 
-                    <div className="formBloco">
+                        <div className="formBloco">
                             <h3>Dados do Produto</h3>
                             <form>
                                 <table>
                                 <tr>
-                                    <td><label>Nome:<br/>
-                                     <input type="text" name="nome" onChange={handleChanage} /></label></td>
-                                    <td><label>Descriçao: <br/>
-                                     <input type="text" name="descriacao" onChange={handleChanage} /></label></td>
+                                    <td>Nome: <input type="text" name="nome" value={produtoData.nome} onChange={handleChanage} /></td>
+                                    <td>Descriçao: <input type="text" name="descriacao" value={produtoData.descricao} onChange={handleChanage} /></td>
+                                    <td>Quantidade: <input type="number" name="quantidade" value={produtoData.quantidade} onChange={handleChanage}/></td>
                                 </tr>
-                                <tr>
-                                    <td><label>Quantidade:<br/> 
-                                    <input type="number" name="quantidade" onChange={handleChanage}/></label></td>                
-                                    <td><label>Medida: <br/>
-                                    <input list="medida" name="medida"  placeholder="Selecione a unidade de medida" onChange={handleChanage} />
+                                <tr>                
+                                    <td>Medida:
+                                    <input list="medida" name="medida"  placeholder="Selecione a unidade de medida" value={produtoData.medida} onChange={handleChanage} />
                                     <datalist id="medida">
                                         <option value="KG">Kg</option>
                                         <option value="G">G</option>
                                         <option value="L">L</option>
                                         <option value="ML">Ml</option>
                                     </datalist>                             
-                                   </label> </td>
-                                    <td><label> Estoque: <br/>
-                                    <input type="number" name="estoque" onChange={handleChanage}/></label></td>
-                                    
-                                </tr>
-                                <br/>
-                                <tr>
-                                
-                                  <td><label>Valor de venda:<br/>
-                                  <input type="number" name="valor" onChange={handleChanage}/></label></td>
-                                  <td><label>Porcentagem de Lucro:<br/>
-                                  <input type="number" name="porcentagemLucro" onChange={handleChanage}/></label></td>
-                                </tr>
-                                
-                                  <h3>Fornecedor</h3><br/>
-                                  <label>Selecione um Fornecedor</label>
-                                <tr>
-                                  {fornecedorData.map((data, i) => {
-                                      return (
-                                      <>
-                                      <td><input type="checkbox" value={data.razaoSocial} onClick={(e) => {setidFornecedor(data.id)}}/>{data.razaoSocial}</td>
-                                      </>
-                                      )})}
-                                </tr>
-                                <br/>
-                                <tr>
-                                    <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td> 
+                                    </td>
+                                    <td>Estoque: <input type="number" name="estoque" value={produtoData.estoque} onChange={handleChanage}/></td>
                                 </tr>
                               </table>
                             </form>
+                    </div>
+
+                    <div className="formBloco">
+                          <h3>Dados de Nota Fiscal</h3>
+                          <table>
+
+                            <tr>
+                              <td>Valor Em Nota: <input type="number" name="valorEmNota" value={produtoData.valorEmNota} onChange={handleChanage} /></td>
+                              <td>Porcentagem de Imposto Aplicado: <input type="number" name="impostoAplicado" value={produtoData.impostoAplicado} onChange={handleChanage} /></td>
+                            </tr>
+                            <tr>
+                              <td>Porcentagem de Lucro: <input type="text" name="porcentagemLucro" value={produtoData.porcentagemLucro} onChange={handleChanage} /></td>
+                              <td>Valor Frete: <input type="number" name="valorFrete" value={produtoData.valorFrete} onChange={handleChanage} /></td>
+                              <td>Custo Operacional: <input type="number" name="valorCusto" value={produtoData.valorCusto} onChange={handleChanage} /></td>
+                            </tr>
+                            <tr>
+                            <tr>
+                              <h3>Selecione a NotaFiscal Desejada</h3>
+                              {APIData.map((data, i) =>{
+                                    return(
+                                      <>
+                                      <label><input type="checkbox" onClick={(e) => {setidNota(data.id)}}/>{data.fornecedor.razaoSocial} {data.xml}</label>
+                                      </>
+                                    )
+                                  })} 
+                            </tr>
+                            </tr>
+                            <tr>                          
+                              <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td> 
+                            </tr>
+                          </table>    
+
                     </div>
 
                     </div>

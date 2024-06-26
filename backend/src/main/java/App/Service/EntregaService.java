@@ -4,11 +4,14 @@ import App.DTO.EntregaDTO;
 import App.Entity.EntregaEntity;
 import App.Entity.PedidoEntity;
 import App.Enum.STATUSENTREGA;
+import App.Exceptions.EntityNotFoundException;
+import App.Exceptions.NullargumentsException;
 import App.Repository.EntregaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +59,60 @@ public class EntregaService {
         return null;
     }
 
-    public ResponseEntity<EntregaDTO> IniciarEntrega()
-    { return null;}
+    public void IniciarEntrega(Long id)
+    {
+        try
+    {
+        if(id != null)
+        {
+            EntregaEntity entrega = entregaRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException()
+        );
+            if(entrega.getStatusEntrega() == STATUSENTREGA.AGUARDANDO &&
+              entrega.getStatusEntrega() != STATUSENTREGA.EM_ROTA &&
+              entrega.getStatusEntrega() != STATUSENTREGA.ENTREGUE &&
+              entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+            {
+                entrega.setDataEntrega(LocalDateTime.now());
+                entrega.setTimeStamp(LocalDateTime.now());
+                entrega.setStatusEntrega(STATUSENTREGA.EM_ROTA);
+            }
+        }
+        else
+        {throw new NullargumentsException();}
+    }
+    catch (Exception e)
+    {
+        e.getMessage();
+    }
+    }
 
-    public ResponseEntity<EntregaDTO> FinalizarEntrega()
-    { return null;}
+    public void FinalizarEntrega(Long id)
+    {
+        try
+        {
+            if(id != null)
+            {
+                EntregaEntity entrega = entregaRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                if(entrega.getStatusEntrega() != STATUSENTREGA.AGUARDANDO &&
+                   entrega.getStatusEntrega() == STATUSENTREGA.EM_ROTA &&
+                   entrega.getStatusEntrega() != STATUSENTREGA.ENTREGUE &&
+                   entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+                {
+                    entrega.setDataEntrega(LocalDateTime.now());
+                    entrega.setTimeStamp(LocalDateTime.now());
+                    entrega.setStatusEntrega(STATUSENTREGA.ENTREGUE);
+                }
+            }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+    }
 
 }

@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: mquinteiro464/alphaminiecomercebackend:latest
+          image: mquinteiro464/mhqaecommercenotabackend:latest
           ports:
           - containerPort: 8080
           env:
@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: mquinteiro464/alphaminiecomercefrontend:latest
+          image: mquinteiro464/mhqaecommercenotafrontend:latest
           ports:
           - containerPort: 3000
 

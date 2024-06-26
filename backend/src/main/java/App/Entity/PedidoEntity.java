@@ -58,6 +58,8 @@ public class PedidoEntity {
     @Enumerated(EnumType.STRING)
     private TIPOCOMPRA tipocompra;
 
+    private String notificacao;
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
 }

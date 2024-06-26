@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,10 +44,6 @@ public class ProdutoEntity  {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "estoqueEntity_id", referencedColumnName = "id")
     private EstoqueEntity estoque;
-
-    @ManyToOne
-    @JoinColumn(name = "produtoEntity_fornecedorEntity_id")
-    private FornecedorEntity fornecedor;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate DataEntrada;

@@ -83,15 +83,22 @@ public class PedidoService {
     {
         try
         {
-            PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
-                    ()-> new EntityNotFoundException()
-            );
-            List<String> itens = new ArrayList<>();
-            for(ItemPedidoEntity item: entity.getProdutos())
+            if(id != null)
             {
-                itens.add(item.getProduto().getNome());
+                PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                List<String> itens = new ArrayList<>();
+                for(ItemPedidoEntity item: entity.getProdutos())
+                {
+                    itens.add(item.getProduto().getNome());
+                }
+                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
+                return new ResponseEntity<>(response,HttpStatus.OK);
             }
-            PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());            return new ResponseEntity<>(response,HttpStatus.CREATED);
+            else
+            {throw new NullargumentsException();}
+
         }
         catch (Exception e)
         {
@@ -101,14 +108,14 @@ public class PedidoService {
     }
 
 
-    public ResponseEntity<PedidoDTO> NovoPedido(Long idCliente)
+    public ResponseEntity<PedidoDTO> NovoPedido(String nomeCliente)
     {
         try
         {
-            if(idCliente != null)
+            if(nomeCliente != null)
             {
                 PedidoEntity entity = new PedidoEntity();
-                ClienteEntity cliente = clienteRepository.findById(idCliente).orElseThrow(
+                ClienteEntity cliente = clienteRepository.findBynome(nomeCliente).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 int dig = (int) (1111 + Math.random() * 9999);
@@ -139,20 +146,20 @@ public class PedidoService {
     }
 
     public void AdicionarProdutoPedido(Long id,
-                                       Long idProduto,
+                                       String codigoProduto,
                                        Double quantidade)
     {
         try
         {
             if(id != null &&
-               idProduto != null &&
+               codigoProduto != null &&
                quantidade != null)
             {
                 if(quantidade < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                 PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                EstoqueEntity produto = estoqueRepository.findById(idProduto).orElseThrow(
+                EstoqueEntity produto = estoqueRepository.findBycodigo(codigoProduto).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 Locale localBrasil = new Locale("pt", "BR");
@@ -240,6 +247,67 @@ public class PedidoService {
                 }
                 pedidoRepository.save(entity);
 
+            }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+    }
+
+    public void EntregaNaoRealizada(Long id, String motivo)
+    {
+        try
+        {
+            if(id != null)
+            {
+                PedidoEntity pedido = pedidoRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                EntregaEntity entrega = entregaRepository.findById(pedido.getEntrega().getId()).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                if(entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+                {
+                    entrega.setDataEntrega(LocalDateTime.now());
+                    entrega.setTimeStamp(LocalDateTime.now());
+                    entrega.setStatusEntrega(STATUSENTREGA.AGUARDANDO);
+                    pedido.setNotificacao(motivo);
+                    entregaRepository.save(entrega);
+                    pedidoRepository.save(pedido);
+                }
+            }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+    }
+
+    public void CancelarEntrega(Long id, String motivo)
+    {
+        try
+        {
+            if(id != null)
+            {
+                PedidoEntity pedido = pedidoRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                EntregaEntity entrega = entregaRepository.findById(pedido.getEntrega().getId()).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                if(entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+                {
+                    entrega.setTimeStamp(LocalDateTime.now());
+                    entrega.setStatusEntrega(STATUSENTREGA.CANCELADA);
+                    pedido.setNotificacao(motivo);
+                    entregaRepository.save(entrega);
+                    pedidoRepository.save(pedido);
+                }
             }
             else
             {throw new NullargumentsException();}
