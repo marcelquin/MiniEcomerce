@@ -44,7 +44,7 @@ public class ProdutoController {
     public ResponseEntity<List<ProdutoEntity>> ListarProdutos()
     { return service.ListarProdutos();}
 
-    @Operation(summary = "Lista Registros da tabela", method = "GET")
+    @Operation(summary = "Busca Registros da tabela", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
@@ -68,13 +68,10 @@ public class ProdutoController {
                                                   @RequestParam int quantidade,
                                                   @RequestParam MEDIDA medida,
                                                   @RequestParam Double estoque,
-                                                  @RequestParam Long idNotaFiscal,
-                                                  @RequestParam Double valorEmNota,
-                                                  @RequestParam Double impostoAplicado,
-                                                  @RequestParam Double porcentagemLucro,
-                                                  @RequestParam Double valorFrete,
-                                                  @RequestParam Double valorCusto)
-    {return service.NovoProduto(nome, descriacao, quantidade, medida, estoque, idNotaFiscal, valorEmNota, impostoAplicado, porcentagemLucro, valorFrete, valorCusto);}
+                                                  @RequestParam Long fornecedorId,
+                                                  @RequestParam Double valor,
+                                                  @RequestParam Double porcentagemLucro)
+    {return service.NovoProduto(nome, descriacao, quantidade, medida, estoque, fornecedorId, valor,porcentagemLucro);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -83,20 +80,17 @@ public class ProdutoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
-    @PutMapping("/EditarProduto")
+    @PutMapping("/EditarInformacoesProduto")
     public ResponseEntity<ProdutoDTO> EditarProduto(@RequestParam Long id,
                                                     @RequestParam String nome,
                                                     @RequestParam String descriacao,
                                                     @RequestParam int quantidade,
                                                     @RequestParam MEDIDA medida,
                                                     @RequestParam Double estoque,
-                                                    @RequestParam Long idNotaFiscal,
-                                                    @RequestParam Double valorEmNota,
-                                                    @RequestParam Double impostoAplicado,
-                                                    @RequestParam Double porcentagemLucro,
-                                                    Double valorFrete,
-                                                    Double valorCusto)
-    {return  service.EditarProduto(id, nome, descriacao, quantidade, medida, estoque, idNotaFiscal, valorEmNota, impostoAplicado, porcentagemLucro, valorFrete, valorCusto);}
+                                                    @RequestParam Long fornecedorId,
+                                                    @RequestParam Double valor,
+                                                    @RequestParam Double porcentagemLucro)
+    {return  service.EditarProduto(id, nome, descriacao, quantidade, medida, estoque, fornecedorId, valor, porcentagemLucro);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -106,15 +100,10 @@ public class ProdutoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/AdicionarEstoqueProduto")
-    public ResponseEntity<ProdutoDTO> AdicionarEstoqueProduto(@RequestParam Long id,
-                                                              @RequestParam Long idNotaFiscal,
-                                                              @RequestParam Double valorEmNota,
-                                                              @RequestParam Double impostoAplicado,
-                                                              @RequestParam Double porcentagemLucro,
-                                                              Double valorFrete,
-                                                              Double valorCusto,
-                                                              @RequestParam Double estoque)
-    { return service.AdicionarEstoqueProduto(id, idNotaFiscal, valorEmNota, impostoAplicado, porcentagemLucro, valorFrete, valorCusto, estoque);}
+    public ResponseEntity<ProdutoDTO> AdicionarEstoqueProduto(Long id,
+                                                              Double valor,
+                                                              Double estoque )
+    { return service.AdicionarEstoqueProduto(id, valor, estoque);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -139,9 +128,5 @@ public class ProdutoController {
     public ResponseEntity<ProdutoDTO> QueimaEstoque(@RequestParam Long id,
                                                     @RequestParam Double porcentagem)
     { return service.QueimaEstoque(id, porcentagem);}
-
-
-
-
 
 }

@@ -13,7 +13,6 @@ import App.Repository.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
@@ -83,22 +82,15 @@ public class PedidoService {
     {
         try
         {
-            if(id != null)
+            PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
+                    ()-> new EntityNotFoundException()
+            );
+            List<String> itens = new ArrayList<>();
+            for(ItemPedidoEntity item: entity.getProdutos())
             {
-                PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                List<String> itens = new ArrayList<>();
-                for(ItemPedidoEntity item: entity.getProdutos())
-                {
-                    itens.add(item.getProduto().getNome());
-                }
-                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
-                return new ResponseEntity<>(response,HttpStatus.OK);
+                itens.add(item.getProduto().getNome());
             }
-            else
-            {throw new NullargumentsException();}
-
+            PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());            return new ResponseEntity<>(response,HttpStatus.CREATED);
         }
         catch (Exception e)
         {
@@ -108,14 +100,14 @@ public class PedidoService {
     }
 
 
-    public ResponseEntity<PedidoDTO> NovoPedido(String nomeCliente)
+    public ResponseEntity<PedidoDTO> NovoPedido(Long idCliente)
     {
         try
         {
-            if(nomeCliente != null)
+            if(idCliente != null)
             {
                 PedidoEntity entity = new PedidoEntity();
-                ClienteEntity cliente = clienteRepository.findBynome(nomeCliente).orElseThrow(
+                ClienteEntity cliente = clienteRepository.findById(idCliente).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 int dig = (int) (1111 + Math.random() * 9999);
@@ -146,20 +138,20 @@ public class PedidoService {
     }
 
     public void AdicionarProdutoPedido(Long id,
-                                       String codigoProduto,
+                                       Long idProduto,
                                        Double quantidade)
     {
         try
         {
             if(id != null &&
-               codigoProduto != null &&
+               idProduto != null &&
                quantidade != null)
             {
                 if(quantidade < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                 PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                EstoqueEntity produto = estoqueRepository.findBycodigo(codigoProduto).orElseThrow(
+                EstoqueEntity produto = estoqueRepository.findById(idProduto).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 Locale localBrasil = new Locale("pt", "BR");
@@ -257,26 +249,27 @@ public class PedidoService {
         }
     }
 
-    public void EntregaNaoRealizada(Long id, String motivo)
+
+    public void AtencaoEntrega(Long id,
+                                String motivo)
     {
         try
         {
-            if(id != null)
+            if(id != null &&
+              motivo != null)
             {
-                PedidoEntity pedido = pedidoRepository.findById(id).orElseThrow(
+                PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                EntregaEntity entrega = entregaRepository.findById(pedido.getEntrega().getId()).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                if(entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+                EntregaEntity entrega =  entregaRepository.findById(entity.getEntrega().getId()).orElseThrow(
+                    ()-> new EntityNotFoundException()
+            );
+                if(entrega.getStatusEntrega() == STATUSENTREGA.EM_ROTA)
                 {
-                    entrega.setDataEntrega(LocalDateTime.now());
-                    entrega.setTimeStamp(LocalDateTime.now());
-                    entrega.setStatusEntrega(STATUSENTREGA.AGUARDANDO);
-                    pedido.setNotificacao(motivo);
-                    entregaRepository.save(entrega);
-                    pedidoRepository.save(pedido);
+                   entrega.setStatusEntrega(STATUSENTREGA.AGUARDANDO);
+                   entity.setNotificacao(motivo);
+                   entregaRepository.save(entrega);
+                   pedidoRepository.save(entity);
                 }
             }
             else
@@ -288,26 +281,26 @@ public class PedidoService {
         }
     }
 
-    public void CancelarEntrega(Long id, String motivo)
+    public void CancelarEntrega(Long id,
+                               String motivo)
     {
         try
         {
-            if(id != null)
+            if(id != null &&
+                    motivo != null)
             {
-                PedidoEntity pedido = pedidoRepository.findById(id).orElseThrow(
+                PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                EntregaEntity entrega = entregaRepository.findById(pedido.getEntrega().getId()).orElseThrow(
+                EntregaEntity entrega =  entregaRepository.findById(entity.getEntrega().getId()).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                if(entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
-                {
-                    entrega.setTimeStamp(LocalDateTime.now());
                     entrega.setStatusEntrega(STATUSENTREGA.CANCELADA);
-                    pedido.setNotificacao(motivo);
+                    entrega.setDataCancelamento(LocalDateTime.now());
+                    entity.setNotificacao(motivo);
                     entregaRepository.save(entrega);
-                    pedidoRepository.save(pedido);
-                }
+                    pedidoRepository.save(entity);
+
             }
             else
             {throw new NullargumentsException();}

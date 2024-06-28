@@ -1,9 +1,9 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Relatorio.css';
-import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
+
 
 function Relaroriogerenciaadm() {
+  /*
   const baseUrl = "http://34.136.115.180:8080"
   //const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
@@ -15,7 +15,7 @@ function Relaroriogerenciaadm() {
             console.error("ops! ocorreu um erro" + err);
           });
       }, []);
-
+    */
     return(
     <>
             <div className="admBox">

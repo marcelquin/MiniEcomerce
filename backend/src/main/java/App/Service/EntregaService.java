@@ -62,29 +62,28 @@ public class EntregaService {
     public void IniciarEntrega(Long id)
     {
         try
-    {
-        if(id != null)
         {
-            EntregaEntity entrega = entregaRepository.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException()
-        );
-            if(entrega.getStatusEntrega() == STATUSENTREGA.AGUARDANDO &&
-              entrega.getStatusEntrega() != STATUSENTREGA.EM_ROTA &&
-              entrega.getStatusEntrega() != STATUSENTREGA.ENTREGUE &&
-              entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+            if(id != null)
             {
-                entrega.setDataEntrega(LocalDateTime.now());
-                entrega.setTimeStamp(LocalDateTime.now());
-                entrega.setStatusEntrega(STATUSENTREGA.EM_ROTA);
+                EntregaEntity entrega = entregaRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                if(entrega.getStatusEntrega() == STATUSENTREGA.AGUARDANDO &&
+                        entrega.getStatusEntrega() != STATUSENTREGA.EM_ROTA &&
+                        entrega.getStatusEntrega() != STATUSENTREGA.ENTREGUE)
+                {
+                    entrega.setDataEntrega(LocalDateTime.now());
+                    entrega.setTimeStamp(LocalDateTime.now());
+                    entrega.setStatusEntrega(STATUSENTREGA.EM_ROTA);
+                }
             }
+            else
+            {throw new NullargumentsException();}
         }
-        else
-        {throw new NullargumentsException();}
-    }
-    catch (Exception e)
-    {
-        e.getMessage();
-    }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
     }
 
     public void FinalizarEntrega(Long id)
@@ -98,8 +97,7 @@ public class EntregaService {
                 );
                 if(entrega.getStatusEntrega() != STATUSENTREGA.AGUARDANDO &&
                    entrega.getStatusEntrega() == STATUSENTREGA.EM_ROTA &&
-                   entrega.getStatusEntrega() != STATUSENTREGA.ENTREGUE &&
-                   entrega.getStatusEntrega() != STATUSENTREGA.ATENCAO)
+                   entrega.getStatusEntrega() != STATUSENTREGA.ENTREGUE)
                 {
                     entrega.setDataEntrega(LocalDateTime.now());
                     entrega.setTimeStamp(LocalDateTime.now());

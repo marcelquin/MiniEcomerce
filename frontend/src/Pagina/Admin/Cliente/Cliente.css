@@ -38,14 +38,6 @@ input
     margin: 20px;
 }
 
-.inputBusca
-{
-    width: 100px;
-    height: 20px;
-    border-radius: 2%;
-}
-
-
 .campoPesquisa
 {
     width: 100%;
@@ -56,6 +48,11 @@ input
 {
     width: 160px;
     height: 20px;
+}
+.seltorcadastro
+{
+    width: 300px;
+    height: 50px;
 }
 
 @media only screen and (min-width: 320px) and (max-width: 768px)

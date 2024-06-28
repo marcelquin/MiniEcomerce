@@ -16,11 +16,7 @@ public record ClienteDTO(
         String estado,
         Long prefixo,
         Long telefone,
-        String email,
-        String profissao,
-        Double salarioBruto,
-        Double salarioLiquido
-
+        String email
 ) {
 
 }

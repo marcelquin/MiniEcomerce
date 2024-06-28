@@ -63,17 +63,14 @@ public class ClienteController {
                                                   @RequestParam String logradouro,
                                                   @RequestParam String numero,
                                                   @RequestParam String bairro,
-                                                  String referencia,
+                                                  @RequestParam String referencia,
                                                   @RequestParam Long cep,
                                                   @RequestParam String cidade,
                                                   @RequestParam String estado,
                                                   @RequestParam Long prefixo,
                                                   @RequestParam Long telefone,
-                                                  @RequestParam String email,
-                                                  @RequestParam String profissao,
-                                                  @RequestParam Double salarioBruto,
-                                                  @RequestParam Double salarioLiquido)
-    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email,profissao,salarioBruto,salarioLiquido);}
+                                                  @RequestParam String email)
+    { return service.NovoCliente(nome, sobrenome, cpf, dataNascimento, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
 
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
@@ -92,7 +89,7 @@ public class ClienteController {
                                                    @RequestParam String logradouro,
                                                    @RequestParam String numero,
                                                    @RequestParam String bairro,
-                                                   String referencia,
+                                                   @RequestParam String referencia,
                                                    @RequestParam Long cep,
                                                    @RequestParam String cidade,
                                                    @RequestParam String estado,
@@ -109,8 +106,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @DeleteMapping("/DeletarCliente")
-    public void DeletarCliente(@RequestParam Long id)
-    { service.DeletarCliente(id);}
+    public ResponseEntity<ClienteDTO> DeletarCliente(@RequestParam Long id)
+    { return service.DeletarCliente(id);}
 
 
 }

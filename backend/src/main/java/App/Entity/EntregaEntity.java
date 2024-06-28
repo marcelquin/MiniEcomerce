@@ -38,5 +38,8 @@ public class EntregaEntity {
     private LocalDateTime dataEntrega;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime dataCancelamento;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
 }

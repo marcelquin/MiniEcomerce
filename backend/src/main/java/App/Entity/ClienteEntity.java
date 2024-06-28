@@ -39,12 +39,6 @@ public class ClienteEntity {
     @JoinColumn(name = "contatoEntity_id", referencedColumnName = "id")
     private ContatoEntity contato;
 
-    private String profissao;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "scoreEntity_id", referencedColumnName = "id")
-    private ScoreEntity score;
-
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;
 

@@ -3,7 +3,7 @@ import Axios from 'axios';
 import './CLiente.css';
 
 function Cliente() {
-    const baseUrl = "http://34.136.115.180:8080"
+    const baseUrl = "http://34.133.121.3:8080"
     //const baseUrl = "http://localhost:8080"
     //---------------ListGet----------------------
     const[APIData, setAPIData]= useState([]);
@@ -27,7 +27,6 @@ function Cliente() {
                             <td>Endereço</td>
                             <td>Telefone</td>
                             <td>E-Mail</td>
-                            <td>Scores</td>
                         </tr>            
                     
                 {APIData.map((data, i) => {
@@ -38,7 +37,6 @@ function Cliente() {
                                     <td><label>{data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado} </label></td>
                                     <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
                                     <td><label>{data.contato.email}</label></td>
-                                    <td><label>{data.score.scoreFront}</label></td> 
                                 </tr>
                             </>
                             )})}

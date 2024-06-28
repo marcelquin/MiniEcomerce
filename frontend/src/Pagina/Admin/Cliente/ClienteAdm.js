@@ -3,10 +3,10 @@ import React, { useState, } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cliente.css';
 
-
 function CLieteadm() {
-    const baseUrl = "http://34.136.115.180:8080"
+    const baseUrl = "http://34.133.121.3:8080"
     //const baseUrl = "http://localhost:8080"
+    const[filtroCadastro, setfiltroCadastro] = useState('')
     const navigate = useNavigate();
     const [clienteData, setclienteData] = useState({
         nome: "",
@@ -23,13 +23,31 @@ function CLieteadm() {
         prefixo: "",
         telefone: "",
         email: "",
-        profissao: "",
-        salarioBruto: "",
-        salarioLiquido: ""
       });
+
+      const [empresaData, setempresaData] = useState({
+        nome: "",
+        razaoSocial: "",
+        cnpj: "",
+        areaAtuacao: "",
+        logradouro: "",
+        numero: "",
+        bairro: "",
+        referencia: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+        prefixo: "",
+        telefone: "",
+        email: "",
+  });
 
       const handleChanage = (e) => {
         setclienteData(prev=>({...prev,[e.target.name]:e.target.value}));
+      }
+      
+      const handleChanagecnpj = (e) => {
+        setempresaData(prev=>({...prev,[e.target.name]:e.target.value}));
       }
   
 
@@ -54,12 +72,9 @@ function CLieteadm() {
                 'estado': clienteData.estado,
                 'prefixo':clienteData.prefixo,
                 'telefone':clienteData.telefone,
-                'email':clienteData.email,
-                'profissao': clienteData.profissao,
-                'salarioBruto': clienteData.salarioBruto,
-                'salarioLiquido': clienteData.salarioLiquido
+                'email':clienteData.email
         })})
-        .then(navigate("/adm")) 
+        .then(navigate("/adm"))     
         setclienteData({
             nome: "",
             sobrenome: "",
@@ -74,10 +89,52 @@ function CLieteadm() {
             estado: "",
             prefixo: "",
             telefone: "",
+            email: ""
+        })
+        }catch (err){
+          console.log("erro")
+        }
+      }
+
+      const handleClickcnpj=async (e)=>{
+        try{
+          fetch(`${baseUrl}/clienteempresa/NovaClienteEmpresa`, {
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },    
+            body: new URLSearchParams({
+             'nome': empresaData.nome,
+            'razaoSocial': empresaData.razaoSocial,
+            'cnpj': empresaData.cnpj,
+            'areaAtuacao': empresaData.areaAtuacao,
+            'logradouro':empresaData.logradouro,
+            'numero':empresaData.numero,
+            'bairro':empresaData.bairro,
+            'referencia':empresaData.referencia,
+            'cep': empresaData.cep,
+            'cidade': empresaData.cidade,
+            'estado': empresaData.estado,
+            'prefixo':empresaData.prefixo,
+            'telefone':empresaData.telefone,
+            'email':empresaData.email
+        })})
+        .then(navigate("/adm"))     
+        setempresaData({
+            nome: "",
+            razaoSocial: "",
+            cnpj: "",
+            areaAtuacao: "",
+            logradouro: "",
+            numero: "",
+            bairro: "",
+            referencia: "",
+            cep: "",
+            cidade: "",
+            estado: "",
+            prefixo: "",
+            telefone: "",
             email: "",
-            profissao: "",
-            salarioBruto: "",
-            salarioLiquido: ""
         })
         }catch (err){
           console.log("erro")
@@ -90,18 +147,27 @@ function CLieteadm() {
 
                     <div className="admNav"><Navadm></Navadm></div>
                     <div className="admConteudoCad">
-
-                        <div className="formBloco">
+                       <div className="seltorcadastro">
+                            <input type="radio" name="filtroCadastro" value="CPF" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa fisica
+                            <input type="radio" name="filtroCadastro" value="CNPJ" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa Juridica
+                       </div>    
+                           
+                        {filtroCadastro.length === 3 ?(<>
+                            <div className="formBloco">
                         <h3>Dados Pessoais:</h3>
                         <form>
                             <table>
                                 <tr>
-                                <td>Nome: <input type="text" name="nome" id="nome" onChange={handleChanage}/></td>
-                                <td>Sobreome: <input type="text" name="sobrenome"  onChange={handleChanage}/></td>
-                                <td>CPF: <input type="number" name="cpf" placeholder="Somente numeros"  onChange={handleChanage}/></td>
+                                <td><label> Nome:<br/> 
+                                <input type="text" name="nome" id="nome" onChange={handleChanage}/></label></td>
+                                <td><label>Sobreome:<br/>
+                                <input type="text" name="sobrenome"  onChange={handleChanage}/></label></td>
+                                <td><label>CPF:<br/>
+                                <input type="number" name="cpf" placeholder="Somente numeros"  onChange={handleChanage}/></label></td>
                                 </tr>
                                 <tr>
-                                <td>Data de Nascimento: <input type="text" name="dataNascimento" placeholder="dd/mm/aaaa"  onChange={handleChanage}/></td>
+                                <td><label>Data de Nascimento:<br/>
+                                <input type="text" name="dataNascimento" placeholder="dd/mm/aaaa"  onChange={handleChanage}/></label></td>
                                 </tr>
                             </table>
                         </form>
@@ -111,29 +177,24 @@ function CLieteadm() {
                         <form>
                             <table>
                                 <tr>
-                                <td>Logradouro: <input type="text" name="logradouro" placeholder="Digite o Nome da rua"  onChange={handleChanage}/></td>
-                                <td>Numero: <input type="text" name="numero" placeholder="Digite o numero da casa"  onChange={handleChanage}/></td>
-                                <td>Bairro: <input type="text" name="bairro" placeholder="Digite O Bairro"  onChange={handleChanage}/></td>
+                                <td><label>Logradouro: <br/>
+                                <input type="text" name="logradouro" placeholder="Digite o Nome da rua"  onChange={handleChanage}/></label></td>
+                                <td><label>Numero:<br/> 
+                                <input type="text" name="numero" placeholder="Digite o numero da casa"  onChange={handleChanage}/></label></td>
+                                <td><label>Bairro:<br/> 
+                                <input type="text" name="bairro" placeholder="Digite O Bairro"  onChange={handleChanage}/></label></td>
                                 </tr>
                                 <tr>
-                                <td>Referência: <input type="text" name="referencia" placeholder="Digite um Ponto de referência"  onChange={handleChanage}/></td>
-                                <td>CEP: <input type="number" name="cep" placeholder="Digite O Cep da cidade"  onChange={handleChanage}/></td>
-                                <td>Cidade: <input type="text" name="cidade" placeholder="Digite a cidade"  onChange={handleChanage}/></td>
+                                <td><label>Referência:<br/>
+                                <input type="text" name="referencia" placeholder="Digite um Ponto de referência"  onChange={handleChanage}/></label></td>
+                                <td><label>CEP: <br/>
+                                <input type="number" name="cep" placeholder="Digite O Cep da cidade"  onChange={handleChanage}/></label></td>
+                                <td><label>Cidade: <br/>
+                                <input type="text" name="cidade" placeholder="Digite a cidade"  onChange={handleChanage}/></label></td>
                                 </tr>
                                 <tr>
-                                <td>Estado: <input type="text" name="estado" placeholder="Digite a sigla do estado"  onChange={handleChanage}/></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    <div className="formBloco">
-                    <h3>Dados Profissionais</h3>
-                        <form>
-                            <table>
-                                <tr>
-                                <td>Profissão: <input type="text" name="profissao" placeholder="Digite a Profissão do cliente"  onChange={handleChanage}/></td>
-                                <td>Salário Bruto: <input type="number" name="salarioBruto" placeholder="Digite o valor do salario bruto"  onChange={handleChanage}/></td>
-                                <td>Salário Líquido: <input type="email" name="salarioLiquido" placeholder="Digite o valor do salario líquido"  onChange={handleChanage}/></td>
+                                <td><label>Estado: <br/> 
+                                <input type="text" name="estado" placeholder="Digite a sigla do estado"  onChange={handleChanage}/></label></td>
                                 </tr>
                             </table>
                         </form>
@@ -143,9 +204,12 @@ function CLieteadm() {
                         <form>
                             <table>
                                 <tr>
-                                <td>Prefixo: <input type="number" name="prefixo" placeholder="Digite um email válido"  onChange={handleChanage}/></td>
-                                <td>telefone: <input type="number" name="telefone" placeholder="Digite um Telefone válido"  onChange={handleChanage}/></td>
-                                <td>E-Mail: <input type="email" name="email" placeholder="Digite um email válido"  onChange={handleChanage}/></td>
+                                <td><label> Prefixo: <br/>
+                                <input type="number" name="prefixo" placeholder="Digite um email válido"  onChange={handleChanage}/></label></td>
+                                <td><label>Telefone: <br/>
+                                <input type="number" name="telefone" placeholder="Digite um Telefone válido"  onChange={handleChanage}/></label></td>
+                                <td><label>E-Mail: <br/>
+                                <input type="email" name="email" placeholder="Digite um email válido"  onChange={handleChanage}/></label></td>
                                 </tr>
                                 <tr>
                                 <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td>
@@ -153,6 +217,72 @@ function CLieteadm() {
                             </table>
                         </form>
                     </div>
+                        </>) : (<>
+                          
+                            <div className="formBloco">
+
+<h3>Dados da Empresa:</h3>
+    <table>
+    <tr>
+        <td><label>Nome: <br/>
+        <input type="text" name="nome" id="" onChange={handleChanagecnpj}/></label></td>
+        <td><label>Razão Social: <br/>
+        <input type="text" name="razaoSocial"  onChange={handleChanagecnpj}/></label></td>                                    
+        <td><label>CNPJ: <br/>
+        <input type="text" name="cnpj" placeholder="Digite o CNPJ da empresa"  onChange={handleChanagecnpj}/></label></td>
+     </tr>
+     <tr>
+        <td><label>Inicio de Contrato: <br/>
+        <input type="date" name="dataContrato" placeholder="Selecione a data"  onChange={handleChanagecnpj}/></label></td>                         
+        <td><label>Área de Atuação: <br/>
+        <input type="text" name="areaAtuacao" id="" onChange={handleChanagecnpj}/> </label></td>
+    </tr>
+     
+    </table>
+</div>
+<div className="formBloco">
+                        <h3>Endereço:</h3>
+                        <form>
+                            <table>
+                                <tr>
+                                <td><label>Logradouro: <br/>
+                                <input type="text" name="logradouro" placeholder="Digite o Nome da rua"  onChange={handleChanagecnpj}/></label></td>
+                                <td><label>Numero:<br/> 
+                                <input type="text" name="numero" placeholder="Digite o numero da casa"  onChange={handleChanagecnpj}/></label></td>
+                                <td><label>Bairro:<br/> 
+                                <input type="text" name="bairro" placeholder="Digite O Bairro"  onChange={handleChanagecnpj}/></label></td>
+                                </tr>
+                                <tr>
+                                <td><label>Referência:<br/>
+                                <input type="text" name="referencia" placeholder="Digite um Ponto de referência"  onChange={handleChanagecnpj}/></label></td>
+                                <td><label>CEP: <br/>
+                                <input type="number" name="cep" placeholder="Digite O Cep da cidade"  onChange={handleChanagecnpj}/></label></td>
+                                <td><label>Cidade: <br/>
+                                <input type="text" name="cidade" placeholder="Digite a cidade"  onChange={handleChanagecnpj}/></label></td>
+                                </tr>
+                                <tr>
+                                <td><label>Estado: <br/> 
+                                <input type="text" name="estado" placeholder="Digite a sigla do estado"  onChange={handleChanagecnpj}/></label></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+<div className="formBloco">
+<h3>Contato</h3>
+    <table>
+        <tr>
+            <td><label>Prefixo: <br/><input type="number" name="prefixo" id="" onChange={handleChanagecnpj}/></label></td>
+            <td><label>Telefone: <br/><input type="number" name="telefone" id="" onChange={handleChanagecnpj}/></label></td>
+            <td><label>E-mail: <br/><input type="email" name="email" id="" onChange={handleChanagecnpj}/></label></td>
+        </tr>
+        <tr>
+        <td><input type="submit" value="Salvar" className="btn" onClick={handleClickcnpj}/>  </td>
+    </tr> 
+    </table>
+</div>     
+
+                        </>)}
+                        
                         
                     </div>
                 </div>

@@ -10,8 +10,6 @@ import ClienteAdm from './Pagina/Admin/Cliente/ClienteAdm';
 import CLientegerenciaadm from './Pagina/Admin/Cliente/Clientegerenciaadm';
 import Produtogerenciaadm from './Pagina/Admin/Produto/Produtogerenciaadm';
 import Pedidogerenciaadm from './Pagina/Admin/Compras/Pedidogerenciaradm';
-import Notafiscaladm from './Pagina/Admin/Nota/NotaFiscalAdm';
-import Notafiscalgerenciaadm from './Pagina/Admin/Nota/NotaFiscalgeremciaAdm';
 import Fonecedoradm from './Pagina/Admin/Fornecedor/FornecedorAdm';
 import FornecedorgrenciaAdm from './Pagina/Admin/Fornecedor/FornecedorgeremciaAdm';
 import Entregagerenciaadm from './Pagina/Admin/Entrega/Entregagerenciaradm';
@@ -21,8 +19,11 @@ import Fornecedorgerenciaadm from './Pagina/Admin/Fornecedor/FornecedorgeremciaA
 import Relaroriogerenciaadm from './Pagina/Admin/Relatorio/Relatoriogerenciaradm';
 import ClienteEditar from './Pagina/Admin/Cliente/ClienteEditar'
 import FornecedorEditar from './Pagina/Admin/Fornecedor/FornecedorEditar';
-import NotafiscalEditar from './Pagina/Admin/Nota/NotaFiscalEditar';
+import ClienteEmpresaEditar from './Pagina/Admin/Cliente/ClienteEmpresaEditar'
 import ProdutoEditar from './Pagina/Admin/Produto/ProdutoEditar';
+import EmpresaAdm from './Pagina/Admin/Empresa/EmpresaAdm';
+import EmpresagerenciaAdm from './Pagina/Admin/Empresa/EmpresageremciaAdm'
+import EmpresaEditar from './Pagina/Admin/Empresa/EmpresaEditar'
 function App() {
   return (
 
@@ -34,22 +35,28 @@ function App() {
                             <Route path='/Cliente' element={<CLiente/>} />
                             <Route path='/caixa' element={<Pedido/>} />
                             <Route path='/estoque' element={<Produto/>} />
+
+
                             <Route path='/adm' element={<HomeAdm/>} />
                             <Route path='/admproduto' element={<ProdutoAdm/>} />
-                            <Route path='/admcliente' element={<ClienteAdm/>} />
-                            <Route path='/admnotafiscal' element={<Notafiscaladm/>} />
+                            <Route path='/admcliente' element={<ClienteAdm/>} />                      
                             <Route path='/admfornecedor' element={<Fonecedoradm/>} />
+                            <Route path='/admenpresa' element={<EmpresaAdm/>} />
+
+
                             <Route path='/admclientegerencia' element={<CLientegerenciaadm/>} />
                             <Route path='/admprodutogerencia' element={<Produtogerenciaadm/>} />
                             <Route path='/admpedidogerencia' element={<Pedidogerenciaadm/>} />
                             <Route path='/admfornecedorgerencia' element={<Fornecedorgerenciaadm/>} />
-                            <Route path='/admnotagerencia' element={<Notafiscalgerenciaadm/>} />
                             <Route path='/admentregagerencia' element={<Entregagerenciaadm/>} />
                             <Route path='/admrelatoriogerencia' element={<Relaroriogerenciaadm/>} />
+                            <Route path='/admempresagerencia' element={<EmpresagerenciaAdm/>} />
+
                             <Route path='/clienteeditar/:id' element={<ClienteEditar/>} />
                             <Route path='/fornecedoreditar/:id' element={<FornecedorEditar/>} />
-                            <Route path='/notafiscaleditar/:id' element={<NotafiscalEditar/>} />
                             <Route path='/produtoeditar/:id' element={<ProdutoEditar/>} />
+                            <Route path='/clienteempresa/:id' element={<ClienteEmpresaEditar/>} />
+                            <Route path='/empresaeditar/:id' element={<EmpresaEditar/>} />
                   </Routes>        
 
         </div>

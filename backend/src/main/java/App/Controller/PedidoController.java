@@ -1,9 +1,13 @@
 package App.Controller;
 
 import App.DTO.PedidoDTO;
+import App.Entity.EntregaEntity;
 import App.Entity.PedidoEntity;
 import App.Enum.FORMAPAGAMENTO;
+import App.Enum.STATUSENTREGA;
 import App.Enum.TIPOCOMPRA;
+import App.Exceptions.EntityNotFoundException;
+import App.Exceptions.NullargumentsException;
 import App.Service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -61,7 +65,6 @@ public class PedidoController {
     public ResponseEntity<PedidoDTO> BuscarPedidoPorId(@RequestParam Long id)
     { return service.BuscarPedidoPorId(id);}
 
-
     @Operation(summary = "Salva novo Registro na tabela", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -70,8 +73,8 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PostMapping("/NovoPedido")
-    public ResponseEntity<PedidoDTO> NovoPedido(@RequestParam String nomeCliente)
-    { return service.NovoPedido(nomeCliente);}
+    public ResponseEntity<PedidoDTO> NovoPedido(@RequestParam Long idCliente)
+    { return service.NovoPedido(idCliente);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -82,9 +85,9 @@ public class PedidoController {
     })
     @PutMapping("/AdicionarProdutoPedido")
     public void AdicionarProdutoPedido(@RequestParam Long id,
-                                                            @RequestParam String codigoProduto,
-                                                            @RequestParam Double quantidade)
-    {service.AdicionarProdutoPedido(id, codigoProduto, quantidade);}
+                                       @RequestParam Long idProduto,
+                                       @RequestParam Double quantidade)
+    {service.AdicionarProdutoPedido(id, idProduto, quantidade);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -107,9 +110,10 @@ public class PedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
-    @PutMapping("/EntregaNaoRealizada")
-    public void EntregaNaoRealizada(@RequestParam Long id, @RequestParam String motivo)
-    { service.EntregaNaoRealizada(id, motivo);}
+    @PutMapping("/AtencaoEntrega")
+    public void AtencaoEntrega(Long id,
+                               String motivo)
+    {service.AtencaoEntrega(id, motivo); }
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -119,6 +123,7 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/CancelarEntrega")
-    public void CancelarEntrega(@RequestParam Long id, @RequestParam String motivo)
+    public void CancelarEntrega(Long id,
+                                String motivo)
     { service.CancelarEntrega(id, motivo);}
 }
