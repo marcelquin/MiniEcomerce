@@ -1,0 +1,40 @@
+.navHome
+{
+    height: 50px;
+    width: 45%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.navHome .navBtn
+{
+    width: 30%;
+    height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.campoPesquisa
+{
+    width: 100%;
+    height: 80px;
+}
+
+.inputPesquisa
+{
+    width: 160px;
+    height: 20px;
+}
+
+.boxtabela
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.Blocoestoque
+{
+    width: 400px;
+    height: 150px;
+}

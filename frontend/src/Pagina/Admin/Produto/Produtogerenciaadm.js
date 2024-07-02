@@ -24,38 +24,41 @@ function Produtogerenciaadm() {
     return(
     <>
 
-                <div className="admBox">
+                <div className="produtoConteudo">
 
-                    <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudo">
-                    <div className="campoPesquisa">
-                        <label>Nome:<br/>
-                        <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
-                        </label>
-                    </div>
-                    {dadoPesquisa.length > 0 ?(<>
+                    <div className="produtoNav"><Navadm></Navadm></div>
+
+                    <div className="produtoBoxGeral">
+
+                        <div className="produtocampoPesquisa">
+                            <label>Nome:<br/>
+                            <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
+                            </label>
+                        </div>
+                        
+                        <div className="produtoBox">
+                        {dadoPesquisa.length > 0 ?(<>
                       {pesquisa.map((data, i) =>{
                         return(
                             <>
-                             <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.nome}</summary>
-                                <p>Dados de Nota Fiscal:</p>
-                                <span>Nome: {data.nome}</span><br/>
-                                <span>Descriçao: {data.descricao}</span><br/>
-                                <span>Código: {data.codigo}</span><br/>
-                                <span>Código de estoque: {data.estoque.codigo}</span><br/>
-                                <span>Data de Entrada: {data.DataEntrada}</span><br/>
-                                <p>Dados de valores</p>
-                                <span>Valor: {data.valorFront}</span><br/>
-                                <span>Valor total em estoque: {data.valorTotalEstoqueFront}</span><br/>
-                                <table>
-                                  <tr>
-                                    <td><Link to={`/produtoeditar/${data.id}`}>Editar</Link></td>
-                                    <td><a>Excluir</a></td>
-                                  </tr>
-                                </table>
-                            </details>
+                             <div className="produtoRetorno">
+                            <div className="produtoDestaque">
+                                <div className="thumb"></div>
+                                <div className="info">
+                                <span>{data.nome}</span><br/>
+                                <span>{data.valorFront}</span><br/>
+                                </div>
+                            </div>
+                        <div className="infoGeral">
+                            <span>{data.nome}</span><br/>
+                            <span>{data.descricao}</span><br/>
+                            <span>Valor unitário: {data.valorFront}</span><br/>
+                            <span>Código: {data.codigo}</span><br/>
+                            <span>Código Estoque: {data.estoque.codigo} </span><br/>
+                            <span>Estoque Atual: {data.estoque.quantidade} </span><br/>
+                            <span>Valor Total em Estoque: {data.valorTotalEstoqueFront}</span><br/><br/>
+                            <span><Link to={`/produtoeditar/${data.id}`}>Editar</Link></span>
+                        </div>
                         </div>
                             </>
                         )
@@ -64,34 +67,33 @@ function Produtogerenciaadm() {
                       {APIData.map((data, i) =>{
                         return(
                             <>
-                             <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.nome}</summary>
-                                <p>Dados de Nota Fiscal:</p>
-                                <span>Nome: {data.nome}</span><br/>
-                                <span>Descriçao: {data.descricao}</span><br/>
-                                <span>Código: {data.codigo}</span><br/>
-                                <span>Código de estoque: {data.estoque.codigo}</span><br/>
-                                <span>Data de Entrada: {data.DataEntrada}</span><br/>
-                                <p>Dados de valores</p>
-                                <span>Valor: {data.valorFront}</span><br/>
-                                <span>Valor total em estoque: {data.valorTotalEstoqueFront}</span><br/>
-                                <table>
-                                  <tr>
-                                    <td><Link to={`/produtoeditar/${data.id}`}>Editar</Link></td>
-                                    <td><a>Excluir</a></td>
-                                  </tr>
-                                </table>
-                            </details>
+                             <div className="produtoRetorno">
+                            <div className="produtoDestaque">
+                                <div className="thumb"></div>
+                                <div className="info">
+                                <span>{data.nome}</span><br/>
+                                <span>{data.valorFront}</span><br/>
+                                </div>
+                            </div>
+                        <div className="infoGeral">
+                            <span>{data.nome}</span><br/>
+                            <span>{data.descricao}</span><br/>
+                            <span>Valor unitário: {data.valorFront}</span><br/>
+                            <span>Código: {data.codigo}</span><br/>
+                            <span>Código Estoque: {data.estoque.codigo} </span><br/>
+                            <span>Estoque Atual: {data.estoque.quantidade} </span><br/>
+                            <span>Valor Total em Estoque: {data.valorTotalEstoqueFront}</span><br/><br/>
+                            <span><Link to={`/produtoeditar/${data.id}`}>Editar</Link></span>                                <span><a>Excluir</a></span>
+                        </div>
                         </div>
                             </>
                         )
                     })}
                     </>)}
-                     
-                </div>                    
-                        
+                        </div>
+
                     </div>
+                </div>                   
 
     </>
     );

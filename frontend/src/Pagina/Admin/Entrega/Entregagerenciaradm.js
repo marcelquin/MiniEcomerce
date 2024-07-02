@@ -33,48 +33,58 @@ function Entregagerenciaadm() {
                             <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
                             </label>
                         </div>
-                        {dadoPesquisa.length > 0?(<>
+                        <div className="admBoxtabela">
+
+                            <div className="admRetornoTabela">
+                                <table>
+                                <tr>
+                                    <td>Cliente</td>
+                                    <td>Endereço</td>
+                                    <td>Telefone</td>
+                                    <td>Status</td>
+                                </tr>
+                                {dadoPesquisa.length > 0 ? (<>
                             {pesquisa.map((data, i) => {
                             return (
                             <>
-                                <div className="blocoinfo" key={i}>
-                                    <details>
-                                        <summary>{data.nomeCliente}</summary>
-                                        <p>Dados do Cliente:</p>
-                                        <span>Nome: {data.nomeCliente}</span><br/>
-                                        <span>Endereço: {data.enderecoEntrega}</span><br/>
-                                        <span>Telefone: {data.telefoneContato}</span><br/>
-                                        <p>Dados da Entrega</p>
-                                        <span>Itens: {data.produtos}</span><br/>
-                                        <span>Status da Entrega: {data.statusEntrega}</span><br/>
-                                        <span>Data de Entrega: {data.dataEntrega}</span><br/>
-                                 </details>
-                                </div>
-                            </>
-                                    )})}
-                        </>) :(<>
+                           <tr key={i}>
+                                <td>{data.nomeCliente}</td>
+                                <td>{data.enderecoEntrega}</td>
+                                <td>{data.telefoneContato}</td>
+                                <td>{data.status}</td>
+                                <a>+detalhes</a>
+                            </tr> 
+                                        </>
+                                        )})}
+                            </>) : (<>
                             {APIData.map((data, i) => {
                             return (
                             <>
-                                <div className="blocoinfo" key={i}>
-                                    <details>
-                                        <summary>{data.nomeCliente}</summary>
-                                        <p>Dados do Cliente:</p>
-                                        <span>Nome: {data.nomeCliente}</span><br/>
-                                        <span>Endereço: {data.enderecoEntrega}</span><br/>
-                                        <span>Telefone: {data.telefoneContato}</span><br/>
-                                        <p>Dados da Entrega</p>
-                                        <span>Itens: {data.produtos}</span><br/>
-                                        <span>Status da Entrega: {data.statusEntrega}</span><br/>
-                                        <span>Data de Entrega: {data.dataEntrega}</span><br/>
-                                 </details>
-                                </div>
-                            </>
-                                    )})}
-                        </>)}
-                       
-        
-                    </div>
+                            <tr key={i}>
+                                <td>{data.nomeCliente}</td>
+                                <td>{data.enderecoEntrega}</td>
+                                <td>{data.telefoneContato}</td>
+                                <td>{data.status}</td>
+                                <a>+detalhes</a>
+                            </tr> 
+                                        </>
+                                        )})}
+                            </>)}
+                                </table>
+                            </div>
+                            <div className="admRetornoCupomFiscal">
+                                
+                                <div className="admBoxCupom"></div>
+
+                            </div>
+
+                            </div>
+
+
+
+                            </div>
+
+                        
                 </div>
     </>
     );

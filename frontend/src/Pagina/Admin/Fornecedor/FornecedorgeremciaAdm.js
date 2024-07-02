@@ -26,78 +26,85 @@ function Fornecedorgerenciaadm() {
     
     return(
         <>
-        <div className="admBox">
+        <div className="fornecedorConteudo">
 
-            <div className="admNav"><Navadm></Navadm></div>
-            <div className="admConteudo">
-                    <div className="campoPesquisa">
+            <div className="fornecedorNav"><Navadm></Navadm></div>
+            <div className="fornecedorBoxGeral">
+                  
+                <div className="fornecedorcampoPesquisa">
                         <label>Razão Social:<br/>
                         <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
                         </label>
-                    </div>
-                    {dadoPesquisa.length > 0 ? (<>
+                </div> 
+
+                <div className="fornecedorBox">
+
+                {dadoPesquisa.length > 0 ? (<>
                       {pesquisa.map((data, i) => {
                         return (
                             <>
-   
-                            <div className="blocoinfo" key={i}>
-                               <details>
-                                   <summary>{data.razaoSocial}</summary>
-                                   <p>Dados Da Empresa:</p>
-                                   <span>Nome: {data.nome}</span><br/>
-                                   <span>Razão Social: {data.razaoSocial}</span><br/>
-                                   <span>CNPJ: {data.cnpj}</span><br/>
-                                   <span>Área de Atuação: {data.areaAtuacao}</span><br/>
-                                   <span>Início de contrato: {data.dataInicioContrato}</span><br/>
-                                   <p>Localização e contato</p>
-                                   <span>CEP: {data.cep}</span><br/>
-                                   <span>Cidade: {data.cidade} -{data.estado}</span><br/>
-                                   <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                   <span>Email: {data.contato.email}</span><br/>
-                                   <table>
-                                     <tr>
-                                       <td><Link to={`/fornecedoreditar/${data.id}`}>Editar</Link></td>
-                                       <td><a>Excluir</a></td>
-                                     </tr>
-                                   </table>
-                               </details>
-                           </div> 
+                        <div className="fornecedorRetorno">
+                            <div className="fornecedorDestaque">
+                                <div className="thumb"></div>
+                                <div className="info">
+                                <span>{data.razaoSocial}</span><br/>
+                                <span>{data.cnpj}</span><br/>
+                                </div>
+                            </div>
+                            <div className="infoGeral">
+                                <span>Nome: {data.nome}</span><br/>
+                                <span>Razão Social{data.razaoSocial}</span><br/>
+                                <span>CNPJ: {data.cnpj}</span><br/>
+                                <span>Área de Atuação: {data.areaAtuacao}</span><br/>
+                                <span>Inicio de Contrato: {data.dataInicioContrato}</span><br/>
+                                <span>Localização: {data.cep} {data.cidade} -{data.estado} </span><br/>
+                                <span>Contato: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                <span>E-mail: {data.contato.email}</span><br/><br/>
+                                <span><Link to={`/fornecedoreditar/${data.id}`}>Editar</Link></span><br/>
+                            </div>
+                        </div>
+
+                                    
                             </>
                            )})}</>
                     ) : (<>
                       {APIData.map((data, i) => {
                         return (
                             <>
+                             <div className="fornecedorRetorno">
+                            <div className="fornecedorDestaque">
+                                <div className="thumb"></div>
+                                <div className="info">
+                                <span>{data.razaoSocial}</span><br/>
+                                <span>{data.cnpj}</span><br/>
+                                </div>
+                            </div>
+                            <div className="infoGeral">
+                                <span>Nome: {data.nome}</span><br/>
+                                <span>Razão Social{data.razaoSocial}</span><br/>
+                                <span>CNPJ: {data.cnpj}</span><br/>
+                                <span>Área de Atuação: {data.areaAtuacao}</span><br/>
+                                <span>Inicio de Contrato: {data.dataInicioContrato}</span><br/>
+                                <span>Localização: {data.cep} {data.cidade} -{data.estado} </span><br/>
+                                <span>Contato: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                <span>E-mail: {data.contato.email}</span><br/><br/>
+                                <span><Link to={`/fornecedoreditar/${data.id}`}>Editar</Link></span><br/>
+                            </div>
+                        </div>
    
-                            <div className="blocoinfo" key={i}>
-                               <details>
-                                   <summary>{data.razaoSocial}</summary>
-                                   <p>Dados Da Empresa:</p>
-                                   <span>Nome: {data.nome}</span><br/>
-                                   <span>Razão Social: {data.razaoSocial}</span><br/>
-                                   <span>CNPJ: {data.cnpj}</span><br/>
-                                   <span>Área de Atuação: {data.areaAtuacao}</span><br/>
-                                   <span>Início de contrato: {data.dataInicioContrato}</span><br/>
-                                   <p>Localização e contato</p>
-                                   <span>CEP: {data.cep}</span><br/>
-                                   <span>Cidade: {data.cidade} -{data.estado}</span><br/>
-                                   <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                   <span>Email: {data.contato.email}</span><br/>
-                                   <table>
-                                     <tr>
-                                       <td><Link to={`/fornecedoreditar/${data.id}`}>Editar</Link></td>
-                                       <td><a>Excluir</a></td>
-                                     </tr>
-                                   </table>
-                               </details>
-                           </div> 
                             </>
                            )})}
                    </> )}
                    
 
-            </div>
-        </div>
+                </div>
+
+            </div>  
+          </div>
+
+                     
+                   
+
         </>
     )
 }

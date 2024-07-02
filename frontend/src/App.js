@@ -24,6 +24,8 @@ import ProdutoEditar from './Pagina/Admin/Produto/ProdutoEditar';
 import EmpresaAdm from './Pagina/Admin/Empresa/EmpresaAdm';
 import EmpresagerenciaAdm from './Pagina/Admin/Empresa/EmpresageremciaAdm'
 import EmpresaEditar from './Pagina/Admin/Empresa/EmpresaEditar'
+import NovaVenda from './Pagina/Venda/NovaVenda';
+import AdicionarItem from './Pagina/Venda/AdicionarItem';
 function App() {
   return (
 
@@ -35,7 +37,7 @@ function App() {
                             <Route path='/Cliente' element={<CLiente/>} />
                             <Route path='/caixa' element={<Pedido/>} />
                             <Route path='/estoque' element={<Produto/>} />
-
+                            <Route path='/novavenda' element={<NovaVenda/>} />
 
                             <Route path='/adm' element={<HomeAdm/>} />
                             <Route path='/admproduto' element={<ProdutoAdm/>} />
@@ -57,6 +59,7 @@ function App() {
                             <Route path='/produtoeditar/:id' element={<ProdutoEditar/>} />
                             <Route path='/clienteempresa/:id' element={<ClienteEmpresaEditar/>} />
                             <Route path='/empresaeditar/:id' element={<EmpresaEditar/>} />
+                            <Route path='/adicionaritem/:id' element={<AdicionarItem/>} />
                   </Routes>        
 
         </div>

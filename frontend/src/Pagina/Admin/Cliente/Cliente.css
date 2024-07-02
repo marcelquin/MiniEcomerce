@@ -1,4 +1,4 @@
-.admConteudo
+.clienteConteudo
 {
     width: 100%;
     height: auto;
@@ -6,31 +6,22 @@
     flex-wrap: wrap;
 }
 
-.blocoinfo
+.clienteNav
 {
-    width: 20%;
     height: auto;
-    margin: 2.5%;
-}
-p
-{
-    text-transform: uppercase;
-}
-span
-{
-    text-transform: initial;
-    margin-bottom: 4px;
-}
-.blocoinfo p,span
-{
-    font-size: 12px;
+    width: 25%;
 }
 
-.inputBusca
+.clienteBoxGeral
 {
-    width: 100px;
-    height: 20px;
-    border-radius: 2%;
+    width: 70%;
+    height: auto;
+}
+
+.clienteBoxGeral .clienteSeletorCadastro
+{
+    width: 300px;
+    height: 50px;
 }
 
 input
@@ -38,43 +29,60 @@ input
     margin: 20px;
 }
 
-.campoPesquisa
+.clienteConteudo .clientecampoPesquisa
 {
     width: 100%;
     height: 80px;
 }
 
-.inputPesquisa
+.clientecampoPesquisa .inputPesquisa
 {
     width: 160px;
     height: 20px;
 }
-.seltorcadastro
+
+.clienteBox
 {
-    width: 300px;
+    width: 100%;
+    height: auto;
+    margin: 5%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.clienteBox .clienteRetorno
+{
+
+    width: 250px;
+    height: 280px;
+    margin: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.clienteRetorno .clienteDestaque
+{
+    display: flex;
+}
+
+.clienteRetorno .thumb
+{
+    border: 1px solid rgb(71, 14, 177);
+    width: 50px;
     height: 50px;
+    margin: 10px; 
 }
 
-@media only screen and (min-width: 320px) and (max-width: 768px)
+.clienteRetorno .info
 {
-    input
-    {
-        height: 20px;
-        width: 110px;
-        border: 0.5px solid black;
-    }
 
-    .btn
-    {
-        margin-top: 20px;
-    }
+    width: 150px;
+    height: 50px;
+    margin-top: 10px; 
 }
 
-@media only screen and (min-width: 769px) and (max-width: 1100px)
+.clienteRetorno .infoGeral
 {
-    input
-    {
-        border: 0.5px solid black;
-        margin-bottom: 10px;
-    }
+
+    height: 175px;
+    width: 240px;
+    margin-left: 5px;
 }

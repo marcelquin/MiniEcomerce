@@ -6,22 +6,74 @@
     flex-wrap: wrap;
 }
 
-.blocoinfo
+.admConteudo .admNav
 {
-    width: 20%;
+    width: auto;
     height: auto;
-    margin: 2.5%;
 }
-p
+
+.campoPesquisa
 {
-    text-transform: uppercase;
+    width: 100%;
+    height: 80px;
 }
-span
+
+.inputPesquisa
 {
-    text-transform: initial;
-    margin-bottom: 4px;
+    width: 160px;
+    height: 20px;
 }
-.blocoinfo p,span
+
+.admBoxtabela
 {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.admBtabela .admRetornoTabela
+{
+    height: auto;
+    width: 70%;
+    position: fixed;
+    overflow: auto;
     font-size: 12px;
+}
+
+.admRetornoTabela a
+{
+    cursor: pointer;
+    color: blue;
+}
+
+.admRetornoTabela a:hover
+{
+    color: green;
+}
+
+.admBoxtabela .admRetornoCupomFiscal
+{
+    height: auto;
+    width: 30%;
+}
+
+.admRetornoCupomFiscal a
+{
+    cursor: pointer;
+    color: blue;
+    font-size: 14px;
+    margin: 5%;
+}
+.admRetornoCupomFiscal .admBoxCupom
+{
+    height: 350px;
+    width: 85%;
+    margin: 5%;
+    overflow: auto;
+}
+
+.admBoxCupom
+{
+    text-align: justify;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }

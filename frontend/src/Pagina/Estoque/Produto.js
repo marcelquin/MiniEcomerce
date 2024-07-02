@@ -18,28 +18,30 @@ function Produto() {
     return (
         <>
         <div className="blocoConteudo">
-                <table>
-                    <tr>
-                        <td>Nome</td>
-                        <td>Descrição</td>
-                        <td>Código</td>
-                        <td>Valor</td>
-                        <td>Quantidade</td>
-                    </tr>
-                    {APIData.map((data, i) =>{
+        {APIData.map((data, i) =>{
                         return(
                             <>
-                            <tr key={i}>
-                                <td>{data.nome}</td>
-                                <td>{data.descricao}</td>
-                                <td>{data.codigo}</td>
-                                <td>{data.valorFront}</td>
-                                <td>{data.quantidade} Unidades</td>
-                            </tr>
+
+                            <div className='EstoqueRetorno' key={i}>
+                                <div className='EstoqueDestaque'>
+                                    <div className='thumb'></div>
+                                    <div className='info'>
+                                        <span>{data.nome}</span><br/>
+                                        <span>{data.valorFront}</span><br/>
+                                    </div>
+                                </div>
+                                <div className='infoGeral'>
+                                    <span>{data.descricao}</span><br/>
+                                    <span>Código: {data.codigo}</span><br/>
+                                    <span> {data.quantidade} unidades</span>
+                                </div>
+                            </div>
                             </>
                         )
                     })}            
-                </table>                
+                
+
+                
         </div>        
         </>
     );

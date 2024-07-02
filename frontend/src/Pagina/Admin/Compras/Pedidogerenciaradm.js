@@ -29,61 +29,66 @@ function Pedidogerenciaadm() {
                 <div className="admNav"><Navadm></Navadm></div>
                     <div className="admConteudo">
                     <div className="campoPesquisa">
-                        <label>Códito:<br/>
-                        <input type="text" onChange={e=> setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o coódigo de busca" />
+                        <label>Código:<br/>
+                        <input type="text" onChange={e=> setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Pd_" />
                         </label>
                     </div>
-                    {dadoPesquisa.length > 0 ? (<>
+                    <div className="admBoxtabela">
+
+                        <div className="admRetornoTabela">
+                            <table>
+                              <tr>
+                                <td>Cliente</td>
+                                <td>Código</td>
+                                <td>Valor</td>
+                                <td>Status</td>
+                                <td>Data</td>
+                                <td>tipocompra</td>
+                              </tr>
+                              {dadoPesquisa.length > 0 ? (<>
                       {pesquisa.map((data, i) => {
                       return (
                          <>
-                         <br/>
-                        <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.cliente.nome} {data.codigo}</summary>
-                                <p>Dados Do Cliente:</p>
-                                <span>Nome: {data.cliente.nome} {data.cliente.sobrenome}</span><br/>
-                                <span>CPF: {data.cliente.cpf}</span><br/>
-                                <span>Telefone: ({data.cliente.contato.prefixo}) {data.cliente.contato.telefone}</span><br/>
-                                <span>Tipo Compra: {data.tipocompra}</span><br/>
-                                <p>Items</p>
-                                <span>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome} </>)})}</span><br/>
-                                <p>Dados de Pedido e Pagamento</p>
-                                <span>Data do Pedido: {data.dataPedido}</span><br/>
-                                <span>Valor: {data.valorTotalFront}</span><br/>
-                                <span>Status Pedido: {data.status}</span>
-                            </details>
-                        </div> 
+                          <tr key={i}>
+                            <td>{data.cliente.nome} {data.cliente.sobrenome}</td>
+                            <td>{data.codigo}</td>
+                            <td>{data.valorTotalFront}</td>
+                            <td>{data.status}</td>
+                            <td>{data.dataPedido}</td>
+                            <td>{data.tipocompra}</td>
+                          </tr> 
                                     </>
                                     )})}
                     </>) : (<>
                       {APIData.map((data, i) => {
                       return (
                          <>
-                         <br/>
-                        <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.cliente.nome} {data.codigo}</summary>
-                                <p>Dados Do Cliente:</p>
-                                <span>Nome: {data.cliente.nome}</span><br/>
-                                <span>CPF: {data.cliente.cpf}</span><br/>
-                                <span>Telefone: ({data.cliente.contato.prefixo}) {data.cliente.contato.telefone}</span><br/>
-                                <span>Tipo Compra: {data.tipocompra}</span><br/>
-                                <p>Items</p>
-                                <span>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome} </>)})}</span><br/>
-                                <p>Dados de Pedido e Pagamento</p>
-                                <span>Data do Pedido: {data.dataPedido}</span><br/>
-                                <span>Valor: {data.valorTotalFront}</span><br/>
-                                <span>Status Pedido: {data.status}</span>
-                            </details>
-                        </div> 
+                        <tr key={i}>
+                            <td>{data.cliente.nome} {data.cliente.sobrenome}</td>
+                            <td>{data.codigo}</td>
+                            <td>{data.valorTotalFront}</td>
+                            <td>{data.status}</td>
+                            <td>{data.dataPedido}</td>
+                            <td>{data.tipocompra}</td>
+                            <a>+detalhes</a>
+                          </tr> 
                                     </>
                                     )})}
                     </>)}
+                            </table>
+                        </div>
+                        <div className="admRetornoCupomFiscal">
+                            
+                            <div className="admBoxCupom"></div>
+
+                        </div>
+
+                    </div>
+
                      
                         
                     </div>
-            </div>
+              </div>
     </>
     );
 }

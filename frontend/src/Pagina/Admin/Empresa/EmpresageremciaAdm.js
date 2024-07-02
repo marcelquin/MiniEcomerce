@@ -26,32 +26,35 @@ function Empresagerenciaadm() {
 
             <div className="admNav"><Navadm></Navadm></div>
             <div className="admConteudo">
+
                     
                       {APIData.map((data, i) => {
                         return (
                             <>
-   
-                            <div className="blocoinfo" key={i}>
-                               <details>
-                                   <summary>{data.razaoSocial}</summary>
-                                   <p>Dados Da Empresa:</p>
-                                   <span>Nome: {data.nome}</span><br/>
+                            <div className="cartaoVisita">
+
+                              <div className="infoDestaque">
+                                <div className="thumb"></div>
+                                <div className="info">
+                                    <h1>{data.razaoSocial}</h1><br/>
+                                    <h1>{data.cnpj}</h1>
+                                </div>
+
+                              </div>
+                              <div className="infoGeral" key={i}>
+                              <span>Nome: {data.nome}</span><br/>
                                    <span>Razão Social: {data.razaoSocial}</span><br/>
                                    <span>CNPJ: {data.cnpj}</span><br/>
                                    <span>Área de Atuação: {data.areaAtuacao}</span><br/>
                                    <span>Início de contrato: {data.dataInicioContrato}</span><br/>
                                    <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
-                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                <span>Email: {data.contato.email}</span><br/>
-                                   <table>
-                                     <tr>
-                                       <td><Link to={`/empresaeditar/${data.id}`}>Editar</Link></td>
-                                       <td><a>Excluir</a></td>
-                                     </tr>
-                                   </table>
-                               </details>
-                           </div> 
+                                  <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                  <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                  <span>Email: {data.contato.email}</span><br/><br/>
+                                <Link to={`/empresaeditar/${data.id}`}>Editar</Link>
+                              </div>
+
+                            </div>
                             </>
                            )})}
                    

@@ -42,3 +42,41 @@ input
     width: 160px;
     height: 20px;
 }
+
+.cartaoVisita
+{
+    width: 60%;
+    height: 480px;
+    margin-left: 10%;
+}
+
+.cartaoVisita .infoDestaque
+{
+    display: flex;
+}
+
+.cartaoVisita .infoGeral
+{
+    width: 100%;
+    height: auto;
+}
+
+.infoDestaque .thumb
+{
+    width: 45%;
+    height: 200px;
+    border: 1px solid gold;
+}
+
+.infoDestaque .info
+{
+    width: 45%;
+    height: 200;
+    margin: 5%;
+    margin-bottom: 0px;
+}
+
+.info h1
+{
+    text-transform: uppercase;
+}

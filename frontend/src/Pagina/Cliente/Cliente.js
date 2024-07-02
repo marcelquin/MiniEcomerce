@@ -20,27 +20,29 @@ function Cliente() {
     return (
         <>
             
-            <div className="retornoTabelaCliente">
-                  <table>
-                         <tr>
-                            <td>Nome</td>
-                            <td>Endereço</td>
-                            <td>Telefone</td>
-                            <td>E-Mail</td>
-                        </tr>            
-                    
+            <div className="blocoConteudo">              
+            
                 {APIData.map((data, i) => {
                             return (
                             <>
-                                <tr>
-                                    <td><label>{data.nome} {data.sobrenome}</label> </td>
-                                    <td><label>{data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado} </label></td>
-                                    <td><label>({data.contato.prefixo}) {data.contato.telefone}</label></td>
-                                    <td><label>{data.contato.email}</label></td>
-                                </tr>
+
+                                <div className='ClienteRetorno' key={i}>
+                                <div className='ClienteDestaque'>
+                                    <div className='thumb'></div>
+                                    <div className='info'>
+                                        <span>{data.nome} {data.sobrenome}</span><br/>
+                                        <span>({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                    </div>
+                                </div>
+                                <div className='infoGeral'>
+                                    <span>Data de Nascimento: {data.dataNascimento}</span><br/>
+                                    <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                    <span> Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                    <span> E-mail: {data.contato.email}</span>
+                                </div>
+                            </div>        
                             </>
                             )})}
-                </table>
                     
             </div>  
         </>      

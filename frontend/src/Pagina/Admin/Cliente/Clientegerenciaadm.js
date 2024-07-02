@@ -41,144 +41,138 @@ function Clientegerenciaadm() {
     return(
     <>
 
-             <div className="admBox">
+             <div className="clienteConteudo">
 
-                <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudo">
-                      <div className="seltorcadastro">
+                <div className="clienteNav"><Navadm></Navadm></div>
+                    <div className="clienteBoxGeral">
+                      <div className="clienteSeletorCadastro">
                       <input type="radio" name="filtroCadastro" value="CPF" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa fisica
                       <input type="radio" name="filtroCadastro" value="CNPJ" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa Juridica
                       </div>
                     
                     {filtroCadastro.length === 3 ?(<>
                     
-                      <div className="campoPesquisa">
+                      <div className="clientecampoPesquisa">
                         <label>Nome:<br/>
                         <input type="text" onChange={e=> setdadoPesquisaCpf(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
                         </label>
-                    </div>
+                      </div>
+                      
+                      <div className="clienteBox">
 
-                    {dadoPesquisaCpf.length >0 ?(<>
-                      {pesquisacpf.map((data, i) => {
-                        return (
-                          <>
-                          <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.nome}</summary>
-                                <p>Dados pessoais:</p>
-                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
-                                <span>Data de nascimento: {data.dataNascimento}</span><br/>
-                                <span>CPF: {data.cpf}</span><br/>
-                                <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
-                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                <span>Email: {data.contato.email}</span><br/>
-                                
-                                <table>
-                                  <tr>
-                                    <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
-                                    <td><a>Excluir</a></td>
-                                  </tr>
-                                </table>
-                            </details>
-                        </div>
-                        </>
-                        )})}
-                    </>) : (<>
-                      {APIDataCpf.map((data, i) => {
-                        return (
-                          <>
-                          <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.nome}</summary>
-                                <p>Dados pessoais:</p>
-                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
-                                <span>Data de nascimento: {data.dataNascimento}</span><br/>
-                                <span>CPF: {data.cpf}</span><br/>
-                                <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
-                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                <span>Email: {data.contato.email}</span><br/>
-                                <table>
-                                  <tr>
-                                    <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
-                                    <td><a>Excluir</a></td>
-                                  </tr>
-                                </table>
-                            </details>
-                        </div>
-                        </>
-                        )})}
-                    </>)}
+                        {dadoPesquisaCpf.length >0 ?(<>
+                          {pesquisacpf.map((data, i) => {
+                            return (
+                              <>
 
+                              <div className="clienteRetorno">
+                                <div className="clienteDestaque">
+                                  <div className="thumb"></div>
+                                  <div className="info">
+                                    <span>{data.nome} {data.sobrenome}</span><br/>
+                                    <span>({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                </div>
+                              </div>
+                              <div className="infoGeral">
+                                <span>CPF: {data.cpf}</span><br/>
+                                <span>Data de Nascimento: {data.dataNascimento}</span><br/>
+                                <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                <span> Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                <span> E-mail: {data.contato.email}</span><br/><br/>
+                                <span><Link to={`/clienteeditar/${data.id}`}>Editar</Link></span>
+                              </div>
+                           </div>
+                            </>
+                            )})}
+                        </>) : (<>
+                          {APIDataCpf.map((data, i) => {
+                            return (
+                              <>
+                             <div className="clienteRetorno">
+                                <div className="clienteDestaque">
+                                  <div className="thumb"></div>
+                                  <div className="info">
+                                    <span>{data.nome} {data.sobrenome}</span><br/>
+                                    <span>({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                </div>
+                              </div>
+                              <div className="infoGeral">
+                                <span>CPF: {data.cpf}</span><br/>
+                                <span>Data de Nascimento: {data.dataNascimento}</span><br/>
+                                <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                <span> Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                <span> E-mail: {data.contato.email}</span><br/><br/>
+                                <span><Link to={`/clienteeditar/${data.id}`}>Editar</Link></span>
+                              </div>
+                           </div>
+                            </>
+                            )})}
+                        </>)}
+                            </div>
                     </>) : (<>
                      
-                      <div className="campoPesquisa">
+                      <div className="clientecampoPesquisa">
                         <label>Nome:<br/>
                         <input type="text" onChange={e=> setdadoPesquisaCnpj(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
                         </label>
                     </div>
+
+                    <div className="clienteBox">
                     {dadoPesquisaCnpj.length >0 ?(<>
                       {pesquisacnpj.map((data, i) => {
                         return (
                           <>
-                          <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.nome}</summary>
-                                <p>Dados pessoais:</p>
-                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
-                                <span>Data de nascimento: {data.dataNascimento}</span><br/>
-                                <span>CPF: {data.cpf}</span><br/>
-                                <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
-                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                <span>Email: {data.contato.email}</span><br/>
-                                
-                                <table>
-                                  <tr>
-                                    <td><Link to={`/clienteeditar/${data.id}`}>Editar</Link></td>
-                                    <td><a>Excluir</a></td>
-                                  </tr>
-                                </table>
-                            </details>
-                        </div>
+                            <div className="clienteRetorno">
+                                <div className="clienteDestaque">
+                                  <div className="thumb"></div>
+                                  <div className="info">
+                                    <span>{data.nome} </span><br/>
+                                    <span>{data.razaoSocial} </span><br/>
+                                </div>
+                              </div>
+                              <div className="infoGeral">
+                                  <span>CNPJ: {data.cnpj}</span><br/>
+                                  <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                  <span> Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                  <span> E-mail: {data.contato.email}</span><br/><br/>
+                                  <span><Link to={`/clienteempresa/${data.id}`}>Editar</Link></span>
+                              </div>
+                           </div>
                         </>
                         )})}
                     </>) : (<>
                       {APIDataCnpj.map((data, i) => {
                         return (
                           <>
-                          <div className="blocoinfo" key={i}>
-                            <details>
-                                <summary>{data.nome}</summary>
-                                <p>Dados pessoais:</p>
-                                <span>Nome: {data.nome} {data.sobrenome}</span><br/>
-                                <span>Data de nascimento: {data.dataNascimento}</span><br/>
-                                <span>CPF: {data.cpf}</span><br/>
-                                <p>Endereço e contato</p>
-                                <span>Endereço: {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
-                                <span>Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
-                                <span>Email: {data.contato.email}</span><br/>
-                                <table>
-                                  <tr>
-                                    <td><Link to={`/clienteempresa/${data.id}`}>Editar</Link></td>
-                                    <td><a>Excluir</a></td>
-                                  </tr>
-                                </table>
-                            </details>
-                        </div>
+                          <div className="clienteRetorno">
+                                <div className="clienteDestaque">
+                                  <div className="thumb"></div>
+                                  <div className="info">
+                                    <span>{data.nome} </span><br/>
+                                    <span>{data.razaoSocial} </span><br/>
+                                </div>
+                              </div>
+                              <div className="infoGeral">
+                                  <span>CNPJ: {data.cnpj}</span><br/>
+                                  <span>Endereço: {data.endereco.logradouro}, {data.endereco.numero}, {data.endereco.bairro}, {data.endereco.referencia}, {data.endereco.cep}, {data.endereco.cidade}, {data.endereco.estado}</span><br/>
+                                  <span> Telefone: ({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                                  <span> E-mail: {data.contato.email}</span><br/><br/>
+                                  <span><Link to={`/clienteempresa/${data.id}`}>Editar</Link></span>
+                              </div>
+                           </div>
                         </>
                         )})}
                     </>)}
- 
 
+                    </div>
                     </>)}
-
+                    
+                    </div>
                     
 
                     
                     </div>
-                </div> 
+
     </>
     );
 }

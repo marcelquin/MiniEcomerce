@@ -1,5 +1,70 @@
-.caixaform
+.boxgeral
 {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.boxform
+{
+    width: 25%;
+    height: auto;
+}
+.boxtabela
+{
+    width: 75%;
+    height: auto;
+    display: flex;
+}
+
+.boxtabela .retornoTabela
+{
+    height: auto;
+    width: 60%;
+    overflow: auto;
+}
+
+.retornoTabela a
+{
+    cursor: pointer;
+    color: blue;
+}
+
+.retornoTabela a:hover
+{
+    color: green;
+}
+
+.boxtabela .retornoCupomFiscal
+{
+    height: auto;
+    width: 40%;
+}
+
+.retornoCupomFiscal a
+{
+    cursor: pointer;
+    color: blue;
+    font-size: 14px;
+    margin: 5%;
+}
+.retornoCupomFiscal .boxCupom
+{
+    height: 350px;
+    width: 85%;
+    margin: 5%;
+    overflow: auto;
+}
+
+.boxCupom
+{
+    text-align: justify;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 900px)
+{
+
 
 }
 

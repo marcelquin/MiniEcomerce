@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import './Home.css';
-
+import { Link } from 'react-router-dom';
 function Home() {
   const baseUrl = "http://34.133.121.3:8080"
   //const baseUrl = "http://localhost:8080"
@@ -97,106 +97,40 @@ function Home() {
       }
       
       useEffect(() => {
-        BuscarClientes()
-        BuscarEstoque()
-        AtualizarPedidos()
+          AtualizarPedidos()
       }, []);
       
     return (
         <>
-          <div className="blocoHomeCad">
-
-          <div className='homeCadput'>  
-              <h3>Novo Pedido</h3>
-                  <table>
-                    <tr>
-                      <td><input 
-                        className='inputretorno' 
-                        name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} 
-                        type='text' 
-                        placeholder='digite o nome do cliente' />
-                        <input type='submit' value="Salvar" onClick={NovoPedido} className='btn' /> </td>
-
-                    </tr>
-                    <tr>
-                        <div className="resultadoPesquisa">
-                        {dadoPesquisa.length >0?(<>
-                        {pesquisa.map((data, i) => {
-                        return(<>
-                        <span key={i}><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/>
-                        {data.nome} {data.sobrenome}</span>
-                    </>
-                  )})}
-                  </>) : (<></>)}
-                    </div> 
-                    </tr>
-                 
-                    
-                  </table>
-                  
+          <div className='navHome'>
+              <h3 className='navBtn'><Link to={"/novavenda"}>Novo Pedido</Link></h3>
           </div>
-          <div className='homeCadput'>  
-              <h3>Adicionar Item </h3>
-                  <table>
-                    <tr>
-                      <td>
-                      <input className='inputretorno' type='text' 
-                      name='quantidade' 
-                      value={quantidade} 
-                      onChange={(e)=> {setquantidade(e.target.value)}}
-                      placeholder='Quantidade' />
-                      </td>
-                      <td>
-                      <input 
-                        className='inputretorno' 
-                        name="dadoPesquisaProduto" onChange={e=> setdadoPesquisaProduto(e.target.value)} 
-                        type='text' 
-                        placeholder='digite o nome do Produto' />
-                      </td>
-                     </tr>
-                    <tr>
-                      <td><input type='submit' value="Adicionar"className='btn' onClick={AdicionarProduto} /></td>
-                    </tr>
-                    <tr>
-                    <div className="resultadoPesquisa">
-                        {dadoPesquisaProduto.length >0?(<>
-                        {pesquisaproduto.map((data, i) => {
-                        return(<>
-                        <span key={i}><input type="checkbox" value={data.id} onClick={(e) => {setidproduto(data.id)}}/>
-                        {data.nome} {data.valorTotalFront}</span>
-                    </>
-                  )})}
-                  </>) : (<></>)}
-                    </div> 
-                    </tr>
-                    
-                  </table> 
-          </div>
+          <div className='boxRetorno'>
+              {APIData.map((data, i) => {
+                return(<>
 
-          <div className='homeCad'>
-          <table>
-                    <tr>
-                      <td>Selecionar</td>
-                      <td>Cliente</td>
-                      <td>Código</td>
-                      <td>Valor</td>
-                    </tr>
-                    {APIData.map((data, i) => {
-                            return (
-                            <>
-                            <tr>
-                              <td><input type="checkbox" value={data.id} onClick={(e) => {setidput(data.id)}}/></td>
-                              <td>{data.nomeCLiente}</td>
-                              <td>{data.codigo}</td>                                                                
-                              <td>{data.valorTotalFront}</td>
-                            </tr>                                                                     
-                            </>
-                            )
-                          }
-                        )}
-                    </table>         
-          </div>         
-          </div> 
+                  <div className='itemRetorno'>
+                    <h4>
+                      <div className='detalheVenda'>
+                      {data.cliente.nome} {data.cliente.sobrenome} {data.codigo}<br/>
+                      </div>
+                      <div className='Adicionar'> 
+                      <a>
+                        <Link to={`/adicionaritem/${data.id}`}> <div className='icone'><span>Item</span></div></Link>
+                      </a>
+                      </div>
+                    </h4>
+                    
+                    <span className='titulo'>Data Abertura: {data.dataPedido}</span><br/>
+                    <span className='titulo'>Valor: {data.valorTotalFront}</span><br/>
+                    <span className='titulo'>itens:</span><br/>
+                    <span className='titulo'>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome} <br/> </>)})}</span>
+                  </div>
+                
+                </>)
+              })}
+              
+          </div>
                     
         </>
     );
