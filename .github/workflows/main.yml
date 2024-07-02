@@ -33,5 +33,5 @@ jobs:
         with:   
           context: ./frontend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/mhqaecommercenotafrontend:v2
+          tags: ${{ secrets.DOCKERHUB_USER }}/mhqaecommercenotafrontend:v3
  
