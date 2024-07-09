@@ -4,7 +4,7 @@ import App.Enum.MEDIDA;
 
 import java.time.LocalDate;
 
-public record ProdutoDTO(
+public record ProdutoEdtDTO(
         String nome,
         String descricao,
         int quantidade,

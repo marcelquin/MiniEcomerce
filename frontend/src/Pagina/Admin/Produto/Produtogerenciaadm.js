@@ -13,6 +13,7 @@ function Produtogerenciaadm() {
         Axios
           .get(`${baseUrl}/produto/ListarProdutos`)
           .then((response) => { setAPIData(response.data)})
+          .then(console.log(APIData))
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
@@ -20,6 +21,8 @@ function Produtogerenciaadm() {
       const pesquisa = dadoPesquisa.length > 0 ?
       APIData.filter(dados => dados.nome.includes(dadoPesquisa)) :
       []
+
+
 
     return(
     <>
@@ -50,13 +53,13 @@ function Produtogerenciaadm() {
                                 </div>
                             </div>
                         <div className="infoGeral">
-                            <span>{data.nome}</span><br/>
+                            <span>{data.nome} {data.quantidade}{data.medida}</span><br/>
                             <span>{data.descricao}</span><br/>
                             <span>Valor unitário: {data.valorFront}</span><br/>
                             <span>Código: {data.codigo}</span><br/>
                             <span>Código Estoque: {data.estoque.codigo} </span><br/>
                             <span>Estoque Atual: {data.estoque.quantidade} </span><br/>
-                            <span>Valor Total em Estoque: {data.valorTotalEstoqueFront}</span><br/><br/>
+                            <span>Data de entrada: {data.DataEntrada}</span><br/><br/>
                             <span><Link to={`/produtoeditar/${data.id}`}>Editar</Link></span>
                         </div>
                         </div>
@@ -71,19 +74,19 @@ function Produtogerenciaadm() {
                             <div className="produtoDestaque">
                                 <div className="thumb"></div>
                                 <div className="info">
-                                <span>{data.nome}</span><br/>
+                                <span>{data.nome} {data.quantidade}{data.medida}</span><br/>
                                 <span>{data.valorFront}</span><br/>
                                 </div>
                             </div>
                         <div className="infoGeral">
-                            <span>{data.nome}</span><br/>
+                            <span>{data.nome} {data.quantidade}{data.medida}</span><br/>
                             <span>{data.descricao}</span><br/>
                             <span>Valor unitário: {data.valorFront}</span><br/>
                             <span>Código: {data.codigo}</span><br/>
                             <span>Código Estoque: {data.estoque.codigo} </span><br/>
                             <span>Estoque Atual: {data.estoque.quantidade} </span><br/>
-                            <span>Valor Total em Estoque: {data.valorTotalEstoqueFront}</span><br/><br/>
-                            <span><Link to={`/produtoeditar/${data.id}`}>Editar</Link></span>                                <span><a>Excluir</a></span>
+                            <span>Data de entrada: {data.DataEntrada}</span><br/><br/>
+                            <span><Link to={`/produtoeditar/${data.id}`}>Editar</Link></span>                                
                         </div>
                         </div>
                             </>

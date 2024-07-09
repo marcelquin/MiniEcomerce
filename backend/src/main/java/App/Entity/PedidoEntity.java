@@ -27,9 +27,15 @@ public class PedidoEntity {
 
     private String nomeCLiente;
 
-    @ManyToOne
+    private String cpfCnpj;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pedidoEntity_clienteEntity_id")
     private ClienteEntity Cliente;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pedidoEntity_clienteEmpresaEntity_id")
+    private ClienteEmpresaEntity clienteEmpresa;
 
     @JoinColumn(unique = true)
     private String codigo;
@@ -45,7 +51,7 @@ public class PedidoEntity {
     @JoinColumn(name = "entregaoEntity_id", referencedColumnName = "id")
     private EntregaEntity entrega;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ItemPedidoEntity> produtos;
 
     private Double valorTotal;

@@ -71,6 +71,6 @@ public class EntregaController {
     })
     @PutMapping("/FinalizarEntrega")
     public void FinalizarEntrega(@RequestParam Long id)
-    { entregaService.IniciarEntrega(id);}
+    { entregaService.FinalizarEntrega(id);}
 
 }

@@ -26,6 +26,7 @@ import EmpresagerenciaAdm from './Pagina/Admin/Empresa/EmpresageremciaAdm'
 import EmpresaEditar from './Pagina/Admin/Empresa/EmpresaEditar'
 import NovaVenda from './Pagina/Venda/NovaVenda';
 import AdicionarItem from './Pagina/Venda/AdicionarItem';
+import Logistica from './Pagina/Logistica/Logistica';
 function App() {
   return (
 
@@ -38,6 +39,7 @@ function App() {
                             <Route path='/caixa' element={<Pedido/>} />
                             <Route path='/estoque' element={<Produto/>} />
                             <Route path='/novavenda' element={<NovaVenda/>} />
+                            <Route path='/logistica' element={<Logistica/>} />
 
                             <Route path='/adm' element={<HomeAdm/>} />
                             <Route path='/admproduto' element={<ProdutoAdm/>} />

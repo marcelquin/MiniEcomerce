@@ -6,11 +6,19 @@ function Nav() {
         <>
         <div className="blocoNav">
             
-        <Link to={"/"}>
+            <Link to={"/"}>
             <div className="blocoOpcao">
 
                 <div className="iconeHome"></div>
                 <label>Home</label>
+            </div>
+            </Link>
+
+            <Link to={"/novavenda"}>
+            <div className="blocoOpcao">
+
+                <div className="iconeVenda"></div>
+                <label>Nova Venda</label>
             </div>
             </Link>
 
@@ -37,13 +45,12 @@ function Nav() {
 
             </div>
             </Link>
-            
-
-            <Link to={"adm"}>
+            <Link to={"/logistica"}>
             <div className="blocoOpcao">
 
-                <div className="iconeadm"></div>
-                <label>Adm</label>
+                <div className="iconeLogistica"></div>
+                <label>Logistica</label>
+
             </div>
             </Link>
             

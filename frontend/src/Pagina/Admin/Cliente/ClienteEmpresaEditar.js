@@ -12,7 +12,6 @@ function ClienteEmpresaAdm() {
         nome: "",
         razaoSocial: "",
         cnpj: "",
-        areaAtuacao: "",
         logradouro: "",
         numero: "",
         bairro: "",
@@ -58,7 +57,6 @@ function ClienteEmpresaAdm() {
               'nome':PostData.nome,
               'razaoSocial': PostData.razaoSocial,
               'cnpj': PostData.cnpj,
-              'areaAtuacao':PostData.areaAtuacao,
               'logradouro':PostData.logradouro,
               'numero':PostData.numero,
               'bairro':PostData.bairro,
@@ -109,14 +107,9 @@ function ClienteEmpresaAdm() {
                             <input type="text" name="nome" value={PostData.nome} onChange={handleChanage}/></label></td>
                             <td><label>Razão Social: <br/>
                             <input type="text" name="razaoSocial" value={PostData.razaoSocial}  onChange={handleChanage}/></label></td>                                    
-                         </tr>
-                         <tr>
                             <td><label>CNPJ: <br/>
                             <input type="text" name="cnpj" value={PostData.cnpj} placeholder="Digite o CNPJ da empresa"  onChange={handleChanage}/></label></td>                        
-                            <td><label>Área de Atuação: <br/>
-                            <input type="text" name="areaAtuacao" value={PostData.areaAtuacao} onChange={handleChanage}/> </label></td>
-                        </tr>
-                         
+                        </tr>                       
                         </table>
                 </div>
                 <div className="formBloco">

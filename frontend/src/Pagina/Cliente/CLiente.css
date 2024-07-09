@@ -2,9 +2,26 @@
 {
     width: 100%;
     height: auto;
-    margin: 15px;
     display: flex;
 }
+.blocoConteudo .clienteSeletorCadastro
+{
+    width: 100%;
+    height: 100px;
+}
+
+.blocoConteudo .clientecampoPesquisa
+{ 
+    width: 100%;
+    height: 100px;
+}
+
+.blocoConteudo .clienteBox
+{
+    width: 100%;
+    height: auto;
+}
+
 
 .ClienteRetorno
 {

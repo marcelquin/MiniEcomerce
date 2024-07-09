@@ -102,9 +102,6 @@ function Home() {
       
     return (
         <>
-          <div className='navHome'>
-              <h3 className='navBtn'><Link to={"/novavenda"}>Novo Pedido</Link></h3>
-          </div>
           <div className='boxRetorno'>
               {APIData.map((data, i) => {
                 return(<>
@@ -112,7 +109,11 @@ function Home() {
                   <div className='itemRetorno'>
                     <h4>
                       <div className='detalheVenda'>
-                      {data.cliente.nome} {data.cliente.sobrenome} {data.codigo}<br/>
+                        {data.nomeCLiente != null ? (<>
+                          {data.nomeCLiente} {data.codigo} <br/>
+                        </>) : (<>
+                          {data.cliente.nome} {data.cliente.sobrenome} {data.codigo}<br/>
+                        </>)}            
                       </div>
                       <div className='Adicionar'> 
                       <a>

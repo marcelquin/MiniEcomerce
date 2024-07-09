@@ -1,6 +1,7 @@
 package App.Service;
 
 import App.DTO.ProdutoDTO;
+import App.DTO.ProdutoEdtDTO;
 import App.Entity.EstoqueEntity;
 import App.Entity.FornecedorEntity;
 import App.Entity.ProdutoEntity;
@@ -59,8 +60,8 @@ public class ProdutoService {
                 ProdutoEntity entity = produtoRepository.findById(id).orElseThrow(
                         () -> new EntityNotFoundException()
                 );
-                ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getEstoque().getQuantidade());
+                ProdutoDTO response = new ProdutoDTO(entity.getNome(),
+                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(), entity.getDataEntrada(),entity.getFabricante(), entity.getCfop(), entity.getNcmsh(), entity.getEstoque().getQuantidade());
                 return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
@@ -74,42 +75,61 @@ public class ProdutoService {
     }
 
     public ResponseEntity<ProdutoDTO> NovoProduto(String nome,
-                                                  String descriacao,
+                                                  String descricao,
                                                   int quantidade,
                                                   MEDIDA medida,
                                                   Double estoque,
                                                   Long fornecedorId,
+                                                  String fabricante,
+                                                  Long cfop,
+                                                  Long ncmsh,
                                                   Double valor,
                                                   Double porcentagemLucro)
     {
         try
         {
             if(
-               nome != null && descriacao != null &&
+               nome != null &&
+               descricao != null &&
                quantidade > 0 &&
                medida != null &&
                estoque != null &&
                valor != null &&
-               fornecedorId != null &&
+               ncmsh != null &&
+               cfop != null &&
                porcentagemLucro != null )
                 {
                     if(estoque < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                     if(valor < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
                     if(porcentagemLucro < 0) {throw new IllegalActionException("O campo não pode ser negativo");}
 
-                    int dig = (int) (1111 + Math.random() * 9999);
-                    int digestoque1 = (int) (1111 + Math.random() * 9999);
-                    int digestoque2 = (int) (111 + Math.random() * 999);
+                        int dig = (int) (1111 + Math.random() * 9999);
+                        int digestoque1 = (int) (1111 + Math.random() * 9999);
+                        int digestoque2 = (int) (111 + Math.random() * 999);
                         String codigo = "P_"+dig;
                         Double porcentagem = porcentagemLucro /100;
                         ProdutoEntity entity = new ProdutoEntity();
-
-                        entity.setNome(nome+" "+quantidade+medida);
-                        entity.setDescricao(descriacao);
+                        if(fornecedorId != null)
+                        {
+                            FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId).orElseThrow(
+                                    () -> new EntityNotFoundException()
+                            );
+                            entity.setFornecedor(fornecedor);
+                            entity.setFabricante(fornecedor.getRazaoSocial());
+                        }
+                        if(fabricante != null)
+                        {
+                            entity.setFabricante(fabricante);
+                        }
+                        entity.setCfop(cfop);
+                        entity.setNcmsh(ncmsh);
+                        entity.setNome(nome);
+                        entity.setDescricao(descricao);
                         entity.setMedida(medida);
                         entity.setCodigo(codigo);
                         entity.setQuantidade(quantidade);
-                        entity.setValor((valor * porcentagem)+ valor);
+                        Double valorProduto = (valor * porcentagem)+ valor;
+                        entity.setValor(valorProduto);
                         entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValor()));
                         entity.setDataEntrada(LocalDate.now());
                         entity.setTimeStamp(LocalDateTime.now());
@@ -126,12 +146,8 @@ public class ProdutoService {
                         estoqueRepository.save(estoqueEntity);
                         entity.setEstoque(estoqueEntity);
                         produtoRepository.save(entity);
-                         FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId).orElseThrow(
-                                () -> new EntityNotFoundException()
-                        );
-                        entity.setFornecedor(fornecedor);
-                    ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                            entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getEstoque().getQuantidade());
+                    ProdutoDTO response = new ProdutoDTO(entity.getNome(),
+                            entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getFabricante(), entity.getCfop(), entity.getNcmsh(), entity.getEstoque().getQuantidade());
                         return  new ResponseEntity<>(response,HttpStatus.CREATED);
                 }
                 else
@@ -146,45 +162,69 @@ public class ProdutoService {
 
     public ResponseEntity<ProdutoDTO> EditarProduto(Long id,
                                                     String nome,
-                                                    String descriacao,
+                                                    String descricao,
                                                     int quantidade,
                                                     MEDIDA medida,
                                                     Double estoque,
                                                     Long fornecedorId,
+                                                    String fabricante,
+                                                    Long cfop,
+                                                    Long ncmsh,
                                                     Double valor,
                                                     Double porcentagemLucro)
     {
         try
         {
             if(id != null &&
-               nome != null && descriacao != null &&
+               nome != null && descricao != null &&
                quantidade > 0 &&
                medida != null &&
                estoque != null &&
+               cfop != null &&
+               ncmsh != null &&
                valor != null &&
-               fornecedorId != null &&
                porcentagemLucro != null )
             {
-                ProdutoEntity entity = produtoRepository.findBynome(nome).orElseThrow(
+                System.out.println("variavel nome: "+ nome);
+                System.out.println("variavel descrição: "+ descricao);
+                System.out.println("variavel fabriante: "+ fabricante);
+                ProdutoEntity entity = produtoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
                 Double porcentagem = porcentagemLucro /100;
-                entity.setDescricao(descriacao);
+                entity.setDescricao(descricao);
                 entity.setQuantidade(quantidade);
                 entity.setMedida(medida);
-                entity.setNome(nome+" "+entity.getQuantidade()+entity.getMedida());
-                FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId).orElseThrow(
-                        ()-> new EntityNotFoundException()
-                );
-                entity.setFornecedor(fornecedor);
-                entity.setValor((valor * porcentagem)+ valor);
+                entity.setNome(nome);
+                if(fornecedorId != null)
+                {
+                    if(fornecedorRepository.existsById(fornecedorId))
+                    {
+                        FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId).get();
+
+                        entity.setFornecedor(fornecedor);
+                        entity.setFabricante(fornecedor.getRazaoSocial());
+                    }
+                    else
+                    {
+                        if(fabricante != null)
+                        {
+                            entity.setFabricante(fabricante);
+                        }
+                    }
+
+                }
+                entity.setCfop(cfop);
+                entity.setNcmsh(ncmsh);
+                Double valorProduto = (valor * porcentagem)+ valor;
+                entity.setValor(valorProduto);
                 entity.setValorFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValor()));
                 entity.setTimeStamp(LocalDateTime.now());
                 produtoRepository.save(entity);
                 EstoqueEntity estoqueEntity = estoqueRepository.findById(entity.getEstoque().getId()).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                estoqueEntity.setNome(entity.getNome());
+                estoqueEntity.setNome(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida());
                 estoqueEntity.setDescricao(entity.getDescricao());
                 estoqueEntity.setQuantidade(estoque);
                 estoqueEntity.setValor(entity.getValor());
@@ -194,8 +234,8 @@ public class ProdutoService {
                 estoqueEntity.setTimeStamp(LocalDateTime.now());
                 estoqueRepository.save(estoqueEntity);
 
-                ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getEstoque().getQuantidade());
+                ProdutoDTO response = new ProdutoDTO(entity.getNome(),
+                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getFabricante(), entity.getCfop(), entity.getNcmsh(), entity.getEstoque().getQuantidade());
                 return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
@@ -242,7 +282,7 @@ public class ProdutoService {
                 entity.setDataEntrada(LocalDate.now());
                 produtoRepository.save(entity);
                 ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(), estoqueEntity.getQuantidade());
+                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getFabricante(), entity.getCfop(), entity.getNcmsh(), entity.getEstoque().getQuantidade());
                 return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
@@ -282,7 +322,7 @@ public class ProdutoService {
                 estoqueEntity.setValorTotalEstoqueFront(NumberFormat.getCurrencyInstance(localBrasil).format(estoqueEntity.getValorTotalEstoque()));
                 produtoRepository.save(entity);
                 ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),estoqueEntity.getQuantidade());
+                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getFabricante(), entity.getCfop(), entity.getNcmsh(), entity.getEstoque().getQuantidade());
                 return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else
@@ -322,7 +362,7 @@ public class ProdutoService {
                 estoqueEntity.setValorTotalEstoqueFront(NumberFormat.getCurrencyInstance(localBrasil).format(estoqueEntity.getValorTotalEstoque()));
                 produtoRepository.save(entity);
                 ProdutoDTO response = new ProdutoDTO(entity.getNome()+" "+entity.getQuantidade()+entity.getMedida(),
-                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),estoqueEntity.getQuantidade());
+                        entity.getDescricao(),entity.getQuantidade(), entity.getMedida(), entity.getCodigo(), entity.getValor(),entity.getDataEntrada(),entity.getFabricante(), entity.getCfop(), entity.getNcmsh(), entity.getEstoque().getQuantidade());
                 return  new ResponseEntity<>(response,HttpStatus.OK);
             }
             else

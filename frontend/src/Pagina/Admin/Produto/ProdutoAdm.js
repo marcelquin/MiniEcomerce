@@ -12,12 +12,15 @@ function Produtoadm() {
   const [fornecedorData, setfornecedorData] = useState([])
   const [produtoData, setprodutoData] = useState({
     nome: "",
-    descriacao: "",
+    descricao: "",
     quantidade: "",
     medida: "",
     estoque: "",
     valor: "",
-    porcentagemLucro: ""
+    porcentagemLucro: "",
+    fabricante: "",
+    cfop: "",
+    ncmsh: ""
 });
 const [idFornecedor, setidFornecedor] = useState('')
  
@@ -32,6 +35,7 @@ useEffect(() => {
 
 const handleChanage = (e) => {
   setprodutoData(prev=>({...prev,[e.target.name]:e.target.value}));
+  console.log(produtoData)
 }
 
 
@@ -44,23 +48,29 @@ const handleClick=async (e)=>{
       },    
       body: new URLSearchParams({
           'nome': produtoData.nome,
-          'descriacao': produtoData.descriacao,
+          'descricao': produtoData.descricao,
           'quantidade': produtoData.quantidade,
           'medida': produtoData.medida,
           'estoque': produtoData.estoque,
           'fornecedorId': idFornecedor,
           'valor': produtoData.valor,
           'porcentagemLucro': produtoData.porcentagemLucro,
+          'fabricante': produtoData.fabricante,
+          'ncmsh':produtoData.ncmsh,
+          'cfop':produtoData.cfop
   })})
   .then(navigate("/adm"))  
   setprodutoData({
     nome: "",
-    descriacao: "",
+    descricao: "",
     quantidade: "",
     medida: "",
     estoque: "",
     valor: "",
-    porcentagemLucro: ""
+    porcentagemLucro: "",
+    fabricante: "",
+    cfop: "",
+    ncmsh: ""
   })
   }catch (err){
     console.log("erro")
@@ -83,7 +93,7 @@ const handleClick=async (e)=>{
                                     <td><label>Nome:<br/>
                                      <input type="text" name="nome" onChange={handleChanage} /></label></td>
                                     <td><label>Descriçao: <br/>
-                                     <input type="text" name="descriacao" onChange={handleChanage} /></label></td>
+                                     <input type="text" name="descricao" onChange={handleChanage} /></label></td>
                                 </tr>
                                 <tr>
                                     <td><label>Quantidade:<br/> 
@@ -96,23 +106,31 @@ const handleClick=async (e)=>{
                                         <option value="L">L</option>
                                         <option value="ML">Ml</option>
                                     </datalist>                             
-                                   </label> </td>
+                                   </label></td>
+                                </tr>
+                                <tr>
+                                <td><label> CFOP: <br/>
+                                  <input type="number" name="cfop" onChange={handleChanage}/></label></td>
+                                  <td><label> NCMSH: <br/>
+                                  <input type="number" name="ncmsh" onChange={handleChanage}/></label></td>
+                                </tr>
+                                <tr>
                                     <td><label> Estoque: <br/>
                                     <input type="number" name="estoque" onChange={handleChanage}/></label></td>
-                                    
+                                    <td><label> Fabricante: <br/>
+                                    <input type="text" name="fabricante" onChange={handleChanage}/></label></td>
                                 </tr>
                                 <br/>
-                                <tr>
-                                
-                                  <td><label>Valor de venda:<br/>
+                                <tr>                
+                                  <td><label>Valor de Compra:<br/>
                                   <input type="number" name="valor" onChange={handleChanage}/></label></td>
                                   <td><label>Porcentagem de Lucro:<br/>
                                   <input type="number" name="porcentagemLucro" onChange={handleChanage}/></label></td>
                                 </tr>
                                 
-                                  <h3>Fornecedor</h3><br/>
-                                  <label>Selecione um Fornecedor</label>
                                 <tr>
+                                <h3>Fornecedor</h3><br/>
+                                <label>Selecione um Fornecedor</label>
                                   {fornecedorData.map((data, i) => {
                                       return (
                                       <>

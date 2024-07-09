@@ -45,7 +45,8 @@ public class EntregaService {
             List<EntregaEntity> resultado = entregaRepository.findAll();
             for(EntregaEntity item: resultado)
             {
-                if(item.getStatusEntrega() != STATUSENTREGA.ENTREGUE)
+                if(item.getStatusEntrega() != STATUSENTREGA.ENTREGUE &&
+                   item.getStatusEntrega() != STATUSENTREGA.CANCELADA )
                 {
                     response.add(item);
                 }
@@ -75,6 +76,7 @@ public class EntregaService {
                     entrega.setDataEntrega(LocalDateTime.now());
                     entrega.setTimeStamp(LocalDateTime.now());
                     entrega.setStatusEntrega(STATUSENTREGA.EM_ROTA);
+                    entregaRepository.save(entrega);
                 }
             }
             else
@@ -102,6 +104,7 @@ public class EntregaService {
                     entrega.setDataEntrega(LocalDateTime.now());
                     entrega.setTimeStamp(LocalDateTime.now());
                     entrega.setStatusEntrega(STATUSENTREGA.ENTREGUE);
+                    entregaRepository.save(entrega);
                 }
             }
             else

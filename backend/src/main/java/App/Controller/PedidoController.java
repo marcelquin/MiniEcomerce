@@ -73,8 +73,9 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PostMapping("/NovoPedido")
-    public ResponseEntity<PedidoDTO> NovoPedido(@RequestParam Long idCliente)
-    { return service.NovoPedido(idCliente);}
+    public ResponseEntity<PedidoDTO> NovoPedido(Long idCliente,
+                                                String clienteNome)
+    { return service.NovoPedido(idCliente,clienteNome);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -99,7 +100,7 @@ public class PedidoController {
     @PutMapping("/FinalizarPedido")
     public void FinalizarPedido(@RequestParam Long id,
                                 @RequestParam FORMAPAGAMENTO formaPagamento,
-                                @RequestParam Double parcelas,
+                                Double parcelas,
                                 @RequestParam TIPOCOMPRA tipocompra)
     { service.FinalizarPedido(id, formaPagamento,parcelas,tipocompra);}
 
@@ -111,8 +112,8 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/AtencaoEntrega")
-    public void AtencaoEntrega(Long id,
-                               String motivo)
+    public void AtencaoEntrega(@RequestParam Long id,
+                               @RequestParam String motivo)
     {service.AtencaoEntrega(id, motivo); }
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
@@ -123,7 +124,7 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/CancelarEntrega")
-    public void CancelarEntrega(Long id,
-                                String motivo)
+    public void CancelarEntrega(@RequestParam Long id,
+                                @RequestParam String motivo)
     { service.CancelarEntrega(id, motivo);}
 }

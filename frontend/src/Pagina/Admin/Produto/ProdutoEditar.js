@@ -18,8 +18,11 @@ function ProdutoEditar() {
     quantidade: "",
     medida: "",
     estoque: "",
-    valor: "",
-    porcentagemLucro: ""
+    fabricante: "",
+    valor: '',
+    porcentagemLucro: '',
+    cfop: '',
+    ncmsh: ''
 });
 const[idFornecedor,setidFornecedor] = useState('')
 
@@ -35,17 +38,19 @@ useEffect(()=>{
       .then((data)=> {
           setprodutoData(data)
       })
+      .then(console.log(id))
       .catch(err => console.log(err))
 }, [id])
 
 const handleChanage = (e) => {
   setprodutoData(prev=>({...prev,[e.target.name]:e.target.value}));
+  console.log(produtoData)
 }
 
 
 const handleClick=async (e)=>{
   try{
-    fetch(`${baseUrl}/produto/EditarProduto`, {
+    await fetch(`${baseUrl}/produto/EditarProduto`, {
       method: 'PUT',
       headers:{
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -58,6 +63,9 @@ const handleClick=async (e)=>{
           'medida': produtoData.medida,
           'estoque': produtoData.estoque,
           'fornecedorId': idFornecedor,
+          'fabricante': produtoData.fabricante,
+          'cfop': produtoData.cfop,
+          'ncmsh': produtoData.ncmsh,
           'valor': produtoData.valor,
           'porcentagemLucro': produtoData.porcentagemLucro
   })})
@@ -68,6 +76,9 @@ const handleClick=async (e)=>{
     quantidade: "",
     medida: "",
     estoque: "",
+    fabricante: "",
+    cfop: "",
+    ncmsh: "",
     valor: "",
     porcentagemLucro: ""
   })
@@ -93,13 +104,13 @@ useEffect(() => {
 
                     <div className="formBloco">
                             <h3>Dados do Produto</h3>
-                            <form>
-                                <table>
+                            <form onSubmit={handleClick}>
+                                <table >
                                 <tr>
                                     <td><label>Nome:<br/>
                                      <input type="text" name="nome" value={produtoData.nome  } onChange={handleChanage} /></label></td>
                                     <td><label>Descriçao: <br/>
-                                     <input type="text" name="descriacao" value={produtoData.descricao  } onChange={handleChanage} /></label></td>
+                                     <input type="text" name="descricao" value={produtoData.descricao  } onChange={handleChanage} /></label></td>
                                 </tr>
                                 <tr>
                                     <td><label>Quantidade:<br/> 
@@ -119,13 +130,19 @@ useEffect(() => {
                                 </tr>
                                 <br/>
                                 <tr>
-                                
-                                  <td><label>Valor de venda:<br/>
+                                <td><label>fabricante:<br/>
+                                <input type="text" name="fabricante" value={produtoData.fabricante  } onChange={handleChanage}/></label></td>
+                                  <td><label>Valor unitário de Compra:<br/>
                                   <input type="number" name="valor" value={produtoData.valor  } onChange={handleChanage}/></label></td>
                                   <td><label>Porcentagem de Lucro:<br/>
                                   <input type="number" name="porcentagemLucro" onChange={handleChanage}/></label></td>
                                 </tr>
-                                
+                                <tr>
+                                  <td><label>CFOP:<br/>
+                                  <input type="number" name="cfop" value={produtoData.cfop  } onChange={handleChanage}/></label></td>
+                                  <td><label>NCMSH:<br/>
+                                  <input type="number" name="ncmsh" value={produtoData.ncmsh  } onChange={handleChanage}/></label></td>
+                                </tr>
                                   <h3>Fornecedor</h3><br/>
                                   <label>Selecione um Fornecedor</label>
                                 <tr>
@@ -138,7 +155,7 @@ useEffect(() => {
                                 </tr>
                                 <br/>
                                 <tr>
-                                    <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td> 
+                                    <td><input type="submit" value="Salvar" className="btn" />  </td> 
                                 </tr>
                               </table>
                             </form>

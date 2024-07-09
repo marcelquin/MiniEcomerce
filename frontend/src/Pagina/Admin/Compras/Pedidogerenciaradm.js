@@ -50,7 +50,7 @@ function Pedidogerenciaadm() {
                       return (
                          <>
                           <tr key={i}>
-                            <td>{data.cliente.nome} {data.cliente.sobrenome}</td>
+                            <td>{data.nomeCLiente}</td>
                             <td>{data.codigo}</td>
                             <td>{data.valorTotalFront}</td>
                             <td>{data.status}</td>
@@ -64,7 +64,7 @@ function Pedidogerenciaadm() {
                       return (
                          <>
                         <tr key={i}>
-                            <td>{data.cliente.nome} {data.cliente.sobrenome}</td>
+                            <td>{data.nomeCLiente}</td>
                             <td>{data.codigo}</td>
                             <td>{data.valorTotalFront}</td>
                             <td>{data.status}</td>

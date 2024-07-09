@@ -28,8 +28,6 @@ public class ClienteEmpresaEntity {
     @JoinColumn(unique = true)
     private String cnpj;
 
-    private String areaAtuacao;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "enderecoEntity_id", referencedColumnName = "id")
     private EnderecoEntity endereco;

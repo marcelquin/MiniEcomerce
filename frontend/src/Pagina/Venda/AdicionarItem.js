@@ -72,16 +72,15 @@ function AdicionarItem() {
                         return(
                             <>
                             <div className='Blocoestoque' key={i}>
-                                    <input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> Selecionar                                         
+                                <input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> Selecionar<br/>                                         
+                                <div className='destaque'>
                                     <div className='imagem'></div>
                                     <div className='info'>
-                                        <div className='infoproduto'>
-                                            <span>{data.nome}</span><br/>
-                                        </div>   
+                                        <span>{data.nome}</span><br/>
+                                        <span>{data.valorFront}</span><br/>
+                                        <span>{data.quantidade} unidades</span><br/>
                                     </div>
-                                    <span>{data.valorFront}</span><br/>
-                                    <span>Código: {data.codigo}</span><br/>
-                                    <span> {data.quantidade} unidades</span>
+                                </div>         
                             </div>
                             </>
                         )
@@ -91,16 +90,15 @@ function AdicionarItem() {
                         return(
                             <>
                             <div className='Blocoestoque' key={i}>
-                            <input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> Selecionar                                         
-                            <div className='imagem'></div>
+                                <input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> Selecionar<br/>                                         
+                                <div className='destaque'>
+                                    <div className='imagem'></div>
                                     <div className='info'>
-                                        <div className='infoproduto'>
-                                            <span>{data.nome}</span><br/>
-                                        </div>   
+                                        <span>{data.nome}</span><br/>
+                                        <span>{data.valorFront}</span><br/>
+                                        <span>{data.quantidade} unidades</span><br/>
                                     </div>
-                                    <span>{data.valorFront}</span><br/>
-                                    <span>Código: {data.codigo}</span><br/>
-                                    <span> {data.quantidade} unidades</span>
+                                </div>         
                             </div>
                             </>
                         )

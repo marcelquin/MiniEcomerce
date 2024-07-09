@@ -1,5 +1,6 @@
 package App.Service;
 
+import App.DTO.ClienteEmpresaDTO;
 import App.DTO.EmpresaDTO;
 import App.DTO.EnderecoDTO;
 import App.Entity.ClienteEmpresaEntity;
@@ -47,7 +48,7 @@ public class ClienteEmpresaService {
     }
 
 
-    public ResponseEntity<EmpresaDTO> BuscarClienteEmpresaPorId(Long id)
+    public ResponseEntity<ClienteEmpresaDTO> BuscarClienteEmpresaPorId(Long id)
     {
         try
         {
@@ -56,10 +57,9 @@ public class ClienteEmpresaService {
                 ClienteEmpresaEntity entity = empresaRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                EmpresaDTO response = new EmpresaDTO(entity.getNome(),
+                ClienteEmpresaDTO response = new ClienteEmpresaDTO(entity.getNome(),
                                                         entity.getRazaoSocial(),
                                                         entity.getCnpj(),
-                                                        entity.getAreaAtuacao(),
                                                         entity.getEndereco().getLogradouro(),
                                                         entity.getEndereco().getNumero(),
                                                         entity.getEndereco().getBairro(),
@@ -82,27 +82,25 @@ public class ClienteEmpresaService {
         return null;
     }
 
-    public ResponseEntity<EmpresaDTO> NovaClienteEmpresa(String nome,
-                                                  String razaoSocial,
-                                                  String cnpj,
-                                                  String areaAtuacao,
-                                                  String logradouro,
-                                                  String numero,
-                                                  String bairro,
-                                                  String referencia,
-                                                  Long cep,
-                                                  String cidade,
-                                                  String estado,
-                                                  Long prefixo,
-                                                  Long telefone,
-                                                  String email)
+    public ResponseEntity<ClienteEmpresaDTO> NovaClienteEmpresa(String nome,
+                                                         String razaoSocial,
+                                                         String cnpj,
+                                                         String logradouro,
+                                                         String numero,
+                                                         String bairro,
+                                                         String referencia,
+                                                         Long cep,
+                                                         String cidade,
+                                                         String estado,
+                                                         Long prefixo,
+                                                         Long telefone,
+                                                         String email)
     {
         try
         {
             if(nome != null &&
                razaoSocial != null &&
                cnpj != null &&
-               areaAtuacao != null &&
                logradouro != null &&
                numero != null &&
                bairro != null &&
@@ -127,17 +125,15 @@ public class ClienteEmpresaService {
                 entity.setNome(nome);
                 entity.setRazaoSocial(razaoSocial);
                 entity.setCnpj(cnpj);
-                entity.setAreaAtuacao(areaAtuacao);
                 entity.setTimeStamp(LocalDateTime.now());
                 contatoRepository.save(contato);
                 enderecoRepository.save(endereco);
                 entity.setContato(contato);
                 entity.setEndereco(endereco);
                 empresaRepository.save(entity);
-                EmpresaDTO response = new EmpresaDTO(entity.getNome(),
+                ClienteEmpresaDTO response = new ClienteEmpresaDTO(entity.getNome(),
                                                     entity.getRazaoSocial(),
                                                     entity.getCnpj(),
-                                                    entity.getAreaAtuacao(),
                                                     entity.getEndereco().getLogradouro(),
                                                     entity.getEndereco().getNumero(),
                                                     entity.getEndereco().getBairro(),
@@ -161,21 +157,20 @@ public class ClienteEmpresaService {
     }
 
 
-    public ResponseEntity<EmpresaDTO> EditarClienteEmpresa(Long id,
-                                                  String nome,
-                                                  String razaoSocial,
-                                                  String cnpj,
-                                                  String areaAtuacao,
-                                                  String logradouro,
-                                                  String numero,
-                                                  String bairro,
-                                                  String referencia,
-                                                  Long cep,
-                                                  String cidade,
-                                                  String estado,
-                                                  Long prefixo,
-                                                  Long telefone,
-                                                  String email)
+    public ResponseEntity<ClienteEmpresaDTO> EditarClienteEmpresa(Long id,
+                                                           String nome,
+                                                           String razaoSocial,
+                                                           String cnpj,
+                                                           String logradouro,
+                                                           String numero,
+                                                           String bairro,
+                                                           String referencia,
+                                                           Long cep,
+                                                           String cidade,
+                                                           String estado,
+                                                           Long prefixo,
+                                                           Long telefone,
+                                                           String email)
     {
         try
         {
@@ -183,7 +178,6 @@ public class ClienteEmpresaService {
                nome != null &&
                razaoSocial != null &&
                cnpj != null &&
-               areaAtuacao != null &&
                logradouro != null &&
                numero != null &&
                bairro != null &&
@@ -221,15 +215,13 @@ public class ClienteEmpresaService {
                 entity.setNome(nome);
                 entity.setRazaoSocial(razaoSocial);
                 entity.setCnpj(cnpj);
-                entity.setAreaAtuacao(areaAtuacao);
                 entity.setTimeStamp(LocalDateTime.now());
                 entity.setContato(contato);
                 entity.setEndereco(endereco);
                 empresaRepository.save(entity);
-                EmpresaDTO response = new EmpresaDTO(entity.getNome(),
+                ClienteEmpresaDTO response = new ClienteEmpresaDTO(entity.getNome(),
                                                     entity.getRazaoSocial(),
                                                     entity.getCnpj(),
-                                                    entity.getAreaAtuacao(),
                                                     entity.getEndereco().getLogradouro(),
                                                     entity.getEndereco().getNumero(),
                                                     entity.getEndereco().getBairro(),
@@ -250,6 +242,26 @@ public class ClienteEmpresaService {
             e.getMessage();
         }
         return null;
+    }
+
+    public void deletarClienteEmpresa(Long id)
+    {
+        try
+        {
+            if(id != null)
+            {
+                ClienteEmpresaEntity entity = empresaRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                enderecoRepository.deleteById(entity.getEndereco().getId());
+                contatoRepository.deleteById(entity.getContato().getId());
+                empresaRepository.deleteById(entity.getId());
+            }
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
     }
 
 }

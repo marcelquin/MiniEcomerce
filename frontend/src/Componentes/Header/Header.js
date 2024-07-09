@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../Header.css';
 import Nav from '../Nav/Nav'; 
 
@@ -7,7 +8,11 @@ function Header() {
 
             <div className="logo"></div>
 
-            <Nav></Nav>
+            <div className='boxicone'>
+                <div className='boxAdmLogin'><Link to={"/adm"}>Login</Link></div>
+                <Nav></Nav>
+            </div>
+            
         </div>
     );
 }

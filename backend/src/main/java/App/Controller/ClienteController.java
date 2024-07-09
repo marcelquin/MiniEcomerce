@@ -58,7 +58,7 @@ public class ClienteController {
     @PostMapping("/NovoCliente")
     public ResponseEntity<ClienteDTO> NovoCliente(@RequestParam String nome,
                                                   @RequestParam String sobrenome,
-                                                  @RequestParam Long cpf,
+                                                  @RequestParam String cpf,
                                                   @RequestParam LocalDate dataNascimento,
                                                   @RequestParam String logradouro,
                                                   @RequestParam String numero,
@@ -84,7 +84,7 @@ public class ClienteController {
     public ResponseEntity<ClienteDTO> EdiarCliente(@RequestParam Long id,
                                                    @RequestParam String nome,
                                                    @RequestParam String sobrenome,
-                                                   @RequestParam Long cpf,
+                                                   @RequestParam String cpf,
                                                    @RequestParam LocalDate dataNascimento,
                                                    @RequestParam String logradouro,
                                                    @RequestParam String numero,

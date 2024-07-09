@@ -28,8 +28,8 @@ function Pedido() {
 
     const [caixa, setCaixa] = useState({
         formaPagamento: "",
-        parcelas: "",
-        tipocompra: ""
+        parcelas: 1,
+        tipocompra: "PADRAO"
   });
 
   useEffect(()=>{
@@ -67,16 +67,12 @@ function Pedido() {
       .then(window.location.reload())
       setCaixa({
         formaPagamento: "",
-        parcelas: "",
-        tipocompra: ""
     })
     setidput('');
       }catch (err){
         console.log("erro")
       }
     }
-
-    console.log(PedidoData)
     return (
           <>
            <div className='boxgeral'>
@@ -97,16 +93,16 @@ function Pedido() {
                                           </datalist>
                                           </label></td>
                         </tr>
-                        <tr>
+                        {caixa.formaPagamento.length === 7?(<>
+                          <tr>
                           <td><label>Parcelas: <br/><input type="number" name="parcelas" onChange={handleChanage}/></label></td>   
-                        </tr>
+                          </tr>
+                        </>):(<></>)}         
                         <tr>  
-                          <td><label>Tipo Compra:<br/><input list="tipocompra" name="tipocompra"  placeholder="Selecione uma opção" onChange={handleChanage} /></label>
-                                          <datalist id="tipocompra">
-                                              <option value="PADRAO">PADRAO</option>
-                                              <option value="ENTREGA">ENTREGA</option>
-                                          </datalist>
-                        </td>
+                          <td>
+                            <input type='checkbox' name="tipocompra" value="ENTREGA" onClick={handleChanage} />Entrega
+                          <br/>
+                          </td>
                       </tr>
                       <tr>
                         <td><input type="submit" value="Finalizar" className="btn" onClick={FinalizarPedido} />
@@ -130,7 +126,7 @@ function Pedido() {
                         <>
                             <tr key={i}>
                                 <td><input type="checkbox" value={data.id} onClick={(e) => {setidput(data.id)}}/></td>
-                                <td>{data.cliente.nome} {data.cliente.sobrenome}</td>
+                                <td>{data.nomeCLiente}</td>
                                 <td>{data.codigo}</td>
                                 <td>{data.dataPedido}</td>
                                 <td>{data.valorTotalFront}</td>
@@ -142,7 +138,11 @@ function Pedido() {
                 </div>
                 <div className='retornoCupomFiscal'>
                     <a>Imprimir</a> <a>Enviar por email</a>
-                    <div className='boxCupom'>Cupom fiscal</div>
+                    <div className='boxCupom'>
+                      {idInfo}
+                      {idput}
+                      {}
+                    </div>
                 </div>
             </div>
           </div>

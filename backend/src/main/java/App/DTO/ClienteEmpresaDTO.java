@@ -1,12 +1,9 @@
 package App.DTO;
 
-import java.time.LocalDate;
-
-public record ClienteDTO(
+public record ClienteEmpresaDTO(
         String nome,
-        String sobrenome,
-        LocalDate dataNascimento,
-        String cpf,
+        String razaoSocial,
+        String cnpj,
         String logradouro,
         String numero,
         String bairro,
@@ -18,5 +15,4 @@ public record ClienteDTO(
         Long telefone,
         String email
 ) {
-
 }

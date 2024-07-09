@@ -86,7 +86,7 @@ public class ClienteService {
 
     public ResponseEntity<ClienteDTO> NovoCliente(String nome,
                                                   String sobrenome,
-                                                  Long cpf,
+                                                  String cpf,
                                                   LocalDate dataNascimento,
                                                   String logradouro,
                                                   String numero,
@@ -119,7 +119,6 @@ public class ClienteService {
                 if(prefixo <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(telefone <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(cep <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
-                if(cpf <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 EnderecoDTO enderecoDTO = new EnderecoDTO(logradouro,numero,bairro,referencia,cep,cidade,estado);
                 EnderecoEntity endereco = new EnderecoEntity(enderecoDTO);
                 endereco.setTimeStamp(LocalDateTime.now());
@@ -171,7 +170,7 @@ public class ClienteService {
     public ResponseEntity<ClienteDTO> EdiarCliente(Long id,
                                                    String nome,
                                                    String sobrenome,
-                                                   Long cpf,
+                                                   String cpf,
                                                    LocalDate dataNascimento,
                                                    String logradouro,
                                                    String numero,
@@ -205,7 +204,6 @@ public class ClienteService {
                 if(prefixo <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(telefone <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(cep <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
-                if(cpf <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
                 if(id <= 0) {throw new IllegalActionException("O valor do campo não pode ser negativo");}
 
 

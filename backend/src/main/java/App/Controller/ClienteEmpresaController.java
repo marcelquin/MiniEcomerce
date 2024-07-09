@@ -1,5 +1,6 @@
 package App.Controller;
 
+import App.DTO.ClienteEmpresaDTO;
 import App.DTO.EmpresaDTO;
 import App.Entity.ClienteEmpresaEntity;
 import App.Entity.EmpresaEntity;
@@ -46,7 +47,7 @@ public class ClienteEmpresaController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @GetMapping("/BuscarClienteEmpresaPorId")
-    public ResponseEntity<EmpresaDTO> BuscarClienteEmpresaPorId(@RequestParam Long id)
+    public ResponseEntity<ClienteEmpresaDTO> BuscarClienteEmpresaPorId(@RequestParam Long id)
     { return service.BuscarClienteEmpresaPorId(id);}
 
     @Operation(summary = "Salva Registro na tabela", method = "POST")
@@ -57,10 +58,9 @@ public class ClienteEmpresaController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PostMapping("/NovaClienteEmpresa")
-    public ResponseEntity<EmpresaDTO> NovaClienteEmpresa(@RequestParam String nome,
+    public ResponseEntity<ClienteEmpresaDTO> NovaClienteEmpresa(@RequestParam String nome,
                                                   @RequestParam String razaoSocial,
                                                   @RequestParam String cnpj,
-                                                  @RequestParam String areaAtuacao,
                                                   @RequestParam String logradouro,
                                                   @RequestParam String numero,
                                                   @RequestParam String bairro,
@@ -71,7 +71,7 @@ public class ClienteEmpresaController {
                                                   @RequestParam Long prefixo,
                                                   @RequestParam Long telefone,
                                                   @RequestParam String email)
-    { return service.NovaClienteEmpresa(nome, razaoSocial, cnpj, areaAtuacao, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
+    { return service.NovaClienteEmpresa(nome, razaoSocial, cnpj, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -81,20 +81,32 @@ public class ClienteEmpresaController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @PutMapping("/EditarClienteEmpresa")
-    public ResponseEntity<EmpresaDTO> EditarClienteEmpresa(@RequestParam Long id,
-                                                  @RequestParam String nome,
-                                                  @RequestParam String razaoSocial,
-                                                  @RequestParam String cnpj,
-                                                  @RequestParam String areaAtuacao,
-                                                  @RequestParam String logradouro,
-                                                  @RequestParam String numero,
-                                                  @RequestParam String bairro,
-                                                  String referencia,
-                                                  @RequestParam Long cep,
-                                                  @RequestParam String cidade,
-                                                  @RequestParam String estado,
-                                                  @RequestParam Long prefixo,
-                                                  @RequestParam Long telefone,
-                                                  @RequestParam String email)
-    { return service.EditarClienteEmpresa(id, nome, razaoSocial, cnpj, areaAtuacao, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
+    public ResponseEntity<ClienteEmpresaDTO> EditarClienteEmpresa(@RequestParam Long id,
+                                                                  @RequestParam String nome,
+                                                                  @RequestParam String razaoSocial,
+                                                                  @RequestParam String cnpj,
+                                                                  @RequestParam String logradouro,
+                                                                  @RequestParam String numero,
+                                                                  @RequestParam String bairro,
+                                                                  String referencia,
+                                                                  @RequestParam Long cep,
+                                                                  @RequestParam String cidade,
+                                                                  @RequestParam String estado,
+                                                                  @RequestParam Long prefixo,
+                                                                  @RequestParam Long telefone,
+                                                                  @RequestParam String email)
+    { return service.EditarClienteEmpresa(id, nome, razaoSocial, cnpj, logradouro, numero, bairro, referencia, cep, cidade, estado, prefixo, telefone, email);}
+
+    @Operation(summary = "Edita Registro na tabela", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @DeleteMapping("/deletarClienteEmpresa")
+    public void deletarClienteEmpresa(@RequestParam Long id)
+    { service.deletarClienteEmpresa(id);}
+
+
 }

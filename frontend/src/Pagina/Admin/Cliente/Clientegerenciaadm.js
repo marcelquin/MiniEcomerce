@@ -3,9 +3,10 @@ import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Cliente.css';
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 function Clientegerenciaadm() {
-
+  const navigate = useNavigate();
+    const [idDelete, setidDelete] = useState('')
     const[filtroCadastro, setfiltroCadastro] = useState('')
     const[APIDataCpf, setAPIDataCpf]= useState([]);
     const[APIDataCnpj, setAPIDataCnpj]= useState([]);
@@ -30,7 +31,7 @@ function Clientegerenciaadm() {
     }, []);
 
     useEffect(() => {
-      Axios
+      Axios               
         .get(`${baseUrl}/clienteempresa/ListarClienteEmpresa`)
         .then((response) => { setAPIDataCnpj(response.data)})
         .catch((err) => {
@@ -38,6 +39,38 @@ function Clientegerenciaadm() {
         });
     }, []);
 
+    
+    const deletarClienteEmpresa=async (id)=>{
+      try{
+        await fetch(`${baseUrl}/clienteempresa/deletarClienteEmpresa`, { 
+          method: 'DELETE',
+          headers:{
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },    
+          body: new URLSearchParams({
+              'id': id
+      })})  
+      }catch (err){
+        console.log("erro")
+      }
+    }
+
+    /*
+    const deletarCliente=async (id)=>{
+      try{
+        await fetch(`${baseUrl}/cliente/DeletarCliente`, {
+          method: 'DELETE',
+          headers:{
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },    
+          body: new URLSearchParams({
+              'id': id
+      })})  
+      }catch (err){
+        console.log("erro")
+      }
+    }
+    */
     return(
     <>
 

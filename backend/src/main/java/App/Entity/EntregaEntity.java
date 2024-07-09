@@ -34,6 +34,8 @@ public class EntregaEntity {
     @Enumerated(EnumType.STRING)
     private STATUSENTREGA statusEntrega;
 
+    private String notificacao;
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataEntrega;
 

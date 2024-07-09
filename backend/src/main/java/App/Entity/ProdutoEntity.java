@@ -33,6 +33,12 @@ public class ProdutoEntity  {
 
     private int quantidade;
 
+    private Long cfop;
+
+    private Long ncmsh;
+
+    private String fabricante;
+
     @Enumerated(EnumType.STRING)
     private MEDIDA medida;
 

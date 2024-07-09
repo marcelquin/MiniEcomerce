@@ -26,7 +26,7 @@ public class ClienteEntity {
 
     private String sobrenome;
 
-    private Long cpf;
+    private String cpf;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;

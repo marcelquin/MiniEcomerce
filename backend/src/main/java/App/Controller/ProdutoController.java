@@ -1,6 +1,7 @@
 package App.Controller;
 
 import App.DTO.ProdutoDTO;
+import App.DTO.ProdutoEdtDTO;
 import App.Entity.ProdutoEntity;
 import App.Enum.MEDIDA;
 import App.Exceptions.EntityNotFoundException;
@@ -64,14 +65,17 @@ public class ProdutoController {
     })
     @PostMapping("/NovoProduto")
     public ResponseEntity<ProdutoDTO> NovoProduto(@RequestParam String nome,
-                                                  @RequestParam String descriacao,
+                                                  @RequestParam String descricao,
                                                   @RequestParam int quantidade,
                                                   @RequestParam MEDIDA medida,
                                                   @RequestParam Double estoque,
-                                                  @RequestParam Long fornecedorId,
+                                                  Long fornecedorId,
+                                                  String fabricante,
+                                                  @RequestParam Long cfop,
+                                                  @RequestParam Long ncmsh,
                                                   @RequestParam Double valor,
                                                   @RequestParam Double porcentagemLucro)
-    {return service.NovoProduto(nome, descriacao, quantidade, medida, estoque, fornecedorId, valor,porcentagemLucro);}
+    {return service.NovoProduto(nome, descricao, quantidade, medida, estoque, fornecedorId, fabricante, cfop, ncmsh, valor, porcentagemLucro);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {
@@ -80,17 +84,20 @@ public class ProdutoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
-    @PutMapping("/EditarInformacoesProduto")
+    @PutMapping("/EditarProduto")
     public ResponseEntity<ProdutoDTO> EditarProduto(@RequestParam Long id,
                                                     @RequestParam String nome,
-                                                    @RequestParam String descriacao,
+                                                    @RequestParam String descricao,
                                                     @RequestParam int quantidade,
                                                     @RequestParam MEDIDA medida,
                                                     @RequestParam Double estoque,
-                                                    @RequestParam Long fornecedorId,
+                                                    Long fornecedorId,
+                                                    String fabricante,
+                                                    @RequestParam Long cfop,
+                                                    @RequestParam Long ncmsh,
                                                     @RequestParam Double valor,
                                                     @RequestParam Double porcentagemLucro)
-    {return  service.EditarProduto(id, nome, descriacao, quantidade, medida, estoque, fornecedorId, valor, porcentagemLucro);}
+    {return  service.EditarProduto(id, nome, descricao, quantidade, medida, estoque, fornecedorId, fabricante, cfop, ncmsh, valor, porcentagemLucro);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {

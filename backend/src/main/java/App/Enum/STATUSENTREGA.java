@@ -5,5 +5,6 @@ public enum STATUSENTREGA {
     AGUARDANDO,
     EM_ROTA,
     ENTREGUE,
-    CANCELADA
+    CANCELADA,
+    ATENCAO
 }

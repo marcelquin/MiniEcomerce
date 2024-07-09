@@ -29,7 +29,6 @@ function CLieteadm() {
         nome: "",
         razaoSocial: "",
         cnpj: "",
-        areaAtuacao: "",
         logradouro: "",
         numero: "",
         bairro: "",
@@ -107,7 +106,6 @@ function CLieteadm() {
              'nome': empresaData.nome,
             'razaoSocial': empresaData.razaoSocial,
             'cnpj': empresaData.cnpj,
-            'areaAtuacao': empresaData.areaAtuacao,
             'logradouro':empresaData.logradouro,
             'numero':empresaData.numero,
             'bairro':empresaData.bairro,
@@ -163,7 +161,7 @@ function CLieteadm() {
                                 <td><label>Sobreome:<br/>
                                 <input type="text" name="sobrenome"  onChange={handleChanage}/></label></td>
                                 <td><label>CPF:<br/>
-                                <input type="number" name="cpf" placeholder="Somente numeros"  onChange={handleChanage}/></label></td>
+                                <input type="text" name="cpf" placeholder="Somente numeros"  onChange={handleChanage}/></label></td>
                                 </tr>
                                 <tr>
                                 <td><label>Data de Nascimento:<br/>
@@ -231,12 +229,6 @@ function CLieteadm() {
         <td><label>CNPJ: <br/>
         <input type="text" name="cnpj" placeholder="Digite o CNPJ da empresa"  onChange={handleChanagecnpj}/></label></td>
      </tr>
-     <tr>
-        <td><label>Inicio de Contrato: <br/>
-        <input type="date" name="dataContrato" placeholder="Selecione a data"  onChange={handleChanagecnpj}/></label></td>                         
-        <td><label>Área de Atuação: <br/>
-        <input type="text" name="areaAtuacao" id="" onChange={handleChanagecnpj}/> </label></td>
-    </tr>
      
     </table>
 </div>

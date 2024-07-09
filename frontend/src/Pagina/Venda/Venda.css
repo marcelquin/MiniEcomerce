@@ -35,6 +35,25 @@
 
 .Blocoestoque
 {
-    width: 400px;
+    width: 280px;
     height: 150px;
+    margin: 20px;
+}
+
+.Blocoestoque .destaque
+{
+    display: flex;
+}
+.Blocoestoque .imagem
+{
+    border: 1px solid rgb(18, 18, 19);
+    width: 70px;
+    height: 90px;
+}
+
+.Blocoestoque .info
+{
+    width: 150px;
+    height: 80px;
+    margin-left: 10px;
 }
