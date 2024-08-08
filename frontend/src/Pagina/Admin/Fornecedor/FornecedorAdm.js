@@ -5,7 +5,7 @@ import '../AdmGlobal.css';
 import { useNavigate } from "react-router-dom";
 
 function Fornecedoradm() {
-    const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://34.67.211.119:8080"
     //const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const [fornecedorData, setfornecedorData] = useState({
