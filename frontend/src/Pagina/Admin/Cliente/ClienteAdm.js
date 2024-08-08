@@ -2,10 +2,11 @@ import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import React, { useState, } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cliente.css';
+import '../AdmGlobal.css';
 
 function CLieteadm() {
-    const baseUrl = "http://34.133.121.3:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://localhost:8080"
     const[filtroCadastro, setfiltroCadastro] = useState('')
     const navigate = useNavigate();
     const [clienteData, setclienteData] = useState({
@@ -141,15 +142,18 @@ function CLieteadm() {
 
     return(
     <>
-                <div className="admBox">
-
-                    <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudoCad">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+                <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
+                
+            <div className="admConteudoCad">
                        <div className="seltorcadastro">
                             <input type="radio" name="filtroCadastro" value="CPF" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa fisica
                             <input type="radio" name="filtroCadastro" value="CNPJ" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa Juridica
                        </div>    
-                           
+                    <div className="BlocoGeral">  
                         {filtroCadastro.length === 3 ?(<>
                             <div className="formBloco">
                         <h3>Dados Pessoais:</h3>
@@ -273,12 +277,12 @@ function CLieteadm() {
     </table>
 </div>     
 
-                        </>)}
-                        
-                        
-                    </div>
-                </div>
+                        </>)}     
 
+            </div>
+        </div>
+                </div>
+                </div>                     
     </>
     );
 }

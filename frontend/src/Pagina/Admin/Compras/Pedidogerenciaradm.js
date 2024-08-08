@@ -1,11 +1,12 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Compra.css';
+import '../AdmGlobal.css';
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 function Pedidogerenciaadm() {
-    const baseUrl = "http://34.133.121.3:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const[dadoPesquisa, setdadoPesquisa] = useState('')
     const pesquisa = dadoPesquisa.length > 0 ?
@@ -24,11 +25,13 @@ function Pedidogerenciaadm() {
 
     return(
     <>
-            <div className="admBox">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+                <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
 
-                <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudo">
-                    <div className="campoPesquisa">
+            <div className="campoPesquisa">
                         <label>Código:<br/>
                         <input type="text" onChange={e=> setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Pd_" />
                         </label>
@@ -77,18 +80,10 @@ function Pedidogerenciaadm() {
                     </>)}
                             </table>
                         </div>
-                        <div className="admRetornoCupomFiscal">
-                            
-                            <div className="admBoxCupom"></div>
 
-                        </div>
-
-                    </div>
-
-                     
-                        
-                    </div>
-              </div>
+            </div>
+        </div>
+      </div>    
     </>
     );
 }

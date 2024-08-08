@@ -5,8 +5,8 @@ import Axios from 'axios';
 
 
 function Logistica() {
-    const baseUrl = "http://34.133.121.3:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://localhost:8080"
     const [status, setstatus] = useState('')
     const [id, setid] = useState('')
     const [idInfo, setidInfo] = useState('')
@@ -165,11 +165,8 @@ function Logistica() {
     <div className='retornoCupomFiscal'>
         <a>Imprimir</a> <a>Enviar por email</a>
         <div className='boxCupom'>
-              {id}
-              <br/>
-              {motivo}
-              <span>rever lóica cliente do pedido cnpj</span><br/>
-              <span>Rever método reinicar entrega</span><br/>
+
+              
               <span></span><br/>
         </div>
     </div>

@@ -1,13 +1,14 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Produto.css';
+import '../AdmGlobal.css';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 
 function Produtoadm() {
-  const baseUrl = "http://34.133.121.3:8080"
-  //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.133.121.3:8080"
+  const baseUrl = "http://localhost:8080"
   const navigate = useNavigate();
   const [fornecedorData, setfornecedorData] = useState([])
   const [produtoData, setprodutoData] = useState({
@@ -79,13 +80,12 @@ const handleClick=async (e)=>{
 
     return(
     <>
-
-                <div className="admBox">
-
-                    <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudo">
-
-                        <div className="formBloco">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+              <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
+            <div className="formBloco">
                             <h3>Dados do Produto</h3>
                             <form>
                                 <table>
@@ -145,11 +145,8 @@ const handleClick=async (e)=>{
                               </table>
                             </form>
                     </div>
-
-
-                    </div>
-                </div>
-
+            </div>
+        </div> 
     </>
     );
 }

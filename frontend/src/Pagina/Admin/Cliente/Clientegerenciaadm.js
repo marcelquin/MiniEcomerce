@@ -19,8 +19,8 @@ function Clientegerenciaadm() {
     APIDataCnpj.filter(dados => dados.nome.includes(dadoPesquisaCnpj)) :
     [];
 
-    const baseUrl = "http://34.133.121.3:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
         .get(`${baseUrl}/cliente/ListarClientes`)
@@ -73,11 +73,12 @@ function Clientegerenciaadm() {
     */
     return(
     <>
-
-             <div className="clienteConteudo">
-
-                <div className="clienteNav"><Navadm></Navadm></div>
-                    <div className="clienteBoxGeral">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+              <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
+            <div className="clienteBoxGeral">
                       <div className="clienteSeletorCadastro">
                       <input type="radio" name="filtroCadastro" value="CPF" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa fisica
                       <input type="radio" name="filtroCadastro" value="CNPJ" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa Juridica
@@ -201,11 +202,8 @@ function Clientegerenciaadm() {
                     </>)}
                     
                     </div>
-                    
-
-                    
-                    </div>
-
+            </div>
+        </div>  
     </>
     );
 }

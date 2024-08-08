@@ -5,6 +5,11 @@
     display: flex;
     flex-wrap: wrap;
 }
+.BlocoGeral
+{
+    width: 100%;
+    height: auto;
+}
 
 .clienteNav
 {

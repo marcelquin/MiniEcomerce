@@ -2,6 +2,7 @@ import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import React, { useState, useEffect} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Fornecedor.css';
+import '../AdmGlobal.css';
 import Axios from 'axios';
 
 function Fornecedorgerenciaadm() {
@@ -26,12 +27,13 @@ function Fornecedorgerenciaadm() {
     
     return(
         <>
-        <div className="fornecedorConteudo">
 
-            <div className="fornecedorNav"><Navadm></Navadm></div>
-            <div className="fornecedorBoxGeral">
-                  
-                <div className="fornecedorcampoPesquisa">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+                <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
+            <div className="fornecedorcampoPesquisa">
                         <label>Razão Social:<br/>
                         <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
                         </label>
@@ -95,16 +97,9 @@ function Fornecedorgerenciaadm() {
                             </>
                            )})}
                    </> )}
-                   
-
                 </div>
-
-            </div>  
-          </div>
-
-                     
-                   
-
+            </div>
+        </div> 
         </>
     )
 }

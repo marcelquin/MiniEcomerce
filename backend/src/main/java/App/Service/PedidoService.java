@@ -9,6 +9,7 @@ import App.Enum.TIPOCOMPRA;
 import App.Exceptions.EntityNotFoundException;
 import App.Exceptions.IllegalActionException;
 import App.Exceptions.NullargumentsException;
+import App.Financeiro.Service.RelatorioMensalService;
 import App.Repository.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,9 @@ public class PedidoService {
     private final EstoqueRepository estoqueRepository;
     private final EntregaRepository entregaRepository;
     private final ClienteEmpresaRepository clienteEmpresaRepository;
+    private final RelatorioMensalService relatorioMensalService;
     Locale localBrasil = new Locale("pt", "BR");
-    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository, EstoqueRepository estoqueRepository, EntregaRepository entregaRepository, ClienteEmpresaRepository clienteEmpresaRepository) {
+    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository, EstoqueRepository estoqueRepository, EntregaRepository entregaRepository, ClienteEmpresaRepository clienteEmpresaRepository, RelatorioMensalService relatorioMensalService) {
         this.clienteRepository = clienteRepository;
         this.produtoRepository = produtoRepository;
         this.pedidoRepository = pedidoRepository;
@@ -41,6 +43,7 @@ public class PedidoService {
         this.estoqueRepository = estoqueRepository;
         this.entregaRepository = entregaRepository;
         this.clienteEmpresaRepository = clienteEmpresaRepository;
+        this.relatorioMensalService = relatorioMensalService;
     }
 
     DecimalFormat df= new DecimalFormat("#,####.##");
@@ -278,7 +281,7 @@ public class PedidoService {
                     entity.setEntrega(entrega);
                 }
                 pedidoRepository.save(entity);
-
+                relatorioMensalService.NovoLancamentoVendas(entity.getId());
             }
             else
             {throw new NullargumentsException();}

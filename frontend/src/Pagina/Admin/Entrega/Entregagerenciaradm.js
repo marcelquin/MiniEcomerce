@@ -1,5 +1,6 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Entrega.css';
+import '../AdmGlobal.css';
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -24,11 +25,13 @@ function Entregagerenciaadm() {
 
     return(
     <>
-            <div className="admBox">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+                <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
 
-                <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudo">
-                        <div className="campoPesquisa">
+            <div className="campoPesquisa">
                             <label>Razão Social:<br/>
                             <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
                             </label>
@@ -72,20 +75,9 @@ function Entregagerenciaadm() {
                             </>)}
                                 </table>
                             </div>
-                            <div className="admRetornoCupomFiscal">
-                                
-                                <div className="admBoxCupom"></div>
-
-                            </div>
-
-                            </div>
-
-
-
-                            </div>
-
-                        
-                </div>
+            </div>
+        </div>  
+    </div>
     </>
     );
 }

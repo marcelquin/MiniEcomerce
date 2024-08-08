@@ -4,8 +4,8 @@ import './Empresa.css';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 function EmpresEditar() {
-    const baseUrl = "http://34.133.121.3:8080"
-      //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const {id} = useParams()
     const [PostData, setPostData] = useState({

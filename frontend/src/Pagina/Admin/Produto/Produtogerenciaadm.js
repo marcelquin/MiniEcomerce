@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Produto.css';
+import '../AdmGlobal.css';
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -26,14 +27,12 @@ function Produtogerenciaadm() {
 
     return(
     <>
-
-                <div className="produtoConteudo">
-
-                    <div className="produtoNav"><Navadm></Navadm></div>
-
-                    <div className="produtoBoxGeral">
-
-                        <div className="produtocampoPesquisa">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+                <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
+            <div className="produtocampoPesquisa">
                             <label>Nome:<br/>
                             <input type="text" name="dadoPesquisa" onChange={e=> setdadoPesquisa(e.target.value)} className="inputPesquisa" placeholder="Digite o coódigo de busca" />
                             </label>
@@ -94,10 +93,8 @@ function Produtogerenciaadm() {
                     })}
                     </>)}
                         </div>
-
-                    </div>
-                </div>                   
-
+            </div>
+        </div> 
     </>
     );
 }

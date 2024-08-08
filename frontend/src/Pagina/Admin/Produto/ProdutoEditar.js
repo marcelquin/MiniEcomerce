@@ -1,5 +1,6 @@
 import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Produto.css';
+import '../AdmGlobal.css';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -96,13 +97,12 @@ useEffect(() => {
 }, []);
     return(
     <>
-
-                <div className="admBox">
-
-                    <div className="admNav"><Navadm></Navadm></div>
-                    <div className="admConteudo">
-
-                    <div className="formBloco">
+        <div className="admBlocoGeral">
+            <div className="admBlocoNav">
+                <Navadm></Navadm>
+            </div>
+            <div className="admBlocoConteudo">
+            <div className="formBloco">
                             <h3>Dados do Produto</h3>
                             <form onSubmit={handleClick}>
                                 <table >
@@ -160,10 +160,8 @@ useEffect(() => {
                               </table>
                             </form>
                     </div>
-
-                    </div>
-                </div>
-
+            </div>
+        </div> 
     </>
     );
 }

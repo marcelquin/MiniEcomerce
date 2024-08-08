@@ -1,12 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './Venda.css'
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
 
 
 function NovaVenda() {
-    const baseUrl = "http://34.133.121.3:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.133.121.3:8080"
+    const baseUrl = "http://localhost:8080"
     const navegate = useNavigate()
     const [filtroCadastro, setfiltroCadastro] = useState('');
     const [APIDataCpf, setAPIDataCpf] = useState([]);
