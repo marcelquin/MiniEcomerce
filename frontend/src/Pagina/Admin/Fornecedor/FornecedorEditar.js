@@ -7,8 +7,8 @@ import { useParams } from 'react-router-dom';
 
 function FornecedorEditar() {
     const {id} = useParams()
-    //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const [fornecedorData, setfornecedorData] = useState({
         nome: "",

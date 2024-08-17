@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: mquinteiro464/mhqaecommercenotafrontend:v5
+          image: mquinteiro464/mhqaecommercenotafrontend:v6
           ports:
           - containerPort: 3000
 

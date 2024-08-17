@@ -4,8 +4,8 @@ import '../AdmGlobal.css';
 import { useEffect, useState } from "react";
 
 function Relaroriogerenciaadm() {
-    //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
 const[seletorInterno, setseletorInterno] = useState('')
 const[seletor, setSeletor] = useState('')
 const[diaReferencia, setDiaReferencia] = useState('')
