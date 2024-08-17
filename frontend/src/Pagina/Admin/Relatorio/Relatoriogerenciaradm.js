@@ -4,8 +4,8 @@ import '../AdmGlobal.css';
 import { useEffect, useState } from "react";
 
 function Relaroriogerenciaadm() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
 const[seletorInterno, setseletorInterno] = useState('')
 const[seletor, setSeletor] = useState('')
 const[diaReferencia, setDiaReferencia] = useState('')
@@ -15,8 +15,10 @@ const [relatorioDiadio, setrelatorioDiadio] = useState([]);
 const [relatorioMensal, setrelatorioMensal] = useState([]);
 const [relatorioAnual, setrelatorioAnual] = useState([]);
 
+
+
 useEffect(()=>{
-    fetch(`${baseUrl}/relatorios/BuscarRelatorioDiario`, 
+    fetch(`${baseUrl}/relatorios/BuscarRelatorioDiario`,
         {
             method:'GET',
             headers:{
@@ -135,9 +137,9 @@ useEffect(()=>{
                                                                 <td>Parcelas</td>
                                                                 <td>Forma Pagamento</td>
                                                             </tr>
-                                                            {data.pedidos.map((data1,i)=>{
+                                                            {data.vendasRealizadas.map((data1,i)=>{
                                                                 return(<>
-                                                                    <tr key={i}>
+                                                                <tr key={i}>
                                                                     <td>{data1.nomeCLiente}</td>
                                                                     <td>{data1.documento}</td>
                                                                     <td>{data1.itens }</td>
@@ -148,7 +150,6 @@ useEffect(()=>{
                                                                     <td>{data1.formapagamento}</td>
                                                                 </tr>
                                                                 </>)})}
-                                                            
                                                         </table>
                                                     </div>
                                                 </>):(<>
@@ -157,11 +158,23 @@ useEffect(()=>{
                                                             <tr>
                                                                 <td>Razão Social</td>
                                                                 <td>CNPJ</td>
-                                                                <td>Valor</td>
-                                                                <td>Parcelas</td>
-                                                                <td>Data Emissão</td>
+                                                                <td>Valor Total</td>
+                                                                <td>Valor Parcela</td>
+                                                                <td>Parcela Atual</td>
                                                                 <td>Data Vencimento</td>
+                                                                <td>Status Pagamento</td>
                                                             </tr>
+                                                            {data.boletos.map((data2, i)=>{return(<>
+                                                                <tr>
+                                                                    <td>{data2.empresa}</td>
+                                                                    <td>{data2.cnpj}</td>
+                                                                    <td>{data2.valorTotal}</td>
+                                                                    <td>{data2.valorParcela}</td>
+                                                                    <td>{data2.parcelaAtual}</td>
+                                                                    <td>{data2.dataVencimento}</td>
+                                                                    <td>{data2.statusPagamento}</td>
+                                                                </tr>
+                                                            </>)})}
                                                         </table>
                                                     </div>
                                                 </>)}
@@ -171,64 +184,7 @@ useEffect(()=>{
                                         </>)
                                     })}
                     </>):(<>
-                        <div className='retornoInfoRelatorio'>
-                                <div className='retornoInfoResumo'>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeCartao '></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeCartao'></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeDinheiro'></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconePix'></div><h5>Pix: R$ 0.00</h5>
-                                        </div>
-                                    </div>
-                                    <div className='retornoInfoResumoValor'>
-                                        <div className='sessaoValor'>
-                                            <h3>Valor Total de Vendas: R$ 0.00</h3>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <h3>Valor Total de Débitos: R$ 0.00</h3>
-                                        </div>
-                                    </div>
-                                    <div className='retornoInfoResumotabela'>
-                                        <div className='seletorrelatorio'>
-                                            <span><input  type='radio' value="vendas" onClick={(e)=>{setseletorInterno(e.target.value)}}/>Vendas</span>
-                                            <span><input  type='radio' value="debitos" onClick={(e)=>{setseletorInterno(e.target.value)}}/>Debitos</span>
-                                        </div>
-                                        {seletorInterno.length === 6?(<>
-                                            <div className='retornoInfotabela'>
-                                                <table>
-                                                    <tr>
-                                                        <td>Cliente</td>
-                                                        <td>CPF/CNPJ</td>
-                                                        <td>Itens</td>
-                                                        <td>Valor</td>
-                                                        <td>Data Venda</td>
-                                                        <td>Data Pagamento</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </>):(<>
-                                            <div className='retornoInfotabela'>
-                                                <table>
-                                                    <tr>
-                                                        <td>Razão Social</td>
-                                                        <td>CNPJ</td>
-                                                        <td>Valor</td>
-                                                        <td>Parcelas</td>
-                                                        <td>Data Emissão</td>
-                                                        <td>Data Vencimento</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </>)}               
-                                    </div>
-
-                                </div>
+                        <h1>Aguardando...</h1>
                     </>)}                   
                                 </>):(<></>)}
                                 
@@ -241,6 +197,10 @@ useEffect(()=>{
                                                 <td>
                                                     Mês de referencia:
                                                     <input type='number' name='mesReferencia' placeholder='Digite o mês para busca' />
+                                                </td>
+                                                <td>
+                                                    Ano de referencia:
+                                                    <input type='number' name='mesReferencia' placeholder='Digite o ano para busca' />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -284,7 +244,7 @@ useEffect(()=>{
                                                 </div>
                                                 {seletorInterno.length === 6?(<>
                                                     <div className='retornoInfotabela'>
-                                                        <table>
+                                                    <table>
                                                             <tr>
                                                                 <td>Cliente</td>
                                                                 <td>CPF/CNPJ</td>
@@ -295,7 +255,7 @@ useEffect(()=>{
                                                                 <td>Parcelas</td>
                                                                 <td>Forma Pagamento</td>
                                                             </tr>
-                                                            {data.pedidos.map((data1,i)=>{
+                                                            {data.vendasRealizadas.map((data1,i)=>{
                                                                 return(<>
                                                                     <tr key={i}>
                                                                     <td>{data1.nomeCLiente}</td>
@@ -308,20 +268,31 @@ useEffect(()=>{
                                                                     <td>{data1.formapagamento}</td>
                                                                 </tr>
                                                                 </>)})}
-                                                            
                                                         </table>
                                                     </div>
                                                 </>):(<>
                                                     <div className='retornoInfotabela'>
-                                                        <table>
+                                                    <table>
                                                             <tr>
                                                                 <td>Razão Social</td>
                                                                 <td>CNPJ</td>
-                                                                <td>Valor</td>
-                                                                <td>Parcelas</td>
-                                                                <td>Data Emissão</td>
+                                                                <td>Valor Total</td>
+                                                                <td>Valor Parcela</td>
+                                                                <td>Parcela Atual</td>
                                                                 <td>Data Vencimento</td>
+                                                                <td>Status Pagamento</td>
                                                             </tr>
+                                                            {data.boletos.map((data1, i)=>{return(<>
+                                                                <tr>
+                                                                    <td>{data1.empresa}</td>
+                                                                    <td>{data1.cnpj}</td>
+                                                                    <td>{data1.valorTotal}</td>
+                                                                    <td>{data1.valorParcela}</td>
+                                                                    <td>{data1.parcelaAtual}</td>
+                                                                    <td>{data1.dataVencimento}</td>
+                                                                    <td>{data1.statusPagamento}</td>
+                                                            </tr>
+                                                            </>)})}
                                                         </table>
                                                     </div>
                                                 </>)}
@@ -331,64 +302,7 @@ useEffect(()=>{
                                         </>)
                                     })}
                     </>):(<>
-                        <div className='retornoInfoRelatorio'>
-                                <div className='retornoInfoResumo'>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeCartao '></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeCartao'></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeDinheiro'></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconePix'></div><h5>Pix: R$ 0.00</h5>
-                                        </div>
-                                    </div>
-                                    <div className='retornoInfoResumoValor'>
-                                        <div className='sessaoValor'>
-                                            <h3>Valor Total de Vendas: R$ 0.00</h3>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <h3>Valor Total de Débitos: R$ 0.00</h3>
-                                        </div>
-                                    </div>
-                                    <div className='retornoInfoResumotabela'>
-                                        <div className='seletorrelatorio'>
-                                            <span><input  type='radio' value="vendas" onClick={(e)=>{setseletorInterno(e.target.value)}}/>Vendas</span>
-                                            <span><input  type='radio' value="debitos" onClick={(e)=>{setseletorInterno(e.target.value)}}/>Debitos</span>
-                                        </div>
-                                        {seletorInterno.length === 6?(<>
-                                            <div className='retornoInfotabela'>
-                                                <table>
-                                                    <tr>
-                                                        <td>Cliente</td>
-                                                        <td>CPF/CNPJ</td>
-                                                        <td>Itens</td>
-                                                        <td>Valor</td>
-                                                        <td>Data Venda</td>
-                                                        <td>Data Pagamento</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </>):(<>
-                                            <div className='retornoInfotabela'>
-                                                <table>
-                                                    <tr>
-                                                        <td>Razão Social</td>
-                                                        <td>CNPJ</td>
-                                                        <td>Valor</td>
-                                                        <td>Parcelas</td>
-                                                        <td>Data Emissão</td>
-                                                        <td>Data Vencimento</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </>)}               
-                                    </div>
-
-                                </div>
+                        <h1>Aguardando...</h1>
                     </>)}                   
                                 </>):(<></>)}
 
@@ -444,7 +358,7 @@ useEffect(()=>{
                                                 </div>
                                                 {seletorInterno.length === 6?(<>
                                                     <div className='retornoInfotabela'>
-                                                        <table>
+                                                    <table>
                                                             <tr>
                                                                 <td>Cliente</td>
                                                                 <td>CPF/CNPJ</td>
@@ -455,7 +369,7 @@ useEffect(()=>{
                                                                 <td>Parcelas</td>
                                                                 <td>Forma Pagamento</td>
                                                             </tr>
-                                                            {data.pedidos.map((data1,i)=>{
+                                                            {data.vendasRealizadas.map((data1,i)=>{
                                                                 return(<>
                                                                     <tr key={i}>
                                                                     <td>{data1.nomeCLiente}</td>
@@ -468,20 +382,32 @@ useEffect(()=>{
                                                                     <td>{data1.formapagamento}</td>
                                                                 </tr>
                                                                 </>)})}
-                                                            
+                                                        
                                                         </table>
                                                     </div>
                                                 </>):(<>
                                                     <div className='retornoInfotabela'>
-                                                        <table>
+                                                    <table>
                                                             <tr>
                                                                 <td>Razão Social</td>
                                                                 <td>CNPJ</td>
-                                                                <td>Valor</td>
-                                                                <td>Parcelas</td>
-                                                                <td>Data Emissão</td>
+                                                                <td>Valor Total</td>
+                                                                <td>Valor Parcela</td>
+                                                                <td>Parcela Atual</td>
                                                                 <td>Data Vencimento</td>
+                                                                <td>Status Pagamento</td>
                                                             </tr>
+                                                            {data.boletos.map((data1, i)=>{return(<>
+                                                                <tr>
+                                                                    <td>{data1.empresa}</td>
+                                                                    <td>{data1.cnpj}</td>
+                                                                    <td>{data1.valorTotal}</td>
+                                                                    <td>{data1.valorParcela}</td>
+                                                                    <td>{data1.parcelaAtual}</td>
+                                                                    <td>{data1.dataVencimento}</td>
+                                                                    <td>{data1.statusPagamento}</td>
+                                                            </tr>
+                                                            </>)})}
                                                         </table>
                                                     </div>
                                                 </>)}
@@ -491,65 +417,7 @@ useEffect(()=>{
                                         </>)
                                     })}
                     </>):(<>
-                        <div className='retornoInfoRelatorio'>
-                                <div className='retornoInfoResumo'>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeCartao '></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeCartao'></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconeDinheiro'></div><h5>R$ 0.00</h5>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <div className='icone iconePix'></div><h5>Pix: R$ 0.00</h5>
-                                        </div>
-                                    </div>
-                                    <div className='retornoInfoResumoValor'>
-                                        <div className='sessaoValor'>
-                                            <h3>Valor Total de Vendas: R$ 0.00</h3>
-                                        </div>
-                                        <div className='sessaoValor'>
-                                        <h3>Valor Total de Débitos: R$ 0.00</h3>
-                                        </div>
-                                    </div>
-                                    <div className='retornoInfoResumotabela'>
-                                        <div className='seletorrelatorio'>
-                                            <span><input  type='radio' value="vendas" onClick={(e)=>{setseletorInterno(e.target.value)}}/>Vendas</span>
-                                            <span><input  type='radio' value="debitos" onClick={(e)=>{setseletorInterno(e.target.value)}}/>Debitos</span>
-                                        </div>
-                                        {seletorInterno.length === 6?(<>
-                                            <div className='retornoInfotabela'>
-                                                <table>
-                                                    <tr>
-                                                        <td>Cliente</td>
-                                                        <td>CPF/CNPJ</td>
-                                                        <td>Itens</td>
-                                                        <td>Valor</td>
-                                                        <td>Data Venda</td>
-                                                        <td>Parcelas</td>
-                                                        <td>Forma Pagamento</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </>):(<>
-                                            <div className='retornoInfotabela'>
-                                                <table>
-                                                    <tr>
-                                                        <td>Razão Social</td>
-                                                        <td>CNPJ</td>
-                                                        <td>Valor</td>
-                                                        <td>Parcelas</td>
-                                                        <td>Data Emissão</td>
-                                                        <td>Data Vencimento</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </>)}               
-                                    </div>
-
-                                </div>
+                        <h1>Aguardando...</h1>
                     </>)}                   
                                 </>):(<></>)}
 

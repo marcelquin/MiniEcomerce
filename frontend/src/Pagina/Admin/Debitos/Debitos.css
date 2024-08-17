@@ -1,0 +1,17 @@
+.areaCadBoleto
+{
+    width: 100%;
+    height: auto;
+}
+
+.areaGerenciaBoleto
+{
+    width: 100%;
+    height: auto;
+}
+
+.areaGerenciaBoleto .areaPesquisaBoleto
+{
+    width: 100%;
+    height: 50px;
+}

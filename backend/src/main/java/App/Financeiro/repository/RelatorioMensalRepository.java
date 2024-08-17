@@ -1,4 +1,5 @@
-package App.Financeiro.Repository;
+package App.Financeiro.repository;
+
 
 
 
@@ -11,9 +12,7 @@ import java.util.Optional;
 @Repository
 public interface RelatorioMensalRepository extends JpaRepository<RelatorioMensalEntity,Long> {
 
-    boolean existsByanoReferencia(int anoReferencia);
-    boolean existsBymesReferencia(int mesReferencia);
+    boolean existsBydataReferencia(String dataReferencia);
 
-    Optional<RelatorioMensalEntity> findByanoReferencia(int anoReferencia);
-    Optional<RelatorioMensalEntity> findBymesReferencia(int mesReferencia);
+    Optional<RelatorioMensalEntity> findBydataReferencia(String dataReferencia);
 }

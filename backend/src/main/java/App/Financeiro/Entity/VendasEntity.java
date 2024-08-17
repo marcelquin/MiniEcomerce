@@ -1,6 +1,6 @@
 package App.Financeiro.Entity;
 
-import App.Entity.PedidoEntity;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,9 +23,6 @@ public class VendasEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<PedidoEntity> vendasRealizadas;
-
     private Double totalVendasDebito;
 
     private Double totalVendasCredito;
@@ -35,6 +32,9 @@ public class VendasEntity {
     private Double totalVendasPix;
 
     private Double totalVendas;
+
+    @OneToMany
+    private List<VendasRealizdasEntity> vendasRealizdas;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime timeStamp;

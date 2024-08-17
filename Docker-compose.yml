@@ -27,8 +27,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - /app/database/postgre 
-
+      - /app/database/postgre
 
   frontend:
     build: /frontend
@@ -38,5 +37,3 @@ services:
       - backend
     restart: on-failure
   
-    
-    

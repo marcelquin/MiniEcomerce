@@ -1,5 +1,6 @@
 package App.Financeiro.Entity;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

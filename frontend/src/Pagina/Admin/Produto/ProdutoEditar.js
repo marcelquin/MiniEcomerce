@@ -9,8 +9,8 @@ import Axios from 'axios';
 function ProdutoEditar() {
 
   const {id} = useParams()
-  const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.67.211.119:8080"
+  const baseUrl = "http://localhost:8080"
   const[fornecedorData, setfornecedorData] = useState([])
   const navigate = useNavigate();
   const [produtoData, setprodutoData] = useState({

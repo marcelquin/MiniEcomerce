@@ -2,10 +2,7 @@ package App.Service;
 
 import App.DTO.PedidoDTO;
 import App.Entity.*;
-import App.Enum.FORMAPAGAMENTO;
-import App.Enum.STATUS;
-import App.Enum.STATUSENTREGA;
-import App.Enum.TIPOCOMPRA;
+import App.Enum.*;
 import App.Exceptions.EntityNotFoundException;
 import App.Exceptions.IllegalActionException;
 import App.Exceptions.NullargumentsException;
@@ -32,9 +29,10 @@ public class PedidoService {
     private final EstoqueRepository estoqueRepository;
     private final EntregaRepository entregaRepository;
     private final ClienteEmpresaRepository clienteEmpresaRepository;
-    private final RelatorioMensalService relatorioMensalService;
+    private final RelatorioMensalService relatorioMsService;
+
     Locale localBrasil = new Locale("pt", "BR");
-    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository, EstoqueRepository estoqueRepository, EntregaRepository entregaRepository, ClienteEmpresaRepository clienteEmpresaRepository, RelatorioMensalService relatorioMensalService) {
+    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository, EstoqueRepository estoqueRepository, EntregaRepository entregaRepository, ClienteEmpresaRepository clienteEmpresaRepository, RelatorioMensalService relatorioMsService) {
         this.clienteRepository = clienteRepository;
         this.produtoRepository = produtoRepository;
         this.pedidoRepository = pedidoRepository;
@@ -43,7 +41,7 @@ public class PedidoService {
         this.estoqueRepository = estoqueRepository;
         this.entregaRepository = entregaRepository;
         this.clienteEmpresaRepository = clienteEmpresaRepository;
-        this.relatorioMensalService = relatorioMensalService;
+        this.relatorioMsService = relatorioMsService;
     }
 
     DecimalFormat df= new DecimalFormat("#,####.##");
@@ -196,7 +194,6 @@ public class PedidoService {
                 pedidoRepository.save(entity);
                 produto.setQuantidade(produto.getQuantidade() - quantidade);
                 estoqueRepository.save(produto);
-                System.out.println("adicionou");
                 List<String> itens = new ArrayList<>();
                 for(ItemPedidoEntity item: entity.getProdutos())
                 {
@@ -236,6 +233,7 @@ public class PedidoService {
                 pagamento.setValor(entity.getValorTotal());
                 pagamento.setDataPagamento(LocalDateTime.now());
                 pagamento.setTimeStamp(LocalDateTime.now());
+                System.out.println("antes: "+pagamento.getParcelas());
                 pagamentoRepository.save(pagamento);
                 entity.setStatus(STATUS.PAGO);
                 entity.setPagamento(pagamento);
@@ -281,7 +279,21 @@ public class PedidoService {
                     entity.setEntrega(entrega);
                 }
                 pedidoRepository.save(entity);
-                relatorioMensalService.NovoLancamentoVendas(entity.getId());
+                List<String> itens = new ArrayList<>();
+                for(ItemPedidoEntity item : entity.getProdutos())
+                {
+                    itens.add(item.getQuantidade()+"x "+item.getProduto().getNome()+" ");
+                }
+                System.out.println("depois: "+pagamento.getParcelas());
+                relatorioMsService.NovoLancamentoVendas(entity.getNomeCLiente(),
+                                                        entity.getCpfCnpj(),
+                                                        entity.getCodigo(),
+                                                        itens,
+                                                        StatusPagamento.PAGO,
+                                                        entity.getDataPedido(),
+                                                        entity.getValorTotal(),
+                                                        pagamento.getParcelas(),
+                                                        pagamento.getFormaPagamento());
             }
             else
             {throw new NullargumentsException();}

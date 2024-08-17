@@ -4,8 +4,8 @@ import './Caixa.css';
 
 
 function Pedido() {
-  const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const[idput,setidput] = useState('');
     const [idInfo, setidInfo] = useState('');

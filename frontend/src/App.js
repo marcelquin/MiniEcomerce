@@ -7,6 +7,7 @@ import Produto from './Pagina/Estoque/Produto';
 import HomeAdm from './Pagina/Admin/Home/HomeAdm';
 import ProdutoAdm from './Pagina/Admin/Produto/ProdutoAdm';
 import ClienteAdm from './Pagina/Admin/Cliente/ClienteAdm';
+import DebitosAdm from './Pagina/Admin/Debitos/DebitosAdm';
 import CLientegerenciaadm from './Pagina/Admin/Cliente/Clientegerenciaadm';
 import Produtogerenciaadm from './Pagina/Admin/Produto/Produtogerenciaadm';
 import Pedidogerenciaadm from './Pagina/Admin/Compras/Pedidogerenciaradm';
@@ -46,6 +47,7 @@ function App() {
                             <Route path='/admcliente' element={<ClienteAdm/>} />                      
                             <Route path='/admfornecedor' element={<Fonecedoradm/>} />
                             <Route path='/admenpresa' element={<EmpresaAdm/>} />
+                            <Route path='/admdebitos' element={<DebitosAdm/>} />
 
 
                             <Route path='/admclientegerencia' element={<CLientegerenciaadm/>} />

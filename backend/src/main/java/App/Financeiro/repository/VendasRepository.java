@@ -1,4 +1,4 @@
-package App.Financeiro.Repository;
+package App.Financeiro.repository;
 
 
 

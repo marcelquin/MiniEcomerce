@@ -1,5 +1,4 @@
-package App.Financeiro.Repository;
-
+package App.Financeiro.repository;
 
 
 import App.Financeiro.Entity.BoletoEntity;

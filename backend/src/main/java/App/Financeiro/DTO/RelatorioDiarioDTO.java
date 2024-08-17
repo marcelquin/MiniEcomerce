@@ -1,5 +1,6 @@
 package App.Financeiro.DTO;
 
+
 import java.util.List;
 
 public record RelatorioDiarioDTO(
@@ -16,8 +17,8 @@ public record RelatorioDiarioDTO(
         String totalVendas,
 
         String totalDebitos,
-
-        List<PedidosDTO> pedidos
+        List<PedidosDTO> vendasRealizadas,
+        List<BoletosDTO> boletos
         ) {
 
 

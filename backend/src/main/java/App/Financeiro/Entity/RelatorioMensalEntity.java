@@ -14,16 +14,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Builder
-@Table(name = "Relatorio_Anual")
+@Table(name = "Relatorio_Mensal")
 public class RelatorioMensalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    int mesReferencia;
+    // mes/ano
+    private String dataReferencia;
 
-    int anoReferencia;
+    private int anoReferencia;
 
     @OneToOne
     @JoinColumn(name = "vendasEntity_id", referencedColumnName = "id")

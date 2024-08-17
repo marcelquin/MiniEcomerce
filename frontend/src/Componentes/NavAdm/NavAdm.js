@@ -36,6 +36,9 @@ function Navadm() {
                 <td><Link to={"/admpedidogerencia"}><span>Gerenciar Vendas</span></Link></td>
             </tr>
             <tr>
+                <td><Link to={"/admdebitos"}><span>Gerenciar Debitos</span></Link></td>
+            </tr>
+            <tr>
                 <td> <Link to={"/admentregagerencia"}><span>Gerenciar Entregas</span></Link></td>
             </tr>
             <tr>

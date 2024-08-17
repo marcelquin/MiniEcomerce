@@ -1,9 +1,10 @@
 package App.Financeiro.DTO;
 
+
 import java.util.List;
 
 public record RelatorioMensalDTO(
-        int mes,
+        String dataReferencia,
 
         String totalVendasDebito,
 
@@ -16,8 +17,8 @@ public record RelatorioMensalDTO(
         String totalVendas,
 
         String totalDebitos,
-
-        List<PedidosDTO> pedidos
+        List<PedidosDTO> vendasRealizadas,
+        List<BoletosDTO> boletos
         ) {
 
 
