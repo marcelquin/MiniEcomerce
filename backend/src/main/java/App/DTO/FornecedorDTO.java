@@ -1,5 +1,7 @@
 package App.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public record FornecedorDTO(
@@ -7,6 +9,7 @@ public record FornecedorDTO(
         String razaoSocial,
         String cnpj,
         String areaAtuacao,
+        @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate dataContrato,
         Long cep,
         String cidade,

@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: mquinteiro464/mhqaecommercenotabackend:v4
+          image: mquinteiro464/mhqaecommercenotabackend:v6
           ports:
           - containerPort: 8080
           env:

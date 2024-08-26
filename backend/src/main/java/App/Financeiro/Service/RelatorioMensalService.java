@@ -44,6 +44,105 @@ public class RelatorioMensalService {
         this.pagamentoRepository = pagamentoRepository;
     }
 
+    public ResponseEntity<List<BoletosDTO>> BuscarBoletosMensais()
+    {
+        try
+        {
+                RelatorioMensalEntity entity = relatorioMensalRepository.findBydataReferencia(LocalDate.now().getMonth().getValue()+"/"+LocalDate.now().getYear()).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                List<BoletosDTO> boletos = new ArrayList<>();
+                for(BoletoEntity boleto : entity.getDebitos().getBoletos())
+                {
+                    if(boleto.getPagamento() == null)
+                    {
+                            BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                    boleto.getEmpresa(),
+                                    boleto.getCnpj(),
+                                    boleto.getStatusPagamento(),
+                                    boleto.getDataVencimento(),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
+                                    null,null,null);
+                            boletos.add(dto);
+                        }
+                    else
+                    {
+                            BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                                            boleto.getEmpresa(),
+                                                            boleto.getCnpj(),
+                                                            boleto.getStatusPagamento(),
+                                                            boleto.getDataVencimento(),
+                                                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
+                                                            boleto.getPagamento().getDataPagamento(),
+                                                            boleto.getPagamento().getFormaPagamento(),
+                                                            boleto.getPagamento().getParcelas());
+                            boletos.add(dto);
+                        }
+                }
+                return new ResponseEntity<>(boletos, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
+    public ResponseEntity<BoletosDTO> BuscarBoletoPorId(Long idBoleto)
+    {
+        try
+        {
+            if(idBoleto != null)
+            {
+                BoletoEntity entity = boletoRepository.findById(idBoleto).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                if(entity.getPagamento() == null)
+                {
+                    BoletosDTO dto = new BoletosDTO(entity.getId(),
+                                                    entity.getEmpresa(),
+                                                    entity.getCnpj(),
+                                                    entity.getStatusPagamento(),
+                                                    entity.getDataVencimento(),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getParcelas()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getParcelaAtual()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorParcela()),
+                                                    null,null,null);
+                    return new ResponseEntity<>(dto, HttpStatus.OK);
+                }
+                else
+                {
+                    BoletosDTO dto = new BoletosDTO(entity.getId(),
+                                                    entity.getEmpresa(),
+                                                    entity.getCnpj(),
+                                                    entity.getStatusPagamento(),
+                                                    entity.getDataVencimento(),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getParcelas()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getParcelaAtual()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorParcela()),
+                                                    entity.getPagamento().getDataPagamento(),
+                                                    entity.getPagamento().getFormaPagamento(),
+                                                    entity.getPagamento().getParcelas());
+                    return new ResponseEntity<>(dto, HttpStatus.OK);
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
 
     public ResponseEntity<List<RelatorioMensalEntity>> ListarRelatorios()
     {
@@ -75,7 +174,7 @@ public class RelatorioMensalService {
                                             vendasRealizdas.getCodigo(),
                                             vendasRealizdas.getItens(),
                                             vendasRealizdas.getPagamento().getParcelas(),
-                                            vendasRealizdas.getPagamento().getValor(),
+                                            NumberFormat.getCurrencyInstance(localBrasil).format(vendasRealizdas.getPagamento().getValor()),
                                             vendasRealizdas.getStatusPagamento(),
                                             vendasRealizdas.getDataPedido(),
                                             vendasRealizdas.getPagamento().getDataPagamento(),
@@ -86,14 +185,15 @@ public class RelatorioMensalService {
             {
                 if(boleto.getPagamento() == null)
                 {
-                    BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                    BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                            boleto.getEmpresa(),
                             boleto.getCnpj(),
                             boleto.getStatusPagamento(),
                             boleto.getDataVencimento(),
-                            boleto.getParcelas(),
-                            boleto.getParcelaAtual(),
-                            boleto.getValorTotal(),
-                            boleto.getValorParcela(),
+                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                            NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                             null,
                             null,
                             null);
@@ -101,17 +201,18 @@ public class RelatorioMensalService {
                 }
                 else
                 {
-                    BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
-                            boleto.getCnpj(),
-                            boleto.getStatusPagamento(),
-                            boleto.getDataVencimento(),
-                            boleto.getParcelas(),
-                            boleto.getParcelaAtual(),
-                            boleto.getValorTotal(),
-                            boleto.getValorParcela(),
-                            boleto.getPagamento().getDataPagamento(),
-                            boleto.getPagamento().getFormaPagamento(),
-                            boleto.getPagamento().getParcelas());
+                    BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                                    boleto.getEmpresa(),
+                                                    boleto.getCnpj(),
+                                                    boleto.getStatusPagamento(),
+                                                    boleto.getDataVencimento(),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
+                                                    boleto.getPagamento().getDataPagamento(),
+                                                    boleto.getPagamento().getFormaPagamento(),
+                                                    boleto.getPagamento().getParcelas());
                     boletosDTOS.add(dto);
                 }
             }
@@ -153,7 +254,7 @@ public class RelatorioMensalService {
                                                     vendasRealizdas.getCodigo(),
                                                     vendasRealizdas.getItens(),
                                                     vendasRealizdas.getPagamento().getParcelas(),
-                                                    vendasRealizdas.getPagamento().getValor(),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(vendasRealizdas.getPagamento().getValor()),
                                                     vendasRealizdas.getStatusPagamento(),
                                                     vendasRealizdas.getDataPedido(),
                                                     vendasRealizdas.getPagamento().getDataPagamento(),
@@ -164,14 +265,15 @@ public class RelatorioMensalService {
                 {
                     if(boleto.getPagamento() == null)
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 null,
                                 null,
                                 null);
@@ -179,14 +281,15 @@ public class RelatorioMensalService {
                     }
                     else
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 boleto.getPagamento().getDataPagamento(),
                                 boleto.getPagamento().getFormaPagamento(),
                                 boleto.getPagamento().getParcelas());
@@ -244,7 +347,7 @@ public class RelatorioMensalService {
                                                     vendas.getCodigo(),
                                                     vendas.getItens(),
                                                     vendas.getPagamento().getParcelas(),
-                                                    vendas.getValorTotal(),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getValorTotal()),
                                                     vendas.getStatusPagamento(),
                                                     vendas.getDataPedido(),
                                                     vendas.getPagamento().getDataPagamento(),
@@ -259,14 +362,15 @@ public class RelatorioMensalService {
                 {
                     if(boleto.getPagamento() == null)
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 null,
                                 null,
                                 null);
@@ -275,14 +379,15 @@ public class RelatorioMensalService {
                     }
                     else
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 boleto.getPagamento().getDataPagamento(),
                                 boleto.getPagamento().getFormaPagamento(),
                                 boleto.getPagamento().getParcelas());
@@ -342,7 +447,7 @@ public class RelatorioMensalService {
                             vendas.getCodigo(),
                             vendas.getItens(),
                             vendas.getPagamento().getParcelas(),
-                            vendas.getValorTotal(),
+                            NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getValorTotal()),
                             vendas.getStatusPagamento(),
                             vendas.getDataPedido(),
                             vendas.getPagamento().getDataPagamento(),
@@ -357,14 +462,15 @@ public class RelatorioMensalService {
                 {
                     if(boleto.getPagamento() == null)
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 null,
                                 null,
                                 null);
@@ -373,14 +479,15 @@ public class RelatorioMensalService {
                     }
                     else
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 boleto.getPagamento().getDataPagamento(),
                                 boleto.getPagamento().getFormaPagamento(),
                                 boleto.getPagamento().getParcelas());
@@ -437,7 +544,7 @@ public class RelatorioMensalService {
                                                     vendasRealizdas.getCodigo(),
                                                     vendasRealizdas.getItens(),
                                                     vendasRealizdas.getPagamento().getParcelas(),
-                                                    vendasRealizdas.getPagamento().getValor(),
+                                                    NumberFormat.getCurrencyInstance(localBrasil).format(vendasRealizdas.getPagamento().getValor()),
                                                     vendasRealizdas.getStatusPagamento(),
                                                     vendasRealizdas.getDataPedido(),
                                                     vendasRealizdas.getPagamento().getDataPagamento(),
@@ -448,14 +555,15 @@ public class RelatorioMensalService {
                 {
                     if(boleto.getPagamento() == null)
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 null,
                                 null,
                                 null);
@@ -463,14 +571,15 @@ public class RelatorioMensalService {
                     }
                     else
                     {
-                        BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                        BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                boleto.getEmpresa(),
                                 boleto.getCnpj(),
                                 boleto.getStatusPagamento(),
                                 boleto.getDataVencimento(),
-                                boleto.getParcelas(),
-                                boleto.getParcelaAtual(),
-                                boleto.getValorTotal(),
-                                boleto.getValorParcela(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                 boleto.getPagamento().getDataPagamento(),
                                 boleto.getPagamento().getFormaPagamento(),
                                 boleto.getPagamento().getParcelas());
@@ -528,7 +637,7 @@ public class RelatorioMensalService {
                                 vendasRealizdas.getCodigo(),
                                 vendasRealizdas.getItens(),
                                 vendasRealizdas.getPagamento().getParcelas(),
-                                vendasRealizdas.getPagamento().getValor(),
+                                NumberFormat.getCurrencyInstance(localBrasil).format(vendasRealizdas.getPagamento().getValor()),
                                 vendasRealizdas.getStatusPagamento(),
                                 vendasRealizdas.getDataPedido(),
                                 vendasRealizdas.getPagamento().getDataPagamento(),
@@ -539,14 +648,15 @@ public class RelatorioMensalService {
                     {
                         if(boleto.getPagamento() == null)
                         {
-                            BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                            BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                    boleto.getEmpresa(),
                                     boleto.getCnpj(),
                                     boleto.getStatusPagamento(),
                                     boleto.getDataVencimento(),
-                                    boleto.getParcelas(),
-                                    boleto.getParcelaAtual(),
-                                    boleto.getValorTotal(),
-                                    boleto.getValorParcela(),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                     null,
                                     null,
                                     null);
@@ -554,14 +664,15 @@ public class RelatorioMensalService {
                         }
                         else
                         {
-                            BoletosDTO dto = new BoletosDTO(boleto.getEmpresa(),
+                            BoletosDTO dto = new BoletosDTO(boleto.getId(),
+                                    boleto.getEmpresa(),
                                     boleto.getCnpj(),
                                     boleto.getStatusPagamento(),
                                     boleto.getDataVencimento(),
-                                    boleto.getParcelas(),
-                                    boleto.getParcelaAtual(),
-                                    boleto.getValorTotal(),
-                                    boleto.getValorParcela(),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelas()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getParcelaAtual()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorTotal()),
+                                    NumberFormat.getCurrencyInstance(localBrasil).format(boleto.getValorParcela()),
                                     boleto.getPagamento().getDataPagamento(),
                                     boleto.getPagamento().getFormaPagamento(),
                                     boleto.getPagamento().getParcelas());
@@ -604,78 +715,83 @@ public class RelatorioMensalService {
             if(valorVenda != null && formapagamento != null)
             {
                 //encontra relatório por mes referencia
-            if(!relatorioMensalRepository.existsBydataReferencia(LocalDate.now().getMonth().getValue()+"/"+LocalDate.now().getYear()))
-            {
-                GeraRelatorio(LocalDate.now().getMonth().getValue(),LocalDate.now().getYear());
-            }
-            RelatorioMensalEntity relatorioMensal = relatorioMensalRepository.findBydataReferencia(LocalDate.now().getMonth().getValue()+"/"+LocalDate.now().getYear()).orElseThrow(
+                if(!relatorioMensalRepository.existsBydataReferencia(LocalDate.now().getMonth().getValue()+"/"+LocalDate.now().getYear()))
+                {
+                    GeraRelatorioVenda(LocalDate.now().getMonth().getValue(),LocalDate.now().getYear(),nomeCLiente,documento,codigo, itens,parcelas,formapagamento,valorVenda, statusPagamento,dataVenda);
+                }
+                RelatorioMensalEntity relatorioMensal = relatorioMensalRepository.findBydataReferencia(LocalDate.now().getMonth().getValue()+"/"+LocalDate.now().getYear()).orElseThrow(
                         ()->new EntityNotFoundException()
                 );
-            VendasEntity vendas = vendasRepository.findById(relatorioMensal.getVendas().getId()).orElseThrow(
+
+                //buscar corpo venda
+                VendasEntity vendas = vendasRepository.findById(relatorioMensal.getVendas().getId()).orElseThrow(
                         ()->new EntityNotFoundException()
                 );
-            VendasRealizdasEntity vendasRealizdasEntity = new VendasRealizdasEntity();
-            vendasRealizdasEntity.setTimeStamp(LocalDateTime.now());
-            vendasRealizdasEntity.setItens(itens);
-            vendasRealizdasEntity.setValorTotal(valorVenda);
-            vendasRealizdasEntity.setCodigo(codigo);
-            vendasRealizdasEntity.setDataPedido(dataVenda);
-            vendasRealizdasEntity.setNomeCLiente(nomeCLiente);
-            vendasRealizdasEntity.setDocumento(documento);
-            vendasRealizdasEntity.setStatusPagamento(statusPagamento);
-            PagamentoEntity pagamento = new PagamentoEntity();
-            pagamento.setDataPagamento(LocalDateTime.now());
-            pagamento.setValor(valorVenda);
-            pagamento.setParcelas(parcelas);
-            System.out.println("variavel pagamento: "+pagamento.getParcelas());
-            System.out.println("variavel: "+parcelas);
-            Double valorParcela = 0.0;
-            if(parcelas == null)
-            {
-                valorParcela = valorVenda;
-            }
-            else
-            {
-                valorParcela = valorVenda/parcelas;
-            }
-            pagamento.setValor(valorParcela);
-            pagamento.setFormaPagamento(formapagamento);
-            pagamento.setTimeStamp(LocalDateTime.now());
-            pagamentoRepository.save(pagamento);
-            vendasRealizdasEntity.setPagamento(pagamento);
-            vendasRealizdasEntity.setTimeStamp(LocalDateTime.now());
-            vendasRealizadaRepository.save(vendasRealizdasEntity);
-            if(formapagamento == FORMAPAGAMENTO.CREDITO)
-            {
-                vendas.setTotalVendasCredito(vendas.getTotalVendasCredito()+ valorVenda);
-                relatorioMensal.setTotalVendasCredito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasCredito()));
-            }
-            if(formapagamento == FORMAPAGAMENTO.DEBITO)
-            {
-                vendas.setTotalVendasDebito(vendas.getTotalVendasDebito()+ valorVenda);
-                relatorioMensal.setTotalVendasDebito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDebito()));
-            }
-            if(formapagamento == FORMAPAGAMENTO.DINHEIRO)
-            {
-                vendas.setTotalVendasDinheiro(vendas.getTotalVendasDinheiro()+ valorVenda);
-                relatorioMensal.setTotalVendasDinheiro(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDinheiro()));
-            }
-            if(formapagamento == FORMAPAGAMENTO.PIX)
-            {
-                vendas.setTotalVendasPix(vendas.getTotalVendasPix()+ valorVenda);
-                relatorioMensal.setTotalVendasPix(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasPix()));
-            }
-            vendas.setTotalVendas(vendas.getTotalVendasCredito() +
-                                  vendas.getTotalVendasDebito() +
-                                  vendas.getTotalVendasDinheiro() +
-                                  vendas.getTotalVendasPix());
-            relatorioMensal.setTotalVendas(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendas()));
-            relatorioMensal.setTimeStamp(LocalDateTime.now());
-            vendas.setTimeStamp(LocalDateTime.now());
-            vendas.getVendasRealizdas().add(vendasRealizdasEntity);
-            vendasRepository.save(vendas);
-            relatorioMensalRepository.save(relatorioMensal);
-            return new ResponseEntity<>(relatorioMensal,HttpStatus.OK);
+                //criar nova venda realizada
+                VendasRealizdasEntity vendasRealizdasEntity = new VendasRealizdasEntity();
+                vendasRealizdasEntity.setTimeStamp(LocalDateTime.now());
+                vendasRealizdasEntity.setItens(itens);
+                vendasRealizdasEntity.setValorTotal(valorVenda);
+                vendasRealizdasEntity.setCodigo(codigo);
+                vendasRealizdasEntity.setDataPedido(dataVenda);
+                vendasRealizdasEntity.setNomeCLiente(nomeCLiente);
+                vendasRealizdasEntity.setDocumento(documento);
+                vendasRealizdasEntity.setStatusPagamento(statusPagamento);
+                //criar e setar pagamento
+                PagamentoEntity pagamento = new PagamentoEntity();
+                pagamento.setDataPagamento(LocalDateTime.now());
+                pagamento.setValor(valorVenda);
+                pagamento.setParcelas(parcelas);
+                Double valorParcela = 0.0;
+                if(parcelas == null)
+                {
+                    valorParcela = valorVenda;
+                }
+                else
+                {
+                    valorParcela = valorVenda/parcelas;
+                }
+                pagamento.setValor(valorParcela);
+                pagamento.setFormaPagamento(formapagamento);
+                pagamento.setTimeStamp(LocalDateTime.now());
+                //inserir pagamento no vendas realizadas
+                pagamentoRepository.save(pagamento);
+                vendasRealizdasEntity.setPagamento(pagamento);
+                vendasRealizdasEntity.setTimeStamp(LocalDateTime.now());
+                vendasRealizadaRepository.save(vendasRealizdasEntity);
+                //verificar via if forma de pagamento setando vendas e relatorio mensal
+                if(formapagamento == FORMAPAGAMENTO.CREDITO)
+                {
+                    vendas.setTotalVendasCredito(vendas.getTotalVendasCredito()+ valorVenda);
+                    relatorioMensal.setTotalVendasCredito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasCredito()));
+                }
+                if(formapagamento == FORMAPAGAMENTO.DEBITO)
+                {
+                    vendas.setTotalVendasDebito(vendas.getTotalVendasDebito()+ valorVenda);
+                    relatorioMensal.setTotalVendasDebito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDebito()));
+                }
+                if(formapagamento == FORMAPAGAMENTO.DINHEIRO)
+                {
+                    vendas.setTotalVendasDinheiro(vendas.getTotalVendasDinheiro()+ valorVenda);
+                    relatorioMensal.setTotalVendasDinheiro(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDinheiro()));
+                }
+                if(formapagamento == FORMAPAGAMENTO.PIX)
+                {
+                    vendas.setTotalVendasPix(vendas.getTotalVendasPix()+ valorVenda);
+                    relatorioMensal.setTotalVendasPix(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasPix()));
+                }
+                //salvar vendas e relatorio mensal
+                vendas.setTotalVendas(vendas.getTotalVendasCredito() +
+                        vendas.getTotalVendasDebito() +
+                        vendas.getTotalVendasDinheiro() +
+                        vendas.getTotalVendasPix());
+                relatorioMensal.setTotalVendas(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendas()));
+                relatorioMensal.setTimeStamp(LocalDateTime.now());
+                vendas.setTimeStamp(LocalDateTime.now());
+                vendas.getVendasRealizdas().add(vendasRealizdasEntity);
+                vendasRepository.save(vendas);
+                relatorioMensalRepository.save(relatorioMensal);
+                return new ResponseEntity<>(relatorioMensal,HttpStatus.OK);
             }
             else
             {throw new NullargumentsException(); }
@@ -696,7 +812,6 @@ public class RelatorioMensalService {
     {
         try
         {
-            System.out.println("gera boleto start");
             RelatorioMensalEntity relatorioMensal = relatorioMensalRepository.findBydataReferencia(dataBoleto.getMonth().getValue()+"/"+dataBoleto.getYear()).get();
             DebitosEntity debitos = debitosRepository.findById(relatorioMensal.getDebitos().getId()).orElseThrow(
                     ()-> new EntityNotFoundException()
@@ -711,14 +826,115 @@ public class RelatorioMensalService {
             boleto.setParcelaAtual(parcelaAtual);
             boleto.setTimeStamp(LocalDateTime.now());
             boleto.setDataVencimento(dataBoleto);
-            //debitos.getBoletos().add(boleto);
             boletoRepository.save(boleto);
             debitos.getBoletos().add(boleto);
             debitos.setValorTotalBoletos(debitos.getValorTotalBoletos() + boleto.getValorParcela());
             relatorioMensal.setTotalDebitos(NumberFormat.getCurrencyInstance(localBrasil).format(debitos.getValorTotalBoletos()));
             debitosRepository.save(debitos);
             relatorioMensalRepository.save(relatorioMensal);
-            System.out.println("gera boleto final");
+            }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+    }
+
+    public void GeraRelatorioVenda(int mesReferencia,
+                                   int anoReferencia,
+                                   String nomeCLiente,
+                                   String documento,
+                                   String codigo,
+                                   List<String> itens,
+                                   Double parcelas,
+                                   FORMAPAGAMENTO formapagamento,
+                                   Double valorVenda,
+                                   StatusPagamento statusPagamento,
+                                   LocalDateTime dataVenda)
+    {
+        try
+        {
+            RelatorioMensalEntity relatorioMensal = new RelatorioMensalEntity();
+            relatorioMensal.setTimeStamp(LocalDateTime.now());
+            relatorioMensal.setDataReferencia(mesReferencia+"/"+anoReferencia);
+            relatorioMensal.setAnoReferencia(anoReferencia);
+            VendasEntity vendas = new VendasEntity();
+            vendas.setTimeStamp(LocalDateTime.now());
+            vendas.setTotalVendasDinheiro(0.0);
+            vendas.setTotalVendasCredito(0.0);
+            vendas.setTotalVendasDebito(0.0);
+            vendas.setTotalVendasPix(0.0);
+            vendas.setTotalVendas(0.0);
+            DebitosEntity debitos = new DebitosEntity();
+            debitos.setTimeStamp(LocalDateTime.now());
+            debitos.setValorTotalBoletos(0.0);
+            debitosRepository.save(debitos);
+            relatorioMensal.setVendas(vendas);
+            relatorioMensal.setDebitos(debitos);
+            relatorioMensal.setTotalDebitos(NumberFormat.getCurrencyInstance(localBrasil).format(debitos.getValorTotalBoletos()));
+            //criar nova venda realizada
+            VendasRealizdasEntity vendasRealizdasEntity = new VendasRealizdasEntity();
+            vendasRealizdasEntity.setTimeStamp(LocalDateTime.now());
+            vendasRealizdasEntity.setItens(itens);
+            vendasRealizdasEntity.setValorTotal(valorVenda);
+            vendasRealizdasEntity.setCodigo(codigo);
+            vendasRealizdasEntity.setDataPedido(dataVenda);
+            vendasRealizdasEntity.setNomeCLiente(nomeCLiente);
+            vendasRealizdasEntity.setDocumento(documento);
+            vendasRealizdasEntity.setStatusPagamento(statusPagamento);
+            //criar e setar pagamento
+            PagamentoEntity pagamento = new PagamentoEntity();
+            pagamento.setDataPagamento(LocalDateTime.now());
+            pagamento.setValor(valorVenda);
+            pagamento.setParcelas(parcelas);
+            Double valorParcela = 0.0;
+            if(parcelas == null)
+            {
+                valorParcela = valorVenda;
+            }
+            else
+            {
+                valorParcela = valorVenda/parcelas;
+            }
+            pagamento.setValor(valorParcela);
+            pagamento.setFormaPagamento(formapagamento);
+            pagamento.setTimeStamp(LocalDateTime.now());
+            //inserir pagamento no vendas realizadas
+            pagamentoRepository.save(pagamento);
+            vendasRealizdasEntity.setPagamento(pagamento);
+            vendasRealizdasEntity.setTimeStamp(LocalDateTime.now());
+            vendasRealizadaRepository.save(vendasRealizdasEntity);
+            //verificar via if forma de pagamento setando vendas e relatorio mensal
+            if(formapagamento == FORMAPAGAMENTO.CREDITO)
+            {
+                vendas.setTotalVendasCredito(vendas.getTotalVendasCredito()+ valorVenda);
+                relatorioMensal.setTotalVendasCredito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasCredito()));
+            }
+            if(formapagamento == FORMAPAGAMENTO.DEBITO)
+            {
+                vendas.setTotalVendasDebito(vendas.getTotalVendasDebito()+ valorVenda);
+                relatorioMensal.setTotalVendasDebito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDebito()));
+            }
+            if(formapagamento == FORMAPAGAMENTO.DINHEIRO)
+            {
+                vendas.setTotalVendasDinheiro(vendas.getTotalVendasDinheiro()+ valorVenda);
+                relatorioMensal.setTotalVendasDinheiro(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDinheiro()));
+            }
+            if(formapagamento == FORMAPAGAMENTO.PIX)
+            {
+                vendas.setTotalVendasPix(vendas.getTotalVendasPix()+ valorVenda);
+                relatorioMensal.setTotalVendasPix(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasPix()));
+            }
+            //salvar vendas e relatorio mensal
+            vendas.setTotalVendas(vendas.getTotalVendasCredito() +
+                    vendas.getTotalVendasDebito() +
+                    vendas.getTotalVendasDinheiro() +
+                    vendas.getTotalVendasPix());
+            relatorioMensal.setTotalVendas(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendas()));
+            relatorioMensal.setTimeStamp(LocalDateTime.now());
+            vendas.setTimeStamp(LocalDateTime.now());
+            vendas.setVendasRealizdas(Collections.singletonList(vendasRealizdasEntity));
+            vendasRepository.save(vendas);
+            relatorioMensalRepository.save(relatorioMensal);
         }
         catch (Exception e)
         {
@@ -726,8 +942,14 @@ public class RelatorioMensalService {
         }
     }
 
-    public void GeraRelatorio(int mesReferencia,
-                              int anoReferencia)
+    public void GeraRelatorioDebito(int mesReferencia,
+                                   int anoReferencia,
+                                    String empresa,
+                                    String cnpj,
+                                    Double valorBoleto,
+                                    Double parcelaAtual,
+                                    Double totalParcelas,
+                                    LocalDate dataBoleto)
     {
         try
         {
@@ -746,7 +968,6 @@ public class RelatorioMensalService {
             debitos.setTimeStamp(LocalDateTime.now());
             debitos.setValorTotalBoletos(0.0);
             vendasRepository.save(vendas);
-            debitosRepository.save(debitos);
             relatorioMensal.setVendas(vendas);
             relatorioMensal.setDebitos(debitos);
             relatorioMensal.setTotalVendasDinheiro(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDinheiro()));
@@ -754,7 +975,21 @@ public class RelatorioMensalService {
             relatorioMensal.setTotalVendasDebito(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasDebito()));
             relatorioMensal.setTotalVendasPix(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendasPix()));
             relatorioMensal.setTotalVendas(NumberFormat.getCurrencyInstance(localBrasil).format(vendas.getTotalVendas()));
+            BoletoEntity boleto = new BoletoEntity();
+            boleto.setStatusPagamento(StatusPagamento.AGUARDANDO);
+            boleto.setEmpresa(empresa);
+            boleto.setCnpj(cnpj);
+            boleto.setParcelas(totalParcelas);
+            boleto.setValorParcela(valorBoleto/totalParcelas);
+            boleto.setValorTotal(valorBoleto);
+            boleto.setParcelaAtual(parcelaAtual);
+            boleto.setTimeStamp(LocalDateTime.now());
+            boleto.setDataVencimento(dataBoleto);
+            boletoRepository.save(boleto);
+            debitos.setBoletos(Collections.singletonList(boleto));
+            debitos.setValorTotalBoletos(debitos.getValorTotalBoletos() + boleto.getValorParcela());
             relatorioMensal.setTotalDebitos(NumberFormat.getCurrencyInstance(localBrasil).format(debitos.getValorTotalBoletos()));
+            debitosRepository.save(debitos);
             relatorioMensalRepository.save(relatorioMensal);
         }
         catch (Exception e)
@@ -769,8 +1004,7 @@ public class RelatorioMensalService {
                                   List<String> itens,
                                   Double valor,
                                   StatusPagamento statusPagamento,
-                                  LocalDateTime dataVenda
-                                  )
+                                  LocalDateTime dataVenda)
     {
         try
         {
@@ -833,8 +1067,7 @@ public class RelatorioMensalService {
                     System.out.println(data.getMonth().getValue()+"/"+data.getYear());
                     if(!relatorioMensalRepository.existsBydataReferencia(data.getMonth().getValue()+"/"+data.getYear()))
                     {
-                        GeraRelatorio(data.getMonth().getValue(),data.getYear());
-                        GeraBoleto(empresa, cnpj, valorBoleto, (double) parcelaAtual,parcelas,data);
+                        GeraRelatorioDebito(data.getMonth().getValue(),data.getYear(),empresa,cnpj,valorBoleto, Double.valueOf(parcelaAtual),parcelas,data);
                     }
                     else
                     {

@@ -1,59 +1,63 @@
 import './NavAdm.css';
+import '../../Style/Global.css'
+import '../../Pagina/Admin/AdmGlobal.css'
 import { Link } from 'react-router-dom';
 
 function Navadm() {
     return (
         <>
-
-<div className="navAdmBlock">
-        <span className="title">Cliente</span>    
-        <table>
-            <tr>
-                <td><Link to={"/admcliente"}><span>Cadastrar</span></Link></td>
-            </tr>
-            <tr>
-                <td><Link to={"/admclientegerencia"}><span>Gerenciar</span></Link></td>
-            </tr>
-            <br/>
-            <span className="title">Fornecedor</span> 
-            <tr>
-                <td><Link to={"/admfornecedor"}><span>Cadastrar</span></Link></td>
-            </tr>
-            <tr>
-                <td> <Link to={"/admfornecedorgerencia"}><span>Gerenciar</span></Link>  </td>
-            </tr>
-            <br/>
-            <span className="title">Produtos</span> 
-            <tr>
-                <td><Link to={"/admproduto"}><span>Cadastrar</span></Link></td>
-            </tr>
-            <tr>
-                <td> <Link to={"/admprodutogerencia"}><span>Gerenciar</span></Link>  </td>
-            </tr>
-            <br/>
-            <span className="title">Vendas</span> 
-            <tr>
-                <td><Link to={"/admpedidogerencia"}><span>Gerenciar Vendas</span></Link></td>
-            </tr>
-            <tr>
-                <td><Link to={"/admdebitos"}><span>Gerenciar Debitos</span></Link></td>
-            </tr>
-            <tr>
-                <td> <Link to={"/admentregagerencia"}><span>Gerenciar Entregas</span></Link></td>
-            </tr>
-            <tr>
-                <td> <Link to={"/admrelatoriogerencia"}><span>Gerneciar Relatórios</span></Link></td>
-            </tr>
-            <br/>
-            <span className="title">Proprietário</span> 
-            <tr>
-                <td><Link to={"/admenpresa"}><span>Cadastrar</span></Link></td>
-            </tr>
-            <tr>
-                <td> <Link to={"/admempresagerencia"}><span>Gerenciar</span></Link>  </td>
-            </tr>
-        </table>
-        </div>
+        <Link to={"/"}><h1 className='title'>Home</h1></Link>
+        <div className='opcaoNavAdm'>        
+            <h1 className='title'>Proprietário</h1>
+                <Link to={"/admenpresa"}>
+                <h1 className='subTitle'>Cadastrar</h1>
+                </Link>
+                <Link to={"/admempresagerencia"}>
+                <h1 className='subTitle'>Gerenciar</h1>
+                </Link>
+         </div>
+         <div className='opcaoNavAdm'>        
+            <h1 className='title'>Cliente</h1>
+                <Link to={"/admcliente"}>
+                <h1 className='subTitle'>Cadastrar</h1>
+                </Link>
+                <Link to={"/admclientegerencia"}>
+                <h1 className='subTitle'>Gerenciar</h1>
+                </Link>
+         </div>
+         <div className='opcaoNavAdm'>        
+            <h1 className='title'>Fornecedor</h1>
+                <Link to={"/admfornecedor"}>
+                <h1 className='subTitle'>Cadastrar</h1>
+                </Link>
+                <Link to={"/admfornecedorgerencia"}>
+                <h1 className='subTitle'>Gerenciar</h1>
+                </Link>
+         </div>
+         <div className='opcaoNavAdm'>        
+            <h1 className='title'>Produtos</h1>
+                <Link to={"/admproduto"}>
+                <h1 className='subTitle'>Cadastrar</h1>
+                </Link>
+                <Link to={"/admprodutogerencia"}>
+                <h1 className='subTitle'>Gerenciar</h1>
+                </Link>
+         </div>
+         <div className='opcaoNavAdm'>        
+            <h1 className='title'>Financeiro</h1>
+                <Link to={"/admpedidogerencia"}>
+                <h1 className='subTitle'>Gerenciar Vendas</h1>
+                </Link>
+                <Link to={"/admdebitos"}>
+                <h1 className='subTitle'>Cadastrar Boletos</h1>
+                </Link>
+                <Link to={"/admentregagerencia"}>
+                <h1 className='subTitle'>Gerenciar Logóstica</h1>
+                </Link>
+                <Link to={"/admrelatoriogerencia"}>
+                <h1 className='subTitle'>Gerenciar Relatórios</h1>
+                </Link>
+         </div>
         </>
     )
 }

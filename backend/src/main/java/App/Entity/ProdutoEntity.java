@@ -1,6 +1,5 @@
 package App.Entity;
 
-import App.Enum.MEDIDA;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,20 +30,17 @@ public class ProdutoEntity  {
     @JoinColumn(unique = true)
     private String codigo;
 
-    private int quantidade;
-
     private Long cfop;
 
     private Long ncmsh;
 
     private String fabricante;
 
-    @Enumerated(EnumType.STRING)
-    private MEDIDA medida;
-
     private Double valor;
 
     private String valorFront;
+
+    private String Notificacao;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "estoqueEntity_id", referencedColumnName = "id")

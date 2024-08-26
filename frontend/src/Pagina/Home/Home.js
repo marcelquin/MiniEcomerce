@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import './Home.css';
+import '../../Style/Global.css'
 import { Link } from 'react-router-dom';
+import Nav from '../../Componentes/Nav/Nav';
+
+
 function Home() {
-  const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const [APICliente, setAPICliente] = useState([]);
     const [APIDataProduto, setAPIDataProduto] = useState([]);
     const [idcliente, setidcliente] = useState('');
-    const [idproduto, setidproduto] = useState('');
+    const [idVenda, setidVenda] = useState('');
     const [idput, setidput] = useState('');
     const[quantidade, setquantidade] = useState('');
     const[dadoPesquisa, setdadoPesquisa] = useState('')
-    const[dadoPesquisaProduto, setdadoPesquisaProduto]=useState('')
+    const[dadoPesquisaProduto, setdadoPesquisaProduto]=useState('');
+    const [responseData, setresponseData] = useState({
+      codigo: '',
+      cliente: '',
+      documento: '',
+      dataVenda: '',
+      itens: [],
+      valor: ''
+    })
     //pesquisa automática
     
     const pesquisa = dadoPesquisa.length > 0 ?
@@ -43,9 +55,9 @@ function Home() {
     });
   }
 
-  async function BuscarEstoque(){
+  async function VerificaEstoque(){
    await Axios
-    .get(`${baseUrl}/estoque/ListarEstoque`)
+    .get(`${baseUrl}/produto/verificaEstoque`)
     .then((response) => { setAPIDataProduto(response.data)})
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
@@ -69,68 +81,72 @@ function Home() {
         }
       }
       
-      
-      const AdicionarProduto = async () =>{    
-        try{
-          await fetch(`${baseUrl}/pedido/AdicionarProdutoPedido`, {
-            method: 'PUT',
-            headers:{
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },    
-            body: new URLSearchParams({
-                'id': idput,
-                'idProduto': idproduto,
-                'quantidade': quantidade
-        })})
-        .then(window.location.reload())
-        setquantidade('')       
-        setidput('')
-        setidproduto('')
-        setdadoPesquisaProduto('')
-        setdadoPesquisaProduto('')
-        
-        }catch (err){
-          console.log("erro")
-        }
-         
-      }
-      
+      useEffect(()=>{
+        fetch(`${baseUrl}/pedido/BuscarPedidoPorIdCaixa?id=${idVenda}`, 
+            {
+                method:'GET',
+                headers:{
+                    'content-type': 'application/json',
+                },
+            })
+            .then((resp)=> resp.json())
+            .then((data)=> {
+                setresponseData(data)
+            })
+            .catch(err => console.log(err))
+    }, [idVenda])
+
       useEffect(() => {
           AtualizarPedidos()
+          VerificaEstoque()
       }, []);
       
     return (
         <>
-          <div className='boxRetorno'>
-              {APIData.map((data, i) => {
-                return(<>
 
-                  <div className='itemRetorno'>
-                    <h4>
-                      <div className='detalheVenda'>
-                        {data.nomeCLiente != null ? (<>
-                          {data.nomeCLiente} {data.codigo} <br/>
-                        </>) : (<>
-                          {data.cliente.nome} {data.cliente.sobrenome} {data.codigo}<br/>
-                        </>)}            
-                      </div>
-                      <div className='Adicionar'> 
-                      <a>
-                        <Link to={`/adicionaritem/${data.id}`}> <div className='icone'><span>Item</span></div></Link>
-                      </a>
-                      </div>
-                    </h4>
-                    
-                    <span className='titulo'>Data Abertura: {data.dataPedido}</span><br/>
-                    <span className='titulo'>Valor: {data.valorTotalFront}</span><br/>
-                    <span className='titulo'>itens:</span><br/>
-                    <span className='titulo'>{data.produtos.map((item, i) => { return(<>{item.quantidade}x {item.produto.nome} <br/> </>)})}</span>
-                  </div>
+        <div className='ndBackground'>
+            
+            <div className='ndBoxSection'>
+                <div className='ndBoxNav'><Nav></Nav></div>
+                <div className='ndBoxSectionInFlex'>
+                    <div className='homeRetornoTabela'>
+                      <table>
+                        <tr>
+                          <td>Cliente</td>
+                          <td>Código Venda</td>
+                          <td>Valor</td>
+                        </tr>
+                        {APIData.map((data, i) => {return(<>
+                        <tr key={i}>
+                            <td>{data.nomeCLiente != null ? (<>
+                              {data.nomeCLiente} <br/>
+                            </>) : (<>
+                              {data.cliente.nome} {data.cliente.sobrenome}</>)}</td>
+                            <td>{data.codigo} </td>
+                            <td>{data.valorTotalFront}</td>
+                            <td><button onClick={(e)=>{setidVenda(data.id)}}> Mais Informação</button></td>
+                            <td><Link to={`/adicionaritem/${data.id}`}>
+                            <button>Adicionar Item</button>
+                            </Link></td>
+                        </tr>
+                        </>)})}
+                      </table>  
+                    </div>
+                    <div className='homeRetornoDetalhes'>
+
+                        <h4>NOME: {responseData.cliente}</h4>
+                        <p>Código: {responseData.codigo}</p>
+                        <p>Data do Pedido {responseData.dataVenda}:</p>
+                        <p>Itens: {responseData.itens}</p>
+                        <p>Valor Atual: {responseData.valor}</p>
+                    </div>
+                </div>  
+              </div>
+             
+        </div>
                 
-                </>)
-              })}
-              
-          </div>
+
+          
                     
         </>
     );

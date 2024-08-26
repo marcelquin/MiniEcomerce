@@ -10,7 +10,7 @@ function Header() {
 
             <div className='boxicone'>
                 <div className='boxAdmLogin'><Link to={"/adm"}>Login</Link></div>
-                <Nav></Nav>
+               
             </div>
             
         </div>

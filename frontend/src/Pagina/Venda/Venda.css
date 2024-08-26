@@ -1,59 +1,37 @@
-.navHome
-{
-    height: 50px;
-    width: 45%;
-    margin: 0 auto;
-    display: flex;
-}
-
-.navHome .navBtn
-{
-    width: 30%;
-    height: 50px;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-.campoPesquisa
-{
-    width: 100%;
-    height: 80px;
-}
-
 .inputPesquisa
 {
     width: 160px;
     height: 20px;
 }
 
-.boxtabela
+.trDestaque
+{
+    background-color: bisque;
+}
+
+.addItemBlocoForm
+{
+    width:40%;
+    height: auto;
+}
+
+.addItemBlocoForm .addItemBlocoCampoPesquisa
 {
     width: 100%;
+    height: 100px;
+}
+
+.addItemBlocoForm .addItemBlocoformPagina
+{
+    width: 100%;
+    height: 200px;
+}
+
+
+
+.addItemBlocoRetornoEstoque
+{
+    width:55%;
+    margin: 2,5%;
     height: auto;
-    display: flex;
-}
-
-.Blocoestoque
-{
-    width: 280px;
-    height: 150px;
-    margin: 20px;
-}
-
-.Blocoestoque .destaque
-{
-    display: flex;
-}
-.Blocoestoque .imagem
-{
-    border: 1px solid rgb(18, 18, 19);
-    width: 70px;
-    height: 90px;
-}
-
-.Blocoestoque .info
-{
-    width: 150px;
-    height: 80px;
-    margin-left: 10px;
 }

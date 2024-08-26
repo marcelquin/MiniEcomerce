@@ -28,10 +28,11 @@ import EmpresaEditar from './Pagina/Admin/Empresa/EmpresaEditar'
 import NovaVenda from './Pagina/Venda/NovaVenda';
 import AdicionarItem from './Pagina/Venda/AdicionarItem';
 import Logistica from './Pagina/Logistica/Logistica';
+import Pagamento from './Pagina/Admin/Debitos/Pagamento';
 function App() {
   return (
 
-        <div className="boxGeral">
+        <div className="ndBackground">
           <Header></Header>
 
                   <Routes>
@@ -64,6 +65,7 @@ function App() {
                             <Route path='/clienteempresa/:id' element={<ClienteEmpresaEditar/>} />
                             <Route path='/empresaeditar/:id' element={<EmpresaEditar/>} />
                             <Route path='/adicionaritem/:id' element={<AdicionarItem/>} />
+                            <Route path='/pagamento/:id' element={<Pagamento/>} />
                   </Routes>        
 
         </div>

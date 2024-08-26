@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import './Venda.css'
+import '../../Style/Global.css'
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
+import Nav from '../../Componentes/Nav/Nav';
 
 
 function NovaVenda() {
-  const baseUrl = "http://34.67.211.119:8080"
-  //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.67.211.119:8080"
+  const baseUrl = "http://localhost:8080"
     const navegate = useNavigate()
     const [filtroCadastro, setfiltroCadastro] = useState('');
     const [APIDataCpf, setAPIDataCpf] = useState([]);
@@ -70,74 +72,103 @@ function NovaVenda() {
       
     return(
         <>
-          <div className="clienteSeletorCadastro">
-            <input type="radio" name="filtroCadastro" value="CPF" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa fisica
-            <input type="radio" name="filtroCadastro" value="CNPJ" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa Juridica
-          </div>
+          <div className='ndBackground'>
+            
+            <div className='ndBoxSection'>
+                <div className='ndBoxNav'><Nav></Nav></div>
+                <div className='ndBoxSectionIn'>
+                  <div className='ndSectionInCampoFiltroCadastro'>
+                    <input type="radio" name="filtroCadastro" value="CPF" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa fisica
+                    <input type="radio" name="filtroCadastro" value="CNPJ" onClick={e=>setfiltroCadastro(e.target.value)}/>Pessoa Juridica
+                  </div>
           {filtroCadastro.length === 3 ?(<>
-            <div className="campoPesquisa">
-            <label>Nome:<br/>
-            <input type="text" onChange={e=> {setdadoPesquisaCpf(e.target.value); setnomeCLiente(e.target.value) }} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
-            </label>
-            <input type='submit' value="Iniciar Compra" onClick={NovoPedido}/>
-        </div>
-        <div className='boxtabela'>
+            
+            <div className='ndSectionInCampoPesquisa'>
+              <label>Nome:
+              <input type="text" onChange={e=> {setdadoPesquisaCpf(e.target.value); setnomeCLiente(e.target.value) }} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
+              </label>
+              <input type='submit' value="Iniciar Compra" onClick={NovoPedido}/>
+            </div>
+            <div className='ndSectionInRetornoInfo'>
+                <table>
+                  <tr className='trDestaque'>
+                    <td>Selecionar</td>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                  </tr>
+                  {dadoPesquisaCpf.length > 0 ?(<>
+                  
+                    {pesquisaCpf.map((data, i) => { return(<>
+                      <tr key={i}>
+                        <td><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/></td>
+                        <td>{data.nome} {data.sobrenome}</td>
+                        <td>({data.contato.prefixo}) {data.contato.telefone}</td>
+                      </tr>                      
+                    </>)})}
+                              
+                  </>):(<>
+                    
+                    {APIDataCpf.map((data, i) => { return(<>
+                    
+                      <tr key={i}>
+                        <td><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/></td>
+                        <td>{data.nome} {data.sobrenome}</td>
+                        <td>({data.contato.prefixo}) {data.contato.telefone}</td>
+                      </tr>
+                    </>)})}
 
-                    {dadoPesquisaCpf.length > 0 ?(<>
-                      {pesquisaCpf.map((data, i) => {
-                        return (
-                          <>
-                          <div className='Blocoestoque' key={i}>        
-                          <span><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/>
-                          {data.nome} {data.sobrenome}</span>
-                          </div>
-                        </>
-                        )})}
-                  </>) :(<>
-                    {APIDataCpf.map((data, i) => {
-                        return (
-                          <>
-                          <div className='Blocoestoque' key={i}>        
-                          <span><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/>
-                          {data.nome} {data.sobrenome}</span>
-                          </div>
-                        </>
-                        )})}  
-                  </>)}   
-        </div>
+                  </>)}
+                </table>
+
+            </div>
+          
           </>):(<>
-            <div className="campoPesquisa">
-            <label>Nome:<br/>
-            <input type="text" onChange={e=> {setdadoPesquisaCnpj(e.target.value); setnomeCLiente(e.target.value)}} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
-            </label>
-            <input type='submit' value="Iniciar Compra" onClick={NovoPedido}/>
-        </div>
-        <div className='boxtabela'>
 
-                    {dadoPesquisaCnpj.length > 0 ?(<>
-                      {pesquisaCnpj.map((data, i) => {
-                        return (
-                          <>
-                          <div className='Blocoestoque' key={i}>        
-                          <span><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/>
-                          {data.nome} {data.sobrenome}</span>
-                          </div>
-                        </>
-                        )})}
-                  </>) :(<>
-                    {APIDataCnpj.map((data, i) => {
-                        return (
-                          <>
-                          <div className='Blocoestoque' key={i}>        
-                          <span><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/>
-                          {data.nome} {data.sobrenome}</span>
-                          </div>
-                        </>
-                        )})}  
-                  </>)}   
-        </div>
+            <div className='ndSectionInCampoPesquisa'>
+              <label>Razao Social:
+              <input type="text" onChange={e=> {setdadoPesquisaCnpj(e.target.value); setnomeCLiente(e.target.value)}} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
+              </label>
+              <input type='submit' value="Iniciar Compra" onClick={NovoPedido}/>
+            </div>
+            <div className='ndSectionInRetornoInfo'>
+
+              <table>
+                <tr className='trDestaque'>
+                  <td>Selecionar</td>
+                  <td>Razao Social</td>
+                  <td>Telefone</td>
+                </tr>
+                {dadoPesquisaCnpj.length > 0 ?(<>
+                  
+                  {pesquisaCnpj.map((data, i) =>{return(<>
+                    
+                    <tr key={i}>
+                      <td><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/></td>
+                      <td>{data.razaoSocial}</td>
+                      <td>({data.contato.prefixo}) {data.contato.telefone}</td>
+                    </tr>
+
+                  </>)})}
+                </>):(<>
+                
+                  {APIDataCnpj.map((data, i) =>{return(<>
+                  
+                    <tr key={i}>
+                      <td><input type="checkbox" value={data.id} onClick={(e) => {setidcliente(data.id)}}/></td>
+                      <td>{data.razaoSocial}</td>
+                      <td>({data.contato.prefixo}) {data.contato.telefone}</td>
+                    </tr>
+
+                  </>)})}
+                </>)}
+              </table>  
+
+            </div>
+          
           </>)}
-        
-    </>)}
-
+                </div>    
+            </div>
+        </div>                        
+      </>)          
+}
 export default NovaVenda

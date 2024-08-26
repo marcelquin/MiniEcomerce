@@ -1,11 +1,13 @@
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import './Venda.css'
+import '../../Style/Global.css'
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
+import Nav from '../../Componentes/Nav/Nav';
 
 function AdicionarItem() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const navegate = useNavigate()
     const {id} = useParams()
     const [APIDataProduto, setAPIDataProduto] = useState([]);
@@ -49,62 +51,67 @@ function AdicionarItem() {
     }, []);
 
     return(<>
-        <div className='navHome'>
-              <h3 className='navBtn'><Link to={"/novavenda"}>Novo Pedido</Link></h3>
-        </div>
-        <div className="campoPesquisa">
-            <label>Nome:<br/>
-            <input type="text" onChange={e => setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
-            </label>
-        </div>
-        <div className='campoPesquisa'>
-            <form onSubmit={AdicionarProduto}>
-                <label>Quantidade: <br/>
-                <input type='number' name='quantidade' onChange={(e)=>{setquantidade(e.target.value)}} /></label>
-                <input type='submit' value="Adicionar"/>
-            </form>
-        </div>
-        <div className='boxtabela'>
 
-            {dadoPesquisa.length > 0 ?(<>
-                {pesquisa.map((data, i) =>{
-                        return(
-                            <>
-                            <div className='Blocoestoque' key={i}>
-                                <input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> Selecionar<br/>                                         
-                                <div className='destaque'>
-                                    <div className='imagem'></div>
-                                    <div className='info'>
-                                        <span>{data.nome}</span><br/>
-                                        <span>{data.valorFront}</span><br/>
-                                        <span>{data.quantidade} unidades</span><br/>
-                                    </div>
-                                </div>         
-                            </div>
-                            </>
-                        )
-                    })}        
-            </>) :(<>
-                {APIDataProduto.map((data, i) =>{
-                        return(
-                            <>
-                            <div className='Blocoestoque' key={i}>
-                                <input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> Selecionar<br/>                                         
-                                <div className='destaque'>
-                                    <div className='imagem'></div>
-                                    <div className='info'>
-                                        <span>{data.nome}</span><br/>
-                                        <span>{data.valorFront}</span><br/>
-                                        <span>{data.quantidade} unidades</span><br/>
-                                    </div>
-                                </div>         
-                            </div>
-                            </>
-                        )
-                    })}         
-            </>)}
+        <div className='ndBackground'>
+            
+            <div className='ndBoxSection'>
+                <div className='ndBoxNav'><Nav></Nav></div>
+                <div className='ndBoxSectionInFlex'>
+                    <div className='addItemBlocoForm'>
+                        <div className='addItemBlocoCampoPesquisa'>
+                            <label>Nome:<br/>
+                            <input type="text" onChange={e => setdadoPesquisa(e.target.value)} name="dadoPesquisa" className="inputPesquisa" placeholder="Digite o Nome para busca" />
+                            </label>
+                        </div>
+                        <div className='addItemBlocoformPagina'>
+                            <form onSubmit={AdicionarProduto}>
+                                <label>Quantidade: <br/>
+                                <input type='number' name='quantidade' onChange={(e)=>{setquantidade(e.target.value)}} /></label>
+                                <input type='submit' value="Adicionar"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div className='addItemBlocoRetornoEstoque'>
+                        <table>
+                            <tr>
+                                <td>Selecionar</td>
+                                <td>Nome</td>
+                                <td>Valor</td>
+                                <td>Quantidade</td>
+                            </tr>
+                            
+                            {dadoPesquisa.length > 0 ?(<>
+                                
+                                {pesquisa.map((data, i) =>{return(<>
+                                <tr key={i}>
+                                    <td><input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> </td>
+                                    <td>{data.nome}</td>
+                                    <td>{data.valorFront}</td>
+                                    <td>{data.quantidade}</td>
+                                </tr>
+                                    
+                                </>)})}
 
+                            </>):(<>
+                            
+                                {APIDataProduto.map((data, i) =>{return(<>
+                                
+                                <tr key={i}>
+                                    <td><input type="checkbox" name='idProduto' value={data.id} onClick  = {(e) => {setidProduto(data.id)}}/> </td>
+                                    <td>{data.nome}</td>
+                                    <td>{data.valorFront}</td>
+                                    <td>{data.quantidade} unidades</td>
+                                </tr>
+                                </>)})}
+
+                            </>)}
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+      
     </>)}
 
 export default AdicionarItem

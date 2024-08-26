@@ -5,8 +5,8 @@ import '../AdmGlobal.css';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 function EmpresEditar() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const {id} = useParams()
     const [PostData, setPostData] = useState({
@@ -93,76 +93,60 @@ useEffect(()=>{
     return(
         <>
 
-        <div className="admBlocoGeral">
-            <div className="admBlocoNav"><Navadm></Navadm></div>
-            <div className="admBlocoConteudo">
-            <div className="formBloco">
+        <div className="ndBackground">
+            <div className="ndBoxSection">
 
-<h3>Dados da Empresa:</h3>
-    <table>
-    <tr>
-        <td><label>Nome: <br/>
-        <input type="text" name="nome" value={PostData.nome} onChange={handleChanage}/></label></td>
-        <td><label>Razão Social: <br/>
-        <input type="text" name="razaoSocial" value={PostData.razaoSocial}  onChange={handleChanage}/></label></td>                                    
-    </tr>
-    <tr>    
-        <td><label>CNPJ: <br/>
-        <input type="text" name="cnpj" value={PostData.cnpj} placeholder="Digite o CNPJ da empresa"  onChange={handleChanage}/></label></td>                       
-        <td><label>Área de Atuação: <br/>
-        <input type="text" name="areaAtuacao" value={PostData.areaAtuacao} onChange={handleChanage}/> </label></td>
-    </tr>
-     
-    </table>
-</div>
-<div className="formBloco">
-<h3>Endereço</h3>
-    <table>
-    <tr>
-            <td><label>Logradouro: <br/>
-            <input type="text" name="logradouro" value={PostData.logradouro} placeholder="Digite o Nome da rua"  onChange={handleChanage}/></label></td>
-            <td><label>Numero:<br/> 
-            <input type="text" name="numero" value={PostData.numero} placeholder="Digite o numero da casa"  onChange={handleChanage}/></label></td>
-            <td><label>Bairro:<br/> 
-            <input type="text" name="bairro" value={PostData.bairro} placeholder="Digite O Bairro"  onChange={handleChanage}/></label></td>
-            </tr>
-            <tr>
-            <td><label>Referência:<br/>
-            <input type="text" name="referencia" value={PostData.referencia} placeholder="Digite um Ponto de referência"  onChange={handleChanage}/></label></td>
-            <td><label>CEP: <br/>
-            <input type="number" name="cep" value={PostData.cep} placeholder="Digite O Cep da cidade"  onChange={handleChanage}/></label></td>
-            <td><label>Cidade: <br/>
-            <input type="text" name="cidade" value={PostData.cidade} placeholder="Digite a cidade"  onChange={handleChanage}/></label></td>
-            </tr>
-            <tr>
-            <td><label>Estado: <br/> 
-            <input type="text" name="estado" value={PostData.estado} placeholder="Digite a sigla do estado"  onChange={handleChanage}/></label></td>
-            </tr>                        
-    </table>
-</div>
-<div className="formBloco">
-<h3>Contato</h3>
-    <table>
-        <tr>
-            <td><label>Prefixo: <br/><input type="number" value={PostData.prefixo} name="prefixo" id="" onChange={handleChanage}/></label></td>
-            <td><label>Telefone: <br/><input type="number" value={PostData.telefone} name="telefone" id="" onChange={handleChanage}/></label></td>
-            <td><label>E-mail: <br/><input type="email" name="email" value={PostData.email} onChange={handleChanage}/></label></td>
-        </tr>
-        <tr>
-        <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td>
-    </tr> 
-    </table>
-</div>
+                <div className="ndBoxNavAdm"><Navadm></Navadm></div>
+
+                <div className="ndBoxSectionIn">
+                    <form>
+                        <table>
+                            <tr>
+                                <td><label>Nome: <br/>
+                                <input type="text" name="nome" value={PostData.nome} onChange={handleChanage}/></label></td>
+                                <td><label>Razão Social: <br/>
+                                <input type="text" name="razaoSocial" value={PostData.razaoSocial}  onChange={handleChanage}/></label></td>                                    
+                            </tr>
+                            <tr>    
+                                <td><label>CNPJ: <br/>
+                                <input type="text" name="cnpj" value={PostData.cnpj} placeholder="Digite o CNPJ da empresa"  onChange={handleChanage}/></label></td>                       
+                                <td><label>Área de Atuação: <br/>
+                                <input type="text" name="areaAtuacao" value={PostData.areaAtuacao} onChange={handleChanage}/> </label></td>
+                            </tr>
+                            <tr>
+                                <td><label>Logradouro: <br/>
+                                <input type="text" name="logradouro" value={PostData.logradouro} placeholder="Digite o Nome da rua"  onChange={handleChanage}/></label></td>
+                                <td><label>Numero:<br/> 
+                                <input type="text" name="numero" value={PostData.numero} placeholder="Digite o numero da casa"  onChange={handleChanage}/></label></td>
+                                <td><label>Bairro:<br/> 
+                                <input type="text" name="bairro" value={PostData.bairro} placeholder="Digite O Bairro"  onChange={handleChanage}/></label></td>
+                                </tr>
+                                <tr>
+                                <td><label>Referência:<br/>
+                                <input type="text" name="referencia" value={PostData.referencia} placeholder="Digite um Ponto de referência"  onChange={handleChanage}/></label></td>
+                                <td><label>CEP: <br/>
+                                <input type="number" name="cep" value={PostData.cep} placeholder="Digite O Cep da cidade"  onChange={handleChanage}/></label></td>
+                                <td><label>Cidade: <br/>
+                                <input type="text" name="cidade" value={PostData.cidade} placeholder="Digite a cidade"  onChange={handleChanage}/></label></td>
+                                </tr>
+                                <tr>
+                                <td><label>Estado: <br/> 
+                                <input type="text" name="estado" value={PostData.estado} placeholder="Digite a sigla do estado"  onChange={handleChanage}/></label></td>
+                            </tr>
+                            <tr>
+                                <td><label>Prefixo: <br/><input type="number" value={PostData.prefixo} name="prefixo" id="" onChange={handleChanage}/></label></td>
+                                <td><label>Telefone: <br/><input type="number" value={PostData.telefone} name="telefone" id="" onChange={handleChanage}/></label></td>
+                                <td><label>E-mail: <br/><input type="email" name="email" value={PostData.email} onChange={handleChanage}/></label></td>
+                            </tr>
+                            <tr>
+                                <td><input type="submit" value="Salvar" className="btn" onClick={handleClick}/>  </td>
+                            </tr> 
+                        </table>
+                    </form>
+
+                </div>
             </div>
-        </div>
-
-        <div className="admBox">
-
-            <div className="admNav"><Navadm></Navadm></div>
-            <div className="admConteudo">
-                
-            </div>
-        </div>
+        </div>   
         </>
     )
 }

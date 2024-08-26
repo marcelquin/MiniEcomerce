@@ -7,10 +7,9 @@ import java.time.LocalDate;
 public record ProdutoDTO(
         String nome,
         String descricao,
-        int quantidade,
-        MEDIDA medida,
         String codigo,
         Double valor,
+        String valorFront,
         LocalDate DataEntrada,
         String fabricante,
         Long cfop,

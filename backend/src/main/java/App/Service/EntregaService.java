@@ -60,6 +60,28 @@ public class EntregaService {
         return null;
     }
 
+    public ResponseEntity<EntregaDTO> BuscarEntregaPorId(Long id)
+    {
+        try
+        {
+            EntregaEntity entity = entregaRepository.findById(id).orElseThrow(
+                    ()-> new EntityNotFoundException()
+            );
+            EntregaDTO response = new EntregaDTO(entity.getNomeCliente(),
+                                                entity.getEnderecoEntrega(),
+                                                entity.getTelefoneContato(),
+                                                entity.getProdutos(),
+                                                entity.getStatusEntrega());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
+
     public void IniciarEntrega(Long id)
     {
         try
@@ -116,4 +138,51 @@ public class EntregaService {
         }
     }
 
+    public void CancelarEntrega(Long id, String motivo)
+    {
+        try
+        {
+            if(id != null)
+            {
+                EntregaEntity entrega = entregaRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                    entrega.setDataEntrega(LocalDateTime.now());
+                    entrega.setTimeStamp(LocalDateTime.now());
+                    entrega.setStatusEntrega(STATUSENTREGA.CANCELADA);
+                    entrega.setNotificacao(motivo);
+                    entregaRepository.save(entrega);
+                }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+    }
+
+    public void ReiniciarEntrega(Long id, String motivo)
+    {
+        try
+        {
+            if(id != null)
+            {
+                EntregaEntity entrega = entregaRepository.findById(id).orElseThrow(
+                        ()-> new EntityNotFoundException()
+                );
+                entrega.setDataEntrega(LocalDateTime.now());
+                entrega.setTimeStamp(LocalDateTime.now());
+                entrega.setStatusEntrega(STATUSENTREGA.AGUARDANDO);
+                entrega.setNotificacao(motivo);
+                entregaRepository.save(entrega);
+            }
+            else
+            {throw new NullargumentsException();}
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+    }
 }

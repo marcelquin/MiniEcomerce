@@ -1,6 +1,8 @@
 package App.Service;
 
+import App.DTO.CaixaResponseDTO;
 import App.DTO.PedidoDTO;
+import App.DTO.PedidoResponseDTO;
 import App.Entity.*;
 import App.Enum.*;
 import App.Exceptions.EntityNotFoundException;
@@ -81,7 +83,7 @@ public class PedidoService {
         return null;
     }
 
-    public ResponseEntity<PedidoDTO> BuscarPedidoPorId(Long id)
+    public ResponseEntity<PedidoResponseDTO> BuscarPedidoPorId(Long id)
     {
         try
         {
@@ -91,9 +93,44 @@ public class PedidoService {
             List<String> itens = new ArrayList<>();
             for(ItemPedidoEntity item: entity.getProdutos())
             {
-                itens.add(item.getProduto().getNome());
+                itens.add(item.getQuantidade()+"x "+item.getProduto().getNome()+" ");
             }
-            PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());            return new ResponseEntity<>(response,HttpStatus.CREATED);
+            PedidoResponseDTO response = new PedidoResponseDTO(entity.getCodigo(),
+                                                                entity.getCliente().getNome(),
+                                                                entity.getCpfCnpj(),
+                                                                entity.getDataPedido(),
+                                                                itens,df.format(entity.getValorTotal()),
+                                                                entity.getStatus(),
+                                                                entity.getPagamento().getDataPagamento(),
+                                                                entity.getPagamento().getFormaPagamento(),
+                                                                entity.getPagamento().getParcelas());
+            return new ResponseEntity<>(response,HttpStatus.CREATED);
+        }
+        catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return null;
+    }
+
+    public ResponseEntity<CaixaResponseDTO> BuscarPedidoPorIdCaixa(Long id)
+    {
+        try
+        {
+            PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
+                    ()-> new EntityNotFoundException()
+            );
+            List<String> itens = new ArrayList<>();
+            for(ItemPedidoEntity item: entity.getProdutos())
+            {
+                itens.add(item.getQuantidade()+"x "+item.getProduto().getNome()+" ");
+            }
+            CaixaResponseDTO response = new CaixaResponseDTO(entity.getCodigo(),
+                                                            entity.getCliente().getNome(),
+                                                            entity.getCpfCnpj(),
+                                                            entity.getDataPedido(),
+                                                            itens,df.format(entity.getValorTotal()));
+            return new ResponseEntity<>(response,HttpStatus.OK);
         }
         catch (Exception e)
         {
@@ -179,27 +216,31 @@ public class PedidoService {
                 EstoqueEntity produto = estoqueRepository.findById(idProduto).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
-                Locale localBrasil = new Locale("pt", "BR");
-                ItemPedidoEntity itemPedido = new ItemPedidoEntity();
-                itemPedido.setProduto(produto);
-                itemPedido.setQuantidade(quantidade);
-                itemPedido.setValorItem(produto.getValor() * quantidade);
-                itemPedido.setTimeStamp(LocalDateTime.now());
-                itemPedidoRepository.save(itemPedido);
-                Double valorItem = itemPedido.getValorItem();
-                entity.getProdutos().add(itemPedido);
-                entity.setValorTotal(entity.getValorTotal()+valorItem);
-                entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()));
-                entity.setTimeStamp(LocalDateTime.now());
-                pedidoRepository.save(entity);
-                produto.setQuantidade(produto.getQuantidade() - quantidade);
-                estoqueRepository.save(produto);
-                List<String> itens = new ArrayList<>();
-                for(ItemPedidoEntity item: entity.getProdutos())
+                if(quantidade <= produto.getQuantidade())
                 {
-                    itens.add(item.getProduto().getNome());
+                    Locale localBrasil = new Locale("pt", "BR");
+                    ItemPedidoEntity itemPedido = new ItemPedidoEntity();
+                    itemPedido.setProduto(produto);
+                    itemPedido.setQuantidade(quantidade);
+                    itemPedido.setValorItem(produto.getValor() * quantidade);
+                    itemPedido.setTimeStamp(LocalDateTime.now());
+                    itemPedidoRepository.save(itemPedido);
+                    Double valorItem = itemPedido.getValorItem();
+                    entity.getProdutos().add(itemPedido);
+                    entity.setValorTotal(entity.getValorTotal()+valorItem);
+                    entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()));
+                    entity.setTimeStamp(LocalDateTime.now());
+                    pedidoRepository.save(entity);
+                    produto.setQuantidade(produto.getQuantidade() - quantidade);
+                    estoqueRepository.save(produto);
+                    List<String> itens = new ArrayList<>();
+                    for(ItemPedidoEntity item: entity.getProdutos())
+                    {
+                        itens.add(item.getProduto().getNome());
+                    }
+                    PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
                 }
-                PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
+
             }
             else
             {throw new NullargumentsException();}

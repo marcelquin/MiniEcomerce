@@ -15,3 +15,44 @@
     width: 100%;
     height: 50px;
 }
+
+.admDebitoGeral
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.admDebitoNav
+{
+    width: 13%;
+    height: auto;
+}
+
+.admDebitoConteudo
+{
+    width: 87%;
+    height: auto;
+}
+
+.admDebitoConteudoInformacao
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.admDebitoConteudoTabela
+{
+    width: 60%;
+    height: auto;
+}
+
+.admDebitoBlocoConteudoMaisInfo
+{
+    width: 35%;
+    height: auto;
+    margin-right: 2,5%;
+    text-align: justify;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}

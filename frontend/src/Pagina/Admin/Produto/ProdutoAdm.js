@@ -7,15 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 
 function Produtoadm() {
-  const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.67.211.119:8080"
+  const baseUrl = "http://localhost:8080"
   const navigate = useNavigate();
   const [fornecedorData, setfornecedorData] = useState([])
   const [produtoData, setprodutoData] = useState({
     nome: "",
     descricao: "",
-    quantidade: "",
-    medida: "",
     estoque: "",
     valor: "",
     porcentagemLucro: "",
@@ -50,8 +48,6 @@ const handleClick=async (e)=>{
       body: new URLSearchParams({
           'nome': produtoData.nome,
           'descricao': produtoData.descricao,
-          'quantidade': produtoData.quantidade,
-          'medida': produtoData.medida,
           'estoque': produtoData.estoque,
           'fornecedorId': idFornecedor,
           'valor': produtoData.valor,
@@ -64,8 +60,6 @@ const handleClick=async (e)=>{
   setprodutoData({
     nome: "",
     descricao: "",
-    quantidade: "",
-    medida: "",
     estoque: "",
     valor: "",
     porcentagemLucro: "",
@@ -80,13 +74,16 @@ const handleClick=async (e)=>{
 
     return(
     <>
-        <div className="admBlocoGeral">
-            <div className="admBlocoNav">
-              <Navadm></Navadm>
-            </div>
-            <div className="admBlocoConteudo">
-            <div className="formBloco">
-                            <h3>Dados do Produto</h3>
+
+    <div className="ndBackground">
+      <div className="ndBoxSection">
+          
+          <div className="ndBoxNavAdm"><Navadm></Navadm></div>
+
+          <div className="ndBoxSectionIn">
+              <div className="ndSectionInRetornoInfo">
+                  
+              <h3>Dados do Produto</h3>
                             <form>
                                 <table>
                                 <tr>
@@ -94,19 +91,6 @@ const handleClick=async (e)=>{
                                      <input type="text" name="nome" onChange={handleChanage} /></label></td>
                                     <td><label>Descriçao: <br/>
                                      <input type="text" name="descricao" onChange={handleChanage} /></label></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Quantidade:<br/> 
-                                    <input type="number" name="quantidade" onChange={handleChanage}/></label></td>                
-                                    <td><label>Medida: <br/>
-                                    <input list="medida" name="medida"  placeholder="Selecione a unidade de medida" onChange={handleChanage} />
-                                    <datalist id="medida">
-                                        <option value="KG">Kg</option>
-                                        <option value="G">G</option>
-                                        <option value="L">L</option>
-                                        <option value="ML">Ml</option>
-                                    </datalist>                             
-                                   </label></td>
                                 </tr>
                                 <tr>
                                 <td><label> CFOP: <br/>
@@ -122,7 +106,7 @@ const handleClick=async (e)=>{
                                 </tr>
                                 <br/>
                                 <tr>                
-                                  <td><label>Valor de Compra:<br/>
+                                  <td><label>Valor Total da Compra:<br/>
                                   <input type="number" name="valor" onChange={handleChanage}/></label></td>
                                   <td><label>Porcentagem de Lucro:<br/>
                                   <input type="number" name="porcentagemLucro" onChange={handleChanage}/></label></td>
@@ -144,9 +128,12 @@ const handleClick=async (e)=>{
                                 </tr>
                               </table>
                             </form>
-                    </div>
-            </div>
-        </div> 
+
+              </div>
+          </div>
+      </div>
+    </div>
+ 
     </>
     );
 }

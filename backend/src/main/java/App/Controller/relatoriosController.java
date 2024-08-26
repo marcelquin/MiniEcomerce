@@ -96,21 +96,6 @@ public class relatoriosController {
     public ResponseEntity<List<RelatorioDiarioDTO>> BuscarRelatorioDiarioComArgumento(int diaReferencia)
     { return service.BuscarRelatorioDiarioComArgumento(diaReferencia);}
 
-    @Operation(summary = "Lista Registros da tabela Por ano Atual", method = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
-    })
-    @PostMapping("/BuscarRelatorioDiarioComArgumento")
-    public void NovoLancamentoDebito(@RequestParam String empresa,
-                                     @RequestParam String cnpj,
-                                     @RequestParam Double valorBoleto,
-                                     @RequestParam Double parcelas,
-                                     @RequestParam int diaVencimento,
-                                     @RequestParam Double carenciaPagamento)
-    { }
 
 
 }

@@ -1,79 +1,59 @@
-.admConteudo
+.admLogisticaBlocoGeral
 {
     width: 100%;
     height: auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
-.admConteudo .admNav
+.admLogisticaBlocoGeral .admLogisticaBloconav
 {
-    width: auto;
+    height: auto;
+    width: 13%;
+}
+
+.admLogisticaBlocoGeral .admLogisticaBlococonteudo
+{
+    width: 87%;
     height: auto;
 }
 
-.campoPesquisa
+.admLogisticaBlococonteudo .campoPesquisa
 {
     width: 100%;
     height: 80px;
 }
 
-.inputPesquisa
+.campoPesquisa .inputPesquisa
 {
     width: 160px;
     height: 20px;
 }
 
-.admBoxtabela
+.admLogisticaBlococonteudo .admLogisticaRetornoInformacao
 {
     width: 100%;
     height: auto;
     display: flex;
 }
 
-.admBtabela .admRetornoTabela
+.admLogisticaRetornoInformacao .admLogisticaBlococonteudoTabela
 {
-    height: auto;
-    width: 70%;
-    position: fixed;
-    overflow: auto;
-    font-size: 12px;
+    width: 60%;
+    height: 750px;
 }
 
-.admRetornoTabela a
+.admLogisticaBlococonteudoTabela a
 {
     cursor: pointer;
-    color: blue;
 }
 
-.admRetornoTabela a:hover
-{
-    color: green;
-}
 
-.admBoxtabela .admRetornoCupomFiscal
+.admLogisticaRetornoInformacao .admLogisticaBlococonteudoMaisInfo
 {
+    width: 35%;
     height: auto;
-    width: 30%;
-}
-
-.admRetornoCupomFiscal a
-{
-    cursor: pointer;
-    color: blue;
-    font-size: 14px;
-    margin: 5%;
-}
-.admRetornoCupomFiscal .admBoxCupom
-{
-    height: 350px;
-    width: 85%;
-    margin: 5%;
-    overflow: auto;
-}
-
-.admBoxCupom
-{
+    margin-right: 2,5%;
     text-align: justify;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }

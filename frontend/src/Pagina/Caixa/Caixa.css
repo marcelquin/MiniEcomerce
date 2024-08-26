@@ -1,66 +1,32 @@
-.boxgeral
+.BoxRetornoTabela
+{
+    width: 70%;
+    height: auto;
+}
+
+.BoxRetornoTabela .formPost
+{
+    width: 100%;
+    height: 135px;
+}
+
+.BoxRetornoTabela .infoCadastro
 {
     width: 100%;
     height: auto;
-    display: flex;
 }
 
-.boxform
+.BoxRetornoCupomFiscal
 {
     width: 25%;
     height: auto;
-}
-.boxtabela
-{
-    width: 75%;
-    height: auto;
-    display: flex;
-}
-
-.boxtabela .retornoTabela
-{
-    height: auto;
-    width: 60%;
-    overflow: auto;
-}
-
-.retornoTabela a
-{
-    cursor: pointer;
-    color: blue;
-}
-
-.retornoTabela a:hover
-{
-    color: green;
-}
-
-.boxtabela .retornoCupomFiscal
-{
-    height: auto;
-    width: 40%;
-}
-
-.retornoCupomFiscal a
-{
-    cursor: pointer;
-    color: blue;
-    font-size: 14px;
-    margin: 5%;
-}
-.retornoCupomFiscal .boxCupom
-{
-    height: 350px;
-    width: 85%;
-    margin: 5%;
-    overflow: auto;
-}
-
-.boxCupom
-{
+    margin-right: 2,5%;
+    border: 1px solid rgb(19, 20, 17);
     text-align: justify;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
+
+
 
 @media only screen and (min-width: 300px) and (max-width: 900px)
 {
@@ -71,44 +37,9 @@
 @media only screen and (min-width: 320px) and (max-width: 900px)
 {
 
-    .caixaform
-    {
-        width: 100%;
-        height: auto;
-        margin-bottom: 20px;
-    }
-
-    .caixaform input
-    {
-        height: 20px;
-        width: 100px;
-        border-radius: 5px;
-        margin: 10px;
-    }
-
-    .caixaform .btn
-    {
-        height: 20px;
-        width: 65px;
-        font-style: oblique;
-        font-weight: 500;
-    }
-
-    .caixaretornotabela
-    {
-        height: auto;
-        width: 100%;
-        margin: 0 auto;
-    }
 }
 
 @media only screen and (min-width: 900px) and (max-width: 1200px)
 {
-    .caixaform input
-    {
-        height: 20px;
-        width: 200px;
-        border-radius: 5px;
-        margin: 10px;
-    }
+
 }

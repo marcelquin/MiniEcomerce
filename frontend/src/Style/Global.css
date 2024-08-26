@@ -1,34 +1,116 @@
-.boxGeral
-{
-    width: 100%;
-    height: auto;
-    background-color: #f4f4f2;
-    
-}
-
-section
+.ndBackground
 {
     width: 100%;
     height: auto;
 }
 
+.ndBackground .ndBoxHeader
+{
+    width: 100%;
+    height: 200;
+    display: flex;
+}
 
+.ndBoxHeader .ndHeaderlogo
+{
+    width: 40%;
+    height: 150px;
+    background-color: grey;
+    background-repeat: no-repeat;
+}
 
+.ndBoxHeader .ndHeaderInfoContato
+{
+    width: 52%;
+    height: 150px;;
+}
+
+.ndBoxHeader .ndHeaderAdmBtn
+{
+    width: 7%;
+    height: 150px;
+    margin: 1%;
+}
+
+.ndBackground .ndBoxSection
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.ndBoxSection .ndBoxNav
+{
+    width: 20%;
+    height: auto;
+}
+.ndNavOption
+{
+    width: 90%;
+    height: 40px;
+    text-align: center;
+    margin: 5px;
+    background-color: #004766;
+    color: white;
+}
+.ndNavOption:hover
+{
+    background-color: #663000
+}
+
+.ndBoxSection .ndBoxSectionIn
+{
+    width: 87%;
+    height: auto;
+}
+
+.ndBoxSection .ndBoxSectionInFlex
+{
+    width: 87%;
+    height: auto;
+    display: flex;
+}
+
+.ndBoxSectionIn .ndSectionInCampoFiltroCadastro
+{
+    width: 100%;
+    height: 50px;
+}
+
+.ndBoxSectionIn .ndSectionInCampoPesquisa
+{
+    width: 100%;
+    height: 50px;
+}
+
+.ndBoxSectionIn .ndSectionInRetornoInfo
+{
+    width: 100%;
+    height: auto;
+}
+
+.ndBoxSectionIn .ndSectionInRetornoInfoFlex
+{
+    width: 100%;
+    height: auto;
+}
+
+.ndSectionInRetornoInfoFlex .ndSectionInRetornoTabela
+{
+    width: 70%;
+    height: auto;
+    border: 1px solid black;
+}
+
+.ndSectionInRetornoInfoFlex .ndSectionInRetornovisor
+{
+    width: 25%;
+    height: auto;
+    margin-right: 2,5%;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
 
 @media only screen and (min-width: 320px) and (max-width: 768px)
 {   
-    .boxGeral
-    {
-        width: 100%;
-        height: auto;
-        background-color: #f4f4f2;
-        box-sizing: border-box;
-    }
-    
-    section
-    {
-        width: 100%;
-        height: auto;
-    }
 
 }

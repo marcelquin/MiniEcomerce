@@ -1,73 +1,35 @@
-.blocoConteudo
-{
-    width: 100%;
-    height: auto;
-    display: flex;
-}
-.blocoConteudo .clienteSeletorCadastro
-{
-    width: 100%;
-    height: 100px;
-}
-
-.blocoConteudo .clientecampoPesquisa
-{ 
-    width: 100%;
-    height: 100px;
-}
-
-.blocoConteudo .clienteBox
+.clienteBlocoBoxForm
 {
     width: 100%;
     height: auto;
 }
 
-
-.ClienteRetorno
+.clienteBlocoBoxForm .clienteBlocoCampoSeletorCadastro
 {
-
-    width: 250px;
-    height: 250px;
-    margin: 10px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    width: 100%;
+    height: 100px;
 }
 
-.ClienteRetorno .ClienteDestaque
+.clienteBlocoBoxForm .clienteBlocoCampoPesquisa
 {
-    display: flex;
+    width: 100%;
+    height: 100px;
 }
 
-.ClienteRetorno .thumb
+.clienteBlocoBoxForm .clienteBlocoCampoForm
 {
-    border: 1px solid rgb(71, 14, 177);
-    width: 50px;
-    height: 50px;
-    margin: 10px; 
+    width: 100%;
+    height: 200px;
 }
 
-.ClienteRetorno .info
+.clienteBlocoBoxRetornoInformacao
 {
-
-    width: 150px;
-    height: 50px;
-    margin-top: 10px; 
-}
-
-.ClienteRetorno .infoGeral
-{
-
-    height: 175px;
-    width: 240px;
-    margin-left: 5px;
+    width: 100%;
+    height: auto;
+    overflow: auto;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 900px)
 {
-    .retornoTabelaCliente
-{
-    width: 130%;
-    height: auto;
-    scrollbar-width: auto;
-    margin: 15px;
-}
+    
 }

@@ -51,6 +51,17 @@ public class EntregaController {
     public ResponseEntity<List<EntregaEntity>> ListarEntregasEmAberto()
     {return entregaService.ListarEntregasEmAberto();}
 
+    @Operation(summary = "Busca Registros da tabela", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @GetMapping("/BuscarEntregaPorId")
+    public ResponseEntity<EntregaDTO> BuscarEntregaPorId(@RequestParam Long id)
+    {return entregaService.BuscarEntregaPorId(id);}
+
     @Operation(summary = "Edita Registros da tabela", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
@@ -72,5 +83,27 @@ public class EntregaController {
     @PutMapping("/FinalizarEntrega")
     public void FinalizarEntrega(@RequestParam Long id)
     { entregaService.FinalizarEntrega(id);}
+
+    @Operation(summary = "Edita Registros da tabela", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @PutMapping("/ReiniciarEntrega")
+    public void ReiniciarEntrega(@RequestParam Long id, @RequestParam String motivo)
+    { entregaService.ReiniciarEntrega(id, motivo);}
+
+    @Operation(summary = "Edita Registros da tabela", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @PutMapping("/CancelarEntrega")
+    public void CancelarEntrega(Long id, String motivo)
+    { entregaService.CancelarEntrega(id, motivo);}
 
 }

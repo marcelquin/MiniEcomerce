@@ -1,82 +1,21 @@
-.produtoConteudo
+.admBlocoConteudoTabela
 {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.produtoNav
-{
-    height: auto;
-    width: 25%;
-}
-
-.produtoBoxGeral
-{
-    width: 70%;
+    width: 65%;
     height: auto;
 }
 
-input
+.admBlocoConteudoMaisInfo
 {
-    margin: 20px;
-}
-
-.produtobox .produtocampoPesquisa
-{
-    width: 100%;
-    height: 80px;
-}
-
-.produtocampoPesquisa .inputPesquisa
-{
-    width: 160px;
-    height: 20px;
-}
-
-.produtoBox
-{
-    width: 100%;
+    width: 35%;
     height: auto;
-    margin: 5%;
-    display: flex;
-    flex-wrap: wrap;
+    margin-right: 2%;
+    text-align: justify;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    overflow: auto;
 }
-.produtoConteudo .produtoRetorno
-{
 
-    width: 250px;
-    height: 280px;
+.inputPut
+{
     margin: 10px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-
-.produtoRetorno .produtoDestaque
-{
-    display: flex;
-}
-
-.produtoRetorno .thumb
-{
-    border: 1px solid rgb(71, 14, 177);
-    width: 50px;
-    height: 50px;
-    margin: 10px; 
-}
-
-.produtoRetorno .info
-{
-
-    width: 150px;
-    height: 50px;
-    margin-top: 10px; 
-}
-
-.produtoRetorno .infoGeral
-{
-
-    height: 175px;
-    width: 240px;
-    margin-left: 5px;
+    width: 170px;
 }

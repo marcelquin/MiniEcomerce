@@ -1,6 +1,8 @@
 package App.Controller;
 
+import App.DTO.CaixaResponseDTO;
 import App.DTO.PedidoDTO;
+import App.DTO.PedidoResponseDTO;
 import App.Entity.EntregaEntity;
 import App.Entity.PedidoEntity;
 import App.Enum.FORMAPAGAMENTO;
@@ -62,8 +64,19 @@ public class PedidoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @GetMapping("/BuscarPedidoPorId")
-    public ResponseEntity<PedidoDTO> BuscarPedidoPorId(@RequestParam Long id)
+    public ResponseEntity<PedidoResponseDTO> BuscarPedidoPorId(@RequestParam Long id)
     { return service.BuscarPedidoPorId(id);}
+
+    @Operation(summary = "Busca Registros da tabela por codigo", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @GetMapping("/BuscarPedidoPorIdCaixa")
+    public ResponseEntity<CaixaResponseDTO> BuscarPedidoPorIdCaixa(Long id)
+    { return service.BuscarPedidoPorIdCaixa(id);}
 
     @Operation(summary = "Salva novo Registro na tabela", method = "POST")
     @ApiResponses(value = {

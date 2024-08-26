@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 
 function AdmHome() {
 
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const[seletorInterno, setseletorInterno] = useState('')
     const [relatorio, setrelatorioMensal] = useState([]);
     useEffect(()=>{
@@ -27,15 +27,15 @@ function AdmHome() {
 
     return(
         <>
+        <div className='ndBackground'>
 
-            <div className='admBlocoGeral'>
-                <div className='admBlocoNav'>
-                    <NavAdm></NavAdm>
-                </div>
-                <div className='admBlocoConteudo'>
+            <div className='ndBoxSection'>
 
-                <div className='retornoInfoRelatorio'>
-                    {relatorio ?(<>
+            <div className='ndBoxNavAdm'><NavAdm></NavAdm></div>
+
+            <div className='ndBoxSectionIn'>
+
+            {relatorio ?(<>
                         {relatorio.map((data, i)=>{
                                         return(<>
                                             <div className='retornoInfoResumo' key={i}>
@@ -125,17 +125,15 @@ function AdmHome() {
                                             </div>
                                         </>)
                                     })}
-                    </>):(<>
-                        <div className='retornoInfoRelatorio'>
-                                
+                    </>):(<>                               
                             <h1>Aguardando movimentação</h1>            
+                    </>)}    
 
-                        </div>
-                    </>)}
-                                                                   
-                            </div>
-                </div>
+
             </div>
+
+            </div>
+        </div>
         </>)
 }
 

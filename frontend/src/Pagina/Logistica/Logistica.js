@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
 import './Logistica.css';
+import '../../Style/Global.css'
+import Nav from '../../Componentes/Nav/Nav'
 import Axios from 'axios';
-//import React, { useState, useEffect } from 'react';
 
 
 function Logistica() {
-  const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [status, setstatus] = useState('')
     const [id, setid] = useState('')
-    const [idInfo, setidInfo] = useState('')
+    const [entregaData, setentregaData] = useState({
+      'nomeCliente': '',
+      'enderecoEntrega': '',
+      'telefoneContato': '',
+      'produtos': [],
+      'statusentrega': ''
+    })
     const [APIData, setAPIData] = useState([]);
     const [motivo, setMotivo] = useState('')
     
@@ -22,7 +29,20 @@ function Logistica() {
           });
     }
     
-    
+    useEffect(()=>{
+      fetch(`${baseUrl}/entrega/BuscarEntregaPorId?id=${id}`, 
+          {
+              method:'GET',
+              headers:{
+                  'content-type': 'application/json',
+              },
+          })
+          .then((resp)=> resp.json())
+          .then((data)=> {
+              setentregaData(data)
+          })
+          .catch(err => console.log(err))
+  }, [id])
     
     
     const IniciarEntrega = async()=>{
@@ -61,7 +81,7 @@ function Logistica() {
 
     const CancelarEntrega = async() =>{
       try{
-          await fetch(`${baseUrl}/pedido/CancelarEntrega`, {
+          await fetch(`${baseUrl}/entrega/CancelarEntrega`, {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -79,7 +99,7 @@ function Logistica() {
 
   const ReinicarEntrega = async() =>{
     try{
-        await fetch(`${baseUrl}/pedido/AtencaoEntrega`, {
+        await fetch(`${baseUrl}/entrega/ReiniciarEntrega`, {
           method: 'PUT',
           headers:{
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -102,77 +122,76 @@ function Logistica() {
    
     return(
     <>
-    
-    <div className='boxgeral'>
-
-                 
-
-<div className='boxform'>
-<form>
-        <table>
-            <tr>
-               <td><input type='submit' value="Iniciar Entrega" onClick={IniciarEntrega} /></td>
-            </tr>
-            <tr>
-               <td><input type='submit' value="Finalizar Entrega" onClick={FinalizarEntrega} /></td>
-            </tr>
-            <tr>
-               <td><input type='checkbox' value="CANCELADA" onClick={(e) => {setstatus(e.target.value)}}/>Cancelada</td>  
-            </tr>
-            <tr>
-               <td><input type='checkbox' value="ATENCAO" onClick={(e) => {setstatus(e.target.value)}}/>Reinicar Entrega</td>  
-            </tr>
-            {status.length === 9 ?(<>
-              <tr>
-                <td><textarea name='motivo' onChange={(e)=>{setMotivo(e.target.value)}} placeholder='Motivo'></textarea> </td>
-            </tr>
-            <tr>
-              <td><input type="submit" value="Cancelar" className="btn" onClick={CancelarEntrega} /></td>
-            </tr>  
-            </>):(<></>)}
-            {status.length === 7 ?(<>
-              <tr>
-              <td><textarea name='motivo' onChange={(e)=>{setMotivo(e.target.value)}} placeholder='Motivo'></textarea> </td>
-              </tr>
-            <tr>
-              <td><input type="submit" value="Reiniciar" className="btn" onClick={ReinicarEntrega} /></td>
-            </tr>  
-            </>):(<></>)}              
-      </table>
-    </form>
-</div>
-<div className='boxtabela'>
-    <div className='retornoTabela'>
-    <table>
-      <tr>
-        <td>Selecionar</td>
-        <td>Cliente</td>
-        <td>Telefone</td>
-        <td>Status</td>
-      </tr>
-      {APIData.map((data,i)=>{
-                    return(<>
-                    <tr key={i}>
-                      <td><input type='checkbox' name='selecionar' onClick={(e) => {setid(data.id)}} /></td>
-                      <td>{data.nomeCliente}</td>
-                      <td>{data.telefoneContato}</td>
-                      <td>{data.statusEntrega}</td>               
-                    </tr>
-                    </>)
-                })}
-    </table>
-    </div>
-    <div className='retornoCupomFiscal'>
-        <a>Imprimir</a> <a>Enviar por email</a>
-        <div className='boxCupom'>
-
-              
-              <span></span><br/>
-        </div>
-    </div>
-</div>
-</div>
         
+        <div className='ndBackground'>
+            
+            <div className='ndBoxSection'>
+                <div className='ndBoxNav'><Nav></Nav></div>
+                <div className='ndBoxSectionInFlex'>
+                    <div className='logisticaBlocoFormTabela'>
+
+                      <div className='logisticaBlocoForm'>
+
+                          <table>
+                                <tr>
+                                  <td><button onClick={IniciarEntrega}>Iniciar Entrega</button></td>
+                                  <td><button onClick={FinalizarEntrega}>Finalizar Entrega</button></td>
+                                </tr>
+                                <tr>
+                                  <td><input type='checkbox' value="CANCELADA" onClick={(e) => {setstatus(e.target.value)}}/>Cancelada</td>  
+                                  <td><input type='checkbox' value="ATENCAO" onClick={(e) => {setstatus(e.target.value)}}/>Reinicar Entrega</td> 
+                                </tr>  
+                                  {status.length === 9 ?(<>
+                                  <tr>
+                                    <td><textarea name='motivo' onChange={(e)=>{setMotivo(e.target.value)}} placeholder='Motivo'></textarea> </td>
+                                    <td><input type="submit" value="Cancelar" className="btn" onClick={CancelarEntrega} /></td>
+                                  </tr>  
+                                  </>):(<></>)}
+                              </table>
+
+                      </div>
+
+                      <div className='logisticaBlocoTabela'>
+
+                        <table>
+                              <tr>
+                                <td>Selecionar</td>
+                                <td>Cliente</td>
+                                <td>Telefone</td>
+                                <td>Status</td>
+                              </tr>
+                              {APIData.map((data,i)=>{
+                                            return(<>
+                                            <tr key={i}>
+                                              <td><input type='checkbox' name='selecionar' onClick={(e) => {setid(data.id)}} /></td>
+                                              <td>{data.nomeCliente}</td>
+                                              <td>{data.telefoneContato}</td>
+                                              <td>{data.statusEntrega}</td>
+                                              <td><button onClick={(e)=>{setid(data.id)}}>Mais Informações</button></td>            
+                                            </tr>
+                                            </>)
+                                        })}
+                            </table>                          
+
+                      </div>
+
+                    </div>
+                    <div className='logisticaBlocoInformacao'>
+
+                        <p>Cliente: {entregaData.nomeCliente}</p>
+                        <p>Endereço: {entregaData.enderecoEntrega}</p>
+                        <p>Telefone: {entregaData.telefoneContato}</p>
+                        <p>Produtos: {entregaData.produtos}</p>
+                        <p>Status Atual: {entregaData.statusentrega}</p>                 
+
+                    </div>
+                </div>
+            </div>
+          </div>   
+
+
+
+           
     </>
     );
 }

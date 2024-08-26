@@ -9,17 +9,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record BoletosDTO(
-
+        Long id,
         String empresa,
         String cnpj,
         StatusPagamento statusPagamento,
         @JsonFormat(pattern = "dd/MM/yyyy")
         @Future
         LocalDate dataVencimento,
-        double parcelas,
-        double parcelaAtual,
-        double valorTotal,
-        double valorParcela,
+        String parcelas,
+        String parcelaAtual,
+        String valorTotal,
+        String valorParcela,
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime dataPagamento,
         FORMAPAGAMENTO formapagamento,

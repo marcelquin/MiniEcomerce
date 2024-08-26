@@ -1,32 +1,6 @@
-.fornecedorConteudo
-{
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.fornecedorNav
-{
-    height: auto;
-    width: 25%;
-}
-
-.fornecedorBoxGeral
-{
-    width: 70%;
-    height: auto;
-}
-
 input
 {
     margin: 20px;
-}
-
-.fornecedorConteudo .fornecedorcampoPesquisa
-{
-    width: 100%;
-    height: 80px;
 }
 
 .fornecedorcampoPesquisa .inputPesquisa
@@ -35,49 +9,3 @@ input
     height: 20px;
 }
 
-.fornecedorBox
-{
-    width: 100%;
-    height: auto;
-    margin: 5%;
-    display: flex;
-    flex-wrap: wrap;
-}
-.fornecedorBox .fornecedorRetorno
-{
-
-    width: 250px;
-    height: 290px;
-    margin: 10px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-
-}
-
-.fornecedorRetorno .fornecedorDestaque
-{
-    display: flex;
-}
-
-.fornecedorRetorno .thumb
-{
-    border: 1px solid rgb(71, 14, 177);
-    width: 50px;
-    height: 50px;
-    margin: 10px; 
-}
-
-.fornecedorRetorno .info
-{
-
-    width: 150px;
-    height: 50px;
-    margin-top: 10px; 
-}
-
-.fornecedorRetorno .infoGeral
-{
-
-    height: 175px;
-    width: 240px;
-    margin-left: 5px;
-}
