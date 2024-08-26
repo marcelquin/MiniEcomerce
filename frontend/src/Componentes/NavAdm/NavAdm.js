@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 function Navadm() {
     return (
         <>
+        <div className='opcaoNavAdm'>    
         <Link to={"/"}><h1 className='title'>Home</h1></Link>
+        </div>
         <div className='opcaoNavAdm'>        
             <h1 className='title'>Proprietário</h1>
                 <Link to={"/admenpresa"}>

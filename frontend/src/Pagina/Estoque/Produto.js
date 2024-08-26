@@ -5,8 +5,8 @@ import './Estoque.css';
 import '../../Style/Global.css'
 
 function Produto() {
-    //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const [dadoPesquisa, setdadoPesquisa] = useState('')
     const pesquisa = dadoPesquisa.length > 0 ?

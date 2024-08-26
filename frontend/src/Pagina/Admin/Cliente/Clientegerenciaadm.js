@@ -20,8 +20,8 @@ function Clientegerenciaadm() {
     APIDataCnpj.filter(dados => dados.nome.includes(dadoPesquisaCnpj)) :
     [];
 
-    //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
     useEffect(() => {
       Axios
         .get(`${baseUrl}/cliente/ListarClientes`)

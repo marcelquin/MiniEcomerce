@@ -5,8 +5,8 @@ import '../../Style/Global.css'
 import Nav from '../../Componentes/Nav/Nav'
 
 function Cliente() {
-  //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
     //---------------ListGet----------------------
     const[filtroCadastro, setfiltroCadastro] = useState('')
     const[APIDataCpf, setAPIDataCpf]= useState([]);

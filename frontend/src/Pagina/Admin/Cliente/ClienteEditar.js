@@ -8,8 +8,8 @@ import { useParams } from 'react-router-dom';
 function CLieteEditar() {
 
     const {id} = useParams()
-    //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const [clienteData, setclienteData] = useState({
         nome: "",

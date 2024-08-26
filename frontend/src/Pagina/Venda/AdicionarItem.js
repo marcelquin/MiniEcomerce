@@ -6,8 +6,8 @@ import Axios from 'axios';
 import Nav from '../../Componentes/Nav/Nav';
 
 function AdicionarItem() {
-    //const baseUrl = "http://34.67.211.119:8080"
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://34.67.211.119:8080"
+    //const baseUrl = "http://localhost:8080"
     const navegate = useNavigate()
     const {id} = useParams()
     const [APIDataProduto, setAPIDataProduto] = useState([]);
