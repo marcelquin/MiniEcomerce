@@ -1,6 +1,7 @@
 package App.Service;
 
 import App.DTO.CaixaResponseDTO;
+import App.DTO.ItemPedidoDTO;
 import App.DTO.PedidoDTO;
 import App.DTO.PedidoResponseDTO;
 import App.Entity.*;
@@ -90,21 +91,55 @@ public class PedidoService {
             PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                     ()-> new EntityNotFoundException()
             );
-            List<String> itens = new ArrayList<>();
+            List<ItemPedidoDTO> itens = new ArrayList<>();
             for(ItemPedidoEntity item: entity.getProdutos())
             {
-                itens.add(item.getQuantidade()+"x "+item.getProduto().getNome()+" ");
+                ItemPedidoDTO dto = new ItemPedidoDTO(
+                        item.getProduto().getNome(),
+                        item.getProduto().getCodigo(),
+                        item.getProduto().getDescricao(),
+                        item.getQuantidade(),
+                        NumberFormat.getCurrencyInstance(localBrasil).format(item.getProduto().getValor()),
+                        NumberFormat.getCurrencyInstance(localBrasil).format(item.getProduto().getValor() * item.getQuantidade()));
+                itens.add(dto);
             }
-            PedidoResponseDTO response = new PedidoResponseDTO(entity.getCodigo(),
-                                                                entity.getCliente().getNome(),
-                                                                entity.getCpfCnpj(),
-                                                                entity.getDataPedido(),
-                                                                itens,df.format(entity.getValorTotal()),
-                                                                entity.getStatus(),
-                                                                entity.getPagamento().getDataPagamento(),
-                                                                entity.getPagamento().getFormaPagamento(),
-                                                                entity.getPagamento().getParcelas());
-            return new ResponseEntity<>(response,HttpStatus.CREATED);
+            if(entity.getPagamento() == null)
+            {
+                PedidoResponseDTO response = new PedidoResponseDTO(entity.getCodigo(),
+                        entity.getCliente().getNome(),
+                        entity.getCliente().getSobrenome(),
+                        "("+entity.getCliente().getContato().getPrefixo()+") "+entity.getCliente().getContato().getTelefone(),
+                        entity.getDataPedido(),
+                        itens,
+                        "R$ 0.00",
+                        NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()),
+                        "R$ 0.00",
+                        "R$ 0.00",
+                        entity.getStatus(),
+                        null,
+                        null,
+                        null);
+                return new ResponseEntity<>(response,HttpStatus.CREATED);
+            }
+            else
+            {
+                PedidoResponseDTO response = new PedidoResponseDTO(entity.getCodigo(),
+                        entity.getCliente().getNome(),
+                        entity.getCliente().getSobrenome(),
+                        "("+entity.getCliente().getContato().getPrefixo()+") "+entity.getCliente().getContato().getTelefone(),
+                        entity.getDataPedido(),
+                        itens,
+                        NumberFormat.getCurrencyInstance(localBrasil).format(entity.getPagamento().getValorPago()),
+                        NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()),
+                        NumberFormat.getCurrencyInstance(localBrasil).format(entity.getPagamento().getValorDesconto()),
+                        NumberFormat.getCurrencyInstance(localBrasil).format(entity.getPagamento().getValorTroco()),
+                        entity.getStatus(),
+                        entity.getPagamento().getDataPagamento(),
+                        entity.getPagamento().getFormaPagamento(),
+                        entity.getPagamento().getParcelas());
+                return new ResponseEntity<>(response,HttpStatus.OK);
+            }
+
         }
         catch (Exception e)
         {
@@ -120,16 +155,24 @@ public class PedidoService {
             PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                     ()-> new EntityNotFoundException()
             );
-            List<String> itens = new ArrayList<>();
+            List<ItemPedidoDTO> itens = new ArrayList<>();
             for(ItemPedidoEntity item: entity.getProdutos())
             {
-                itens.add(item.getQuantidade()+"x "+item.getProduto().getNome()+" ");
+                ItemPedidoDTO dto = new ItemPedidoDTO(item.getProduto().getNome(),
+                                                      item.getProduto().getCodigo(),
+                                                      item.getProduto().getDescricao(),
+                                                      item.getQuantidade(),
+                                                      NumberFormat.getCurrencyInstance(localBrasil).format(item.getProduto().getValor()),
+                                                      NumberFormat.getCurrencyInstance(localBrasil).format(item.getProduto().getValor() * item.getQuantidade()));
+                itens.add(dto);
             }
             CaixaResponseDTO response = new CaixaResponseDTO(entity.getCodigo(),
                                                             entity.getCliente().getNome(),
-                                                            entity.getCpfCnpj(),
+                                                            entity.getCliente().getSobrenome(),
+                                                            "("+entity.getCliente().getContato().getPrefixo()+") "+entity.getCliente().getContato().getTelefone(),
                                                             entity.getDataPedido(),
-                                                            itens,df.format(entity.getValorTotal()));
+                                                            itens,
+                                                            NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()));
             return new ResponseEntity<>(response,HttpStatus.OK);
         }
         catch (Exception e)
@@ -232,13 +275,15 @@ public class PedidoService {
                     entity.setTimeStamp(LocalDateTime.now());
                     pedidoRepository.save(entity);
                     produto.setQuantidade(produto.getQuantidade() - quantidade);
-                    estoqueRepository.save(produto);
-                    List<String> itens = new ArrayList<>();
-                    for(ItemPedidoEntity item: entity.getProdutos())
+                    if(produto.getQuantidade() > 30)
                     {
-                        itens.add(item.getProduto().getNome());
+                        ProdutoEntity produtoEntity = produtoRepository.findBynome(produto.getNome()).orElseThrow(
+                                ()-> new EntityNotFoundException()
+                        );
+                        produtoEntity.setNotificacao("produto abaixo do estoque, efetue novo pedido para evitar falta do mesmo.");
+                        produtoRepository.save(produtoEntity);
                     }
-                    PedidoDTO response = new PedidoDTO(entity.getCodigo(),entity.getCliente().getNome(),itens,df.format(entity.getValorTotal()),entity.getPagamento().getFormaPagamento(), entity.getPagamento().getDataPagamento());
+                    estoqueRepository.save(produto);
                 }
 
             }
@@ -254,6 +299,8 @@ public class PedidoService {
     public void FinalizarPedido(Long id,
                                 FORMAPAGAMENTO formaPagamento,
                                 Double parcelas,
+                                Double valorPago,
+                                Double desconto,
                                 TIPOCOMPRA tipocompra)
     {
         try
@@ -263,22 +310,54 @@ public class PedidoService {
                     tipocompra != null )
             {
                 if(parcelas < 0){throw new IllegalActionException("O campo não pode ser negativo");}
+                if(valorPago < 0){throw new IllegalActionException("O campo não pode ser negativo");}
+                if(desconto < 0){throw new IllegalActionException("O campo não pode ser negativo");}
                 if(formaPagamento != FORMAPAGAMENTO.CREDITO && parcelas > 1)
                 {throw new IllegalActionException("Somente compras no crédito podem ser parceladas");}
                 PedidoEntity entity = pedidoRepository.findById(id).orElseThrow(
                         ()-> new EntityNotFoundException()
                 );
+                Double valorTotal = entity.getValorTotal();
+                Double valorDesconto = 0.0;
+                Double porcentagem = 0.0;
+                Double troco = 0.0;
+                // calculo personalizado para dinheiro
+
                 PagamentoEntity pagamento = new PagamentoEntity();
                 pagamento.setFormaPagamento(formaPagamento);
                 pagamento.setParcelas(parcelas);
-                pagamento.setValor(entity.getValorTotal());
+                if(desconto != null)
+                {
+                    porcentagem = desconto /100; //0.2
+                    valorDesconto = entity.getValorTotal() * porcentagem;
+                    valorTotal = entity.getValorTotal() - valorDesconto;
+                    troco = valorPago - valorTotal;
+                }
+                if(formaPagamento == FORMAPAGAMENTO.DINHEIRO)
+                {
+                    if(valorPago != null)
+                    {
+                        pagamento.setValorPago(valorPago);
+                        pagamento.setValorTroco(valorPago - valorTotal);
+                        pagamento.setValorDesconto(valorDesconto);
+                    }
+                }
+                else
+                {
+                    pagamento.setValorDesconto(valorDesconto);
+                    pagamento.setValorPago(valorTotal);
+                    pagamento.setValorTroco(0.0);
+                }
+                pagamento.setValor(valorTotal);
+                entity.setValorTotal(valorTotal);
+                entity.setValorTotalFront(NumberFormat.getCurrencyInstance(localBrasil).format(entity.getValorTotal()));
                 pagamento.setDataPagamento(LocalDateTime.now());
                 pagamento.setTimeStamp(LocalDateTime.now());
-                System.out.println("antes: "+pagamento.getParcelas());
                 pagamentoRepository.save(pagamento);
                 entity.setStatus(STATUS.PAGO);
                 entity.setPagamento(pagamento);
                 entity.setTipocompra(tipocompra);
+
                 if(tipocompra == TIPOCOMPRA.ENTREGA)
                 {
                     EntregaEntity entrega = new EntregaEntity();
@@ -332,7 +411,7 @@ public class PedidoService {
                                                         itens,
                                                         StatusPagamento.PAGO,
                                                         entity.getDataPedido(),
-                                                        entity.getValorTotal(),
+                                                        valorTotal,
                                                         pagamento.getParcelas(),
                                                         pagamento.getFormaPagamento());
             }

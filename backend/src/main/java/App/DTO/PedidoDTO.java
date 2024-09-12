@@ -8,7 +8,7 @@ import java.util.List;
 public record PedidoDTO(
         String codigo,
         String cliente,
-        List<String> itens,
+        List<ItemPedidoDTO> itens,
         String valor,
         FORMAPAGAMENTO formapagamento,
         LocalDateTime dataPagamento

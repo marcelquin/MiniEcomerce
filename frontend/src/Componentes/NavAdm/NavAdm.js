@@ -9,6 +9,9 @@ function Navadm() {
         <div className='opcaoNavAdm'>    
         <Link to={"/"}><h1 className='title'>Home</h1></Link>
         </div>
+        <div className='opcaoNavAdm'>    
+        <Link to={"/adm"}><h1 className='title'>Home Adm</h1></Link>
+        </div>
         <div className='opcaoNavAdm'>        
             <h1 className='title'>Proprietário</h1>
                 <Link to={"/admenpresa"}>

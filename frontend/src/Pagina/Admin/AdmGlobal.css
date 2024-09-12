@@ -95,20 +95,24 @@
     width: 100%;
     height: auto;
     display: flex;
+    overflow: scroll;
 }
 
 .ndSectionInRetornoInfoFlexAdm .infoRetornoTabelaAdm
 {
     width: 68%;
     height: auto;
+    overflow: scroll;
 }
+
+
 
 .ndSectionInRetornoInfoFlexAdm .infoRetornoVisorAdm
 {
     width: 32%;
     height: auto;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-
+    overflow: scroll;
 }
 
 

@@ -2,6 +2,7 @@ package App.Controller;
 
 import App.DTO.ProdutoDTO;
 import App.DTO.ProdutoEdtDTO;
+import App.DTO.ProdutoResponseDTO;
 import App.Entity.ProdutoEntity;
 import App.Enum.MEDIDA;
 import App.Exceptions.EntityNotFoundException;
@@ -64,7 +65,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
     })
     @GetMapping("/BuscarProdutoPorId")
-    public ResponseEntity<ProdutoDTO> BuscarProdutoPorId(@RequestParam Long id)
+    public ResponseEntity<ProdutoResponseDTO> BuscarProdutoPorId(@RequestParam Long id)
     { return service.BuscarProdutoPorId(id);}
 
     @Operation(summary = "Salva novo Registro na tabela", method = "POST")
@@ -143,5 +144,17 @@ public class ProdutoController {
     public ResponseEntity<ProdutoDTO> QueimaEstoque(@RequestParam Long id,
                                                     @RequestParam Double porcentagem)
     { return service.QueimaEstoque(id, porcentagem);}
+
+    @Operation(summary = "Edita Registro na tabela", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Ops algoo deu errado"),
+    })
+    @PutMapping("/AjustarPrecoProduto")
+    public ResponseEntity<ProdutoDTO> AjustarPrecoProduto(@RequestParam Long id,
+                                                  @RequestParam Double valor)
+    {return service.AjustarPrecoProduto(id, valor);}
 
 }

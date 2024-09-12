@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 
 function Produtoadm() {
-  const baseUrl = "http://34.67.211.119:8080"
-  //const baseUrl = "http://localhost:8080"
+  //const baseUrl = "http://34.67.211.119:8080"
+  const baseUrl = "http://localhost:8080"
   const navigate = useNavigate();
   const [fornecedorData, setfornecedorData] = useState([])
   const [produtoData, setprodutoData] = useState({
@@ -107,7 +107,7 @@ const handleClick=async (e)=>{
                                 <br/>
                                 <tr>                
                                   <td><label>Valor Total da Compra:<br/>
-                                  <input type="number" name="valor" onChange={handleChanage}/></label></td>
+                                  <input type="number" name="valor" step="any"  onChange={handleChanage}/></label></td>
                                   <td><label>Porcentagem de Lucro:<br/>
                                   <input type="number" name="porcentagemLucro" onChange={handleChanage}/></label></td>
                                 </tr>

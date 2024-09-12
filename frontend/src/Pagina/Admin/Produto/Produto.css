@@ -12,6 +12,21 @@
     text-align: justify;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     overflow: auto;
+    overflow: scroll;
+}
+
+.infoRetornoTabelaAdm .opcao
+{
+    text-decoration: none;
+    cursor: copy;
+    font-size: 14px;
+    color: #004766;
+    margin-bottom: 20px;
+}
+
+.infoRetornoTabelaAdm .opcao:hover
+{
+    color: #663000
 }
 
 .inputPut

@@ -29,11 +29,11 @@ services:
     volumes:
       - /app/database/postgre
 
-  frontend:
-    build: /frontend
-    ports:
-      - 3000:3000
-    depends_on:
-      - backend
-    restart: on-failure
+  #frontend:
+  #  build: /frontend
+  #  ports:
+  #    - 3000:3000
+  #  depends_on:
+  #    - backend
+  #  restart: on-failure
   

@@ -6,13 +6,13 @@ import Axios from 'axios';
 import Nav from '../../Componentes/Nav/Nav';
 
 function AdicionarItem() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const navegate = useNavigate()
     const {id} = useParams()
     const [APIDataProduto, setAPIDataProduto] = useState([]);
     const [idProduto, setidProduto] = useState('')
-    const [quantidade, setquantidade] = useState('')
+    const [quantidade, setquantidade] = useState(1)
     const[dadoPesquisa, setdadoPesquisa] = useState('')
     const pesquisa = dadoPesquisa.length > 0 ?
     APIDataProduto.filter(dados => dados.nome.includes(dadoPesquisa)) :

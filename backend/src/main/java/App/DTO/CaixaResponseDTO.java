@@ -9,11 +9,12 @@ import java.util.List;
 
 public record CaixaResponseDTO(
         String codigo,
-        String cliente,
-        String documento,
+        String nomeCliente,
+        String sobrenomeCliente,
+        String telefone,
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime dataVenda,
-        List<String> itens,
+        List<ItemPedidoDTO> itens,
         String valor
 ) {
 }

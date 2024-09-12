@@ -10,12 +10,16 @@ import java.util.List;
 
 public record PedidoResponseDTO(
         String codigo,
-        String cliente,
-        String documento,
+        String nomeCliente,
+        String sobrenomeCliente,
+        String telefone,
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime dataVenda,
-        List<String> itens,
-        String valor,
+        List<ItemPedidoDTO> itens,
+        String valorPago,
+        String valorTotal,
+        String valorDesconto,
+        String valorTroco,
         STATUS statusPagamento,
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime dataPagamento,

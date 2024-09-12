@@ -5,8 +5,8 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 function Entregagerenciaadm() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const [idEntrega, setidEntrega ] = useState('')
     const [corpoResponse, setcorpoResponse] = useState({

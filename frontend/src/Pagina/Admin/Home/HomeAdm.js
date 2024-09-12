@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 
 function AdmHome() {
 
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const[seletorInterno, setseletorInterno] = useState('')
     const [relatorio, setrelatorioMensal] = useState([]);
     useEffect(()=>{

@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function DebitosAdm() {
 
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const navigate = useNavigate();
     const[dadoPesquisa, setdadoPesquisa] = useState('')
     const[postData, setpostData]=useState({

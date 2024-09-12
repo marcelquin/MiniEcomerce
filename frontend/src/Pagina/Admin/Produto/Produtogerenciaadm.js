@@ -6,12 +6,13 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 function Produtogerenciaadm() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [seletorOpcao, setseletorOpcao] = useState('')
     const [id, setid] = useState('')
     const [APIData, setAPIData] = useState([]);
     const[dadoPesquisa, setdadoPesquisa] = useState('')
+    const[valorPersonalizado, setvalorPersonalizado] = useState('')
     const [produtoData, setprodutoData] = useState({
         nome: "",
         descricao: "",
@@ -169,6 +170,24 @@ function Produtogerenciaadm() {
           }
     }
 
+    const PersonalizarValorProduto = async() =>{
+        try{
+            await fetch(`${baseUrl}/produto/AjustarPrecoProduto`, {
+              method: 'PUT',
+              headers:{
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },    
+              body: new URLSearchParams({
+                  'id': id,
+                  'valor': valorPersonalizado
+          })})
+          .then(setid(''))
+          .then(setvalorPersonalizado(''))
+          .then(window.location.reload())       
+          }catch (err){
+            console.log("erro")
+          }
+    }
 
     return(
     <>
@@ -204,21 +223,32 @@ function Produtogerenciaadm() {
                                     <tr key={i}>
                                         <td>{data.nome}</td>
                                         <td>{data.codigo}</td>
-                                        <td>{data.valor}</td>
+                                        <td>{data.valorFront}</td>
                                         <td>{data.estoque.quantidade}</td>
                                         <td>{data.estoque.codigo}</td>
                                         <td>{data.DataEntrada}</td>
-                                        <td><input list="opcao" name="seletorOpcao"  placeholder="Selecione uma opção" onChange={(e)=>{setid(data.id);setseletorOpcao(e.target.value)}} />
-                                                <datalist id="opcao">
-                                                    <option value="info" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Detalhes</option>
-                                                    <option value="Editar" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Editar Informações</option>
-                                                    <option value="addEstoque" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Adicionar Estoque</option>
-                                                    <option value="reajuste" onClick={(e)=>{setseletorOpcao(e.target.value)}}>reajuste</option>
-                                                    <option value="descontoGeral" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Desconto geral</option>
-                                                </datalist>
-                                        </td>
                                     </tr>
-
+                                    <tr>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("info")}}>Mais informações  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("Editar")}}>Editar informações  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("addEstoque")}}>Adicionar Estoque  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("precoManual")}}>Ajustar Preço </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("reajuste")}}>reajuste  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("descontoGeral")}}>Desconto </a>
+                                        </td> 
+                                    </tr>
+                                           
                                 </>)})}
 
                             </>):(<>
@@ -228,18 +258,29 @@ function Produtogerenciaadm() {
                                     <tr key={i}>
                                         <td>{data.nome}</td>
                                         <td>{data.codigo}</td>
-                                        <td>{data.valor}</td>
+                                        <td>{data.valorFront}</td>
                                         <td>{data.estoque.quantidade}</td>
                                         <td>{data.estoque.codigo}</td>
                                         <td>{data.DataEntrada}</td>
-                                        <td><input list="opcao" name="seletorOpcao"  placeholder="Selecione uma opção" onChange={(e)=>{setid(data.id);setseletorOpcao(e.target.value)}} />
-                                                <datalist id="opcao">
-                                                    <option value="info" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Detalhes</option>
-                                                    <option value="Editar" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Editar Informações</option>
-                                                    <option value="addEstoque" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Adicionar Estoque</option>
-                                                    <option value="reajuste" onClick={(e)=>{setseletorOpcao(e.target.value)}}>reajuste</option>
-                                                    <option value="descontoGeral" onClick={(e)=>{setseletorOpcao(e.target.value)}}>Desconto geral</option>
-                                                </datalist>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("info")}}>Mais informações  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("Editar")}}>Editar informações  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("addEstoque")}}>Adicionar Estoque  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("precoManual")}}>Ajustar Preço </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("reajuste")}}>reajuste  </a>
+                                        </td>
+                                        <td>
+                                            <a className="opcao" onClick={(e)=>{setid(data.id); setseletorOpcao("descontoGeral")}}>Desconto </a>
                                         </td>
                                     </tr>
                                 
@@ -262,9 +303,27 @@ function Produtogerenciaadm() {
                                 <p>Quantidade em Estoque: {produtoData.estoque}</p>
                             
                             </>):(<></>)}
-
+                            {seletorOpcao.length === 11?(<>
+                            <form onSubmit={PersonalizarValorProduto}>
+                                <table>
+                                    
+                                    <tr>
+                                        <td><label>Novo Valor:<br/>
+                                        <input type="number" className="inputPut" step="any" name="valorPersonalizado" onChange={(e)=>{setvalorPersonalizado(e.target.value)}}/>
+                                        </label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <td><input type="submit" value="Salvar" className="btn" />  </td>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            
+                            </>):(<></>)}    
                             {seletorOpcao.length === 6 ?(<>
                                 <form onSubmit={handleClickPut}>
+                                    
                                     <tr>
                                         <td><label>Nome:<br/>
                                         <input type="text" className="inputPut" name="nome" value={produtoData.nome} onChange={handleChanagePut} /></label></td>
@@ -282,12 +341,16 @@ function Produtogerenciaadm() {
                                         <input type="number" className="inputPut" name="ncmsh" value={produtoData.ncmsh  } onChange={handleChanagePut} /></label></td>
                                     </tr>
                                     <tr>
+                                        <td><label>Valor Atual:<br/>
+                                        <input type="number" className="inputPut" value={produtoData.valor} /></label></td>
+                                    </tr>
+                                    <tr>
                                         <td><label>Valor Total da Compra:<br/>
-                                        <input type="number" className="inputPut" name="valor" value={produtoData.valor  } onChange={handleChanagePut} /></label></td>
+                                        <input type="number" className="inputPut" name="valor" step="any"  onChange={handleChanagePut} /></label></td>
                                     </tr>   
                                     <tr>
                                         <td><label>porcentagem Lucro: <br/>
-                                        <input type="number" className="inputPut" name="porcentagemLucro" value={produtoData.porcentagemLucro  } onChange={handleChanagePut} /></label></td>
+                                        <input type="number" className="inputPut" name="porcentagemLucro" step="any"  value={produtoData.porcentagemLucro  } onChange={handleChanagePut} /></label></td>
                                     </tr>
                                     <tr>
                                     <td><label>Estoque:<br/>
@@ -341,7 +404,7 @@ function Produtogerenciaadm() {
                                 <form onSubmit={ReajusteValor}>
                                     <table>
                                         <tr>
-                                            <td><label>Porcentagem:<br/>
+                                            <td><label>Porcentagem Reajuste:<br/>
                                             <input type="number" className="inputPut" name="porcentagem" onChange={(e)=>{setporcentagem(e.target.value)}} /></label></td>
                                         </tr>
                                         <tr>
@@ -356,7 +419,7 @@ function Produtogerenciaadm() {
                                 <form onSubmit={DescontoValor}>
                                     <table>
                                         <tr>
-                                            <td><label>Porcentagem:<br/>
+                                            <td><label>Porcentagem Desconto:<br/>
                                             <input type="number" className="inputPut" name="porcentagem" onChange={(e)=>{setporcentagem(e.target.value)}} /></label></td>
                                         </tr>
                                         <tr>

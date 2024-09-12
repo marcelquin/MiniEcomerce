@@ -7,8 +7,8 @@ import Nav from '../../Componentes/Nav/Nav';
 
 
 function Home() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
     const [APICliente, setAPICliente] = useState([]);
     const [APIDataProduto, setAPIDataProduto] = useState([]);
@@ -20,8 +20,9 @@ function Home() {
     const[dadoPesquisaProduto, setdadoPesquisaProduto]=useState('');
     const [responseData, setresponseData] = useState({
       codigo: '',
-      cliente: '',
-      documento: '',
+      nomeCliente: '',
+      sobrenomeCliente: '',
+      telefone: '',
       dataVenda: '',
       itens: [],
       valor: ''
@@ -54,7 +55,7 @@ function Home() {
       console.error("ops! ocorreu um erro" + err);
     });
   }
-
+  
   async function VerificaEstoque(){
    await Axios
     .get(`${baseUrl}/produto/verificaEstoque`)
@@ -96,9 +97,17 @@ function Home() {
             .catch(err => console.log(err))
     }, [idVenda])
 
+    useEffect(() => {
+      Axios
+    .get(`${baseUrl}/produto/verificaEstoque`)
+    .then((response) => { setAPIDataProduto(response.data)})
+    .catch((err) => {
+      console.error("ops! ocorreu um erro" + err);
+    });
+  }, []);
+
       useEffect(() => {
           AtualizarPedidos()
-          VerificaEstoque()
       }, []);
       
     return (
@@ -133,12 +142,41 @@ function Home() {
                       </table>  
                     </div>
                     <div className='homeRetornoDetalhes'>
-
-                        <h4>NOME: {responseData.cliente}</h4>
-                        <p>Código: {responseData.codigo}</p>
-                        <p>Data do Pedido {responseData.dataVenda}:</p>
-                        <p>Itens: {responseData.itens}</p>
-                        <p>Valor Atual: {responseData.valor}</p>
+                    <div className='RetornoCupomFiscalseparador'></div>
+                      <div className='RetornoCupomFiscalBox'>
+                          <span>Data da Venda: {responseData.dataVenda}</span><br/>
+                          <span>Código: {responseData.codigo}</span> 
+                      </div>           
+                      <div className='RetornoCupomFiscalseparador'></div>
+                      <div className='RetornoCupomFiscalBox'>
+                          <span>Cliente: {responseData.nomeCliente} {responseData.sobrenomeCliente}</span><br/> 
+                      </div>           
+                      <div className='RetornoCupomFiscalBox'>
+                          <table>
+                            <tr>
+                              <td>Item</td>
+                              <td>Código</td>
+                              <td>descriçao</td>
+                              <td>Qtda</td>
+                              <td>Preço</td>
+                              <td>Total</td>
+                            </tr>
+                            {responseData.itens.map((data,i)=>{return(<>
+                              <tr>
+                              <td>{data.nome}</td>
+                              <td>{data.codigo}</td>
+                              <td>{data.descricao}</td>
+                              <td>{data.quantidade}</td>
+                              <td>{data.valorUnitario}</td>
+                              <td>{data.valorTotal}</td>
+                            </tr>
+                            </>)})}
+                          </table>
+                      </div>
+                      <div className='RetornoCupomFiscalseparador'></div>
+                      <div className='RetornoCupomFiscalBox'>
+                          <span>VALOR TOTAL: {responseData.valor}</span><br/>
+                      </div>
                     </div>
                 </div>  
               </div>

@@ -1,0 +1,25 @@
+.BoxRetornoCupomFiscal .BoxRetornoCupomFiscalPrint
+{
+    width: 8cm;
+    height: auto;
+    box-sizing: border-box;
+}
+
+
+.BoxRetornoCupomFiscal .RetornoCupomFiscalBox
+{
+    width: 100%;
+    height: auto;
+}
+
+.RetornoCupomFiscalBox span
+{
+    margin-left: 2px;
+}
+
+.BoxRetornoCupomFiscal .RetornoCupomFiscalseparador
+{
+    width: 100%;
+    height: auto;
+    border: 1px solid rgb(13, 14, 13);
+}

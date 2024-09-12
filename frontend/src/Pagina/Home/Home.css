@@ -42,4 +42,24 @@
     margin: 2,5%;
     height: auto;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    overflow: auto;
+}
+
+.homeRetornoDetalhes .BoxRetornoCupomFiscalPrint
+{
+    width: 100%;
+    height: auto;
+}
+
+.BoxRetornoCupomFiscal .RetornoCupomFiscalBox
+{
+    width: 100%;
+    height: auto;
+}
+
+.BoxRetornoCupomFiscal .RetornoCupomFiscalseparador
+{
+    width: 100%;
+    height: auto;
+    border: 1px solid rgb(13, 14, 13);
 }

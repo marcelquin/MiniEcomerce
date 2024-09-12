@@ -114,8 +114,10 @@ public class PedidoController {
     public void FinalizarPedido(@RequestParam Long id,
                                 @RequestParam FORMAPAGAMENTO formaPagamento,
                                 Double parcelas,
+                                Double valorPago,
+                                Double desconto,
                                 @RequestParam TIPOCOMPRA tipocompra)
-    { service.FinalizarPedido(id, formaPagamento,parcelas,tipocompra);}
+    { service.FinalizarPedido(id, formaPagamento,parcelas,valorPago, desconto, tipocompra);}
 
     @Operation(summary = "Edita Registro na tabela", method = "PUT")
     @ApiResponses(value = {

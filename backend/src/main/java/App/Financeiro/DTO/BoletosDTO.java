@@ -16,7 +16,7 @@ public record BoletosDTO(
         @JsonFormat(pattern = "dd/MM/yyyy")
         @Future
         LocalDate dataVencimento,
-        String parcelas,
+        Double parcelas,
         String parcelaAtual,
         String valorTotal,
         String valorParcela,

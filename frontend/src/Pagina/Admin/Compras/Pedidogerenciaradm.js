@@ -2,24 +2,32 @@ import Navadm from "../../../Componentes/NavAdm/NavAdm";
 import './Compra.css';
 import '../AdmGlobal.css';
 import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useReactToPrint } from "react-to-print";
 
 function Pedidogerenciaadm() {
-    const baseUrl = "http://34.67.211.119:8080"
-    //const baseUrl = "http://localhost:8080"
+    //const baseUrl = "http://34.67.211.119:8080"
+    const baseUrl = "http://localhost:8080"
     const [APIData, setAPIData] = useState([]);
+    const [APIDataEmpresa, setAPIDataEmpresa] = useState([]);
     const[idvenda, setidVenda] = useState('')
-    const[corpoVenda, setcorpoVenda ] = useState({
+    const documentPrint = useRef();
+    const[responseData, setresponseData ] = useState({
       'codigo': '',
-      'cliente': '',
-      'documentos': '',
+      'nomeCliente': '',
+      'sobrenomeCliente': '',
+      'telefone': '',
       'dataVenda': '',
       'itens': [],
-      'valor': '',
+      'valorPago': '',
+      'valorTotal': '',
+      'valorTotal': '',
+      'valorDesconto': '',
+      'valorTroco': '',
       'statusPagamento': '',
       'dataPagamento': '',
       'formapagamento': '',
-      'parcelas': ''
+      'parcelas': '',
     })
     const[dadoPesquisa, setdadoPesquisa] = useState('')
     const pesquisa = dadoPesquisa.length > 0 ?
@@ -34,19 +42,25 @@ function Pedidogerenciaadm() {
           });
       }, []);
 
-      useEffect(()=>{
-        fetch(`${baseUrl}/pedido/BuscarPedidoPorId?id=${idvenda}`,
-            {
-                method:'GET',
-                headers:{
-                    'content-type': 'application/json',
-                },
-            })
-            .then((resp)=> resp.json())
-            .then((data)=> {
-                setcorpoVenda(data)
-            })
-            .catch(err => console.log(err))
+      const handlePrint = useReactToPrint  ({
+        content: ()=> documentPrint.current,
+      })
+
+      useEffect(() => {
+        Axios
+          .get(`${baseUrl}/empresa/ListarEmpresas`)
+          .then((response) => { setAPIDataEmpresa(response.data)}) 
+          .catch((err) => {
+            console.error("ops! ocorreu um erro" + err);
+          });
+      }, []);
+
+       useEffect(()=>{
+        Axios.get(`${baseUrl}/pedido/BuscarPedidoPorId?id=${idvenda}`)
+          .then((response) => { setresponseData(response.data)}) 
+          .catch((err) => {
+            console.error("ops! ocorreu um erro" + err);
+          });
       }, [idvenda])
 
     return(
@@ -114,46 +128,75 @@ function Pedidogerenciaadm() {
                         </div>
 
                         <div className="infoRetornoVisorAdm">
-                          <table>
-                            <tr>
-                              <td>Código: {corpoVenda.codigo}</td>
-                            </tr>
-                            <tr>
-                              <td>Cliente: {corpoVenda.cliente}</td>
-                            </tr>
-                            <tr>
-                              <td>CPF/CNPJ: {corpoVenda.documentos}</td>
-                            </tr>
-                            <tr>
-                              <td>Data da Venda: {corpoVenda.dataVenda}</td>
-                            </tr>
-                            <tr>
-                              <td>Valor: {corpoVenda.valor}</td>
-                            </tr>
-                            <tr>
-                              <td>Itens: {corpoVenda.itens}</td>
-                            </tr>
-                            <tr>                
-                              <td>Status Pagamento: {corpoVenda.statusPagamento}</td>
-                            </tr>
-                            <tr>                
-                              <td>Data Pagamento: {corpoVenda.dataPagamento}</td>
-                            </tr>
-                            <tr>
-                              <td>Forma Pagamento: {corpoVenda.formapagamento}</td>
-                            </tr>
-                            <tr>
-                              <td>Status Pagamento: {corpoVenda.statusPagamento}</td>
-                            </tr>
-                            <tr>  
-                              <td>Parcelas: {corpoVenda.parcelas}</td>
-                            </tr>
-                          </table>
+                          
+                        <button onClick={handlePrint}>Imprimir</button>
+
+                        <div className='BoxRetornoCupomFiscalPrint' ref={documentPrint}>
+                        <div className='RetornoCupomFiscalBox'>
+                          {APIDataEmpresa.map((data, i)=>{return(<>
+                            <span>{data.razaoSocial}</span><br/>
+                            <span>{data.cnpj}</span><br/> 
+                            <span>{data.endereco.logradouro}, {data.endereco.numero} </span><br/>
+                            <span>{data.endereco.cidade}-{data.endereco.estado}</span><br/>
+                            <span>({data.contato.prefixo}) {data.contato.telefone}</span><br/>
+                          </>)})}           
+                        </div>         
+                        <div className='RetornoCupomFiscalseparador'></div>
+                        <div className='RetornoCupomFiscalBox'>
+                            <br/>
+                            <span>Cliente: {responseData.nomeCliente} {responseData.sobrenomeCliente}</span><br/>
+                            <span>Data: {responseData.dataVenda}</span><br/>
+                            <span>Código: {responseData.codigo}</span> 
+                            <br/>
+                        </div>           
+                        <div className='RetornoCupomFiscalseparador'></div>          
+                        <div className='RetornoCupomFiscalBox'>
+                            <table>
+                              <tr>
+                                <td>Item</td>
+                                <td>Código</td>
+                                <td>descriçao</td>
+                                <td>Qtda</td>
+                                <td>Preço</td>
+                                <td>Total</td>
+                              </tr>
+                              {responseData.itens.map((data,i)=>{return(<>
+                                <tr>
+                                <td>{data.nome}</td>
+                                <td>{data.codigo}</td>
+                                <td>{data.descricao}</td>
+                                <td>{data.quantidade}</td>
+                                <td>{data.valorUnitario}</td>
+                                <td>{data.valorTotal}</td>
+                              </tr>
+                              </>)})} 
+                                                                    
+                            </table>
+                        </div>
+                        
+                        
+                        
+                          <div className='RetornoCupomFiscalBox'>
+                            <br/>
+                            <span>Total: {responseData.valorTotal}</span><br/>
+                            <span>Valor Desconto: {responseData.valorDesconto}</span><br/> 
+                            <span>{responseData.formapagamento?(<>{responseData.formapagamento}: {responseData.valorPago}</>):(<>Forma de Pagamento: </>)} </span><br/>                         
+                            <span>Valor Troco: {responseData.valorTroco}</span><br/>
+                            <span>Data de Pagamento: {responseData.dataPagamento}</span><br/>
+                            <span>Parcelas: {responseData.parcelas}</span><br/>
+                            
+                          </div>
+                          <div className='RetornoCupomFiscalBox'>
+                            <br/>
+                            <span>Procon PROCON MT Rua Baltazar Navarros, N 567, Bandeirantes, Cuiaba-MT, CEP: 78010-020, TEL: (65) 3613-2100 ου 151.</span>
+                          </div>       
+                        </div>
+                        </div> 
+
                         </div>
                     </div>
                 </div>
-            </div>
-          </div>  
+            </div> 
     </>
     );
 }
